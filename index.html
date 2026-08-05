@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=480, user-scalable=yes">
+
+
+    <title>Migros Personel Ücret Hesaplama</title>
+    <!-- OCR ve Ekran Resmi Kaydetme Kütüphaneleri -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --migros-turuncu: #f37021;
+            --migros-lacivert: #004a99;
+            --arkaplan: #f8f9fa;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--arkaplan); display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; padding: 15px; padding-bottom: 100px; position: relative; box-sizing: border-box; }
+        .card { background: white; padding: 30px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 440px; border-top: 10px solid var(--migros-turuncu); box-sizing: border-box; margin-top: 20px; position: relative; }
+        
+        .logo-area { text-align: center; margin-bottom: 20px; color: var(--migros-lacivert); font-weight: 900; letter-spacing: -1px; font-size: 18px; text-transform: uppercase; line-height: 1.3; }
+        .logo-container { display: flex; justify-content: center; align-items: center; margin-top: 15px; margin-bottom: 12px; }
+        .logo-box { display: flex; justify-content: center; width: 100%; max-width: 300px; } 
+        .logo-img { width: 100%; height: auto; max-height: 90px; object-fit: contain; } 
+
+        .group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; font-weight: 700; color: #333; font-size: 13px; }
+        
+        /* Gelişmiş Focus Efektleri */
+        input, select { width: 100%; padding: 12px; border: 2px solid #edf2f7; border-radius: 12px; box-sizing: border-box; font-size: 15px; transition: all 0.3s ease; }
+        input:focus:not([readonly]), select:focus { 
+            border-color: var(--migros-turuncu); 
+            outline: none; 
+            background: #fffdfb; 
+            box-shadow: 0 0 0 4px rgba(243, 112, 33, 0.15); 
+        }
+        
+        /* Tıklanınca placeholder (yer tutucu) yazısını gizleme efekti */
+        input:focus::placeholder { color: transparent; }
+
+        /* Kutu içi birim (TL, Gün, Saat) tasarımları */
+        .input-icon-wrapper { position: relative; display: flex; align-items: center; width: 100%; }
+        .input-icon-wrapper input { padding-right: 40px !important; width: 100%; box-sizing: border-box; }
+        .input-icon-wrapper .unit-text { position: absolute; right: 12px; color: #a0aec0; font-size: 12px; font-weight: 800; pointer-events: none; user-select: none; transition: color 0.3s ease; }
+        .input-icon-wrapper input:focus + .unit-text { color: var(--migros-turuncu); }
+
+        .dinamik-gunluk { background: #fff7f2; border: 2px dashed #fddbc7; padding: 12px; border-radius: 12px; text-align: center; margin-bottom: 15px; font-size: 14px; color: #333; }
+        .dinamik-gunluk span { font-weight: bold; color: var(--migros-turuncu); font-size: 16px; display: inline-block; }
+
+        input.error, select.error { border-color: #e74c3c; background: #fff5f5; }
+        .error-text { color: #e74c3c; font-size: 12px; margin-top: 4px; display: none; font-weight: bold; line-height: 1.4; text-align: center; background: #fff5f5; padding: 10px; border-radius: 10px; border: 1px dashed #fc8181; }
+
+        /* Sabit Bar ve Gölge Geçişi */
+        .fixed-bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px); box-shadow: 0 -4px 15px rgba(0,0,0,0.08); padding: 15px 20px; box-sizing: border-box; display: flex; justify-content: center; z-index: 1000; border-top: 1px solid #edf2f7; }
+        .fixed-bottom-bar::before { content: ''; position: absolute; bottom: 100%; left: 0; width: 100%; height: 40px; background: linear-gradient(to top, var(--arkaplan), transparent); pointer-events: none; }
+        
+        .fixed-bottom-bar-container { display: flex; gap: 8px; width: 100%; max-width: 440px; justify-content: space-between; }
+        .sifirla-btn { flex: 1; padding: 12px 6px; background-color: #edf2f7; color: #4a5568; border: 2px solid #cbd5e0; border-radius: 14px; cursor: pointer; font-size: 13px; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; transition: 0.3s; }
+        .sifirla-btn:hover { background-color: #e2e8f0; border-color: #a0aec0; color: #2d3748; }
+        
+        .indir-btn { flex: 1; padding: 12px 6px; color: white; border-radius: 14px; cursor: pointer; font-size: 13px; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; transition: 0.3s; }
+        .tam-indir { background-color: var(--migros-turuncu); border: 2px solid var(--migros-turuncu); box-shadow: 0 4px 10px rgba(243, 112, 33, 0.2); }
+        .tam-indir:hover { background-color: #d96017; border-color: #d96017; }
+        .sonuc-indir { background-color: var(--migros-lacivert); border: 2px solid var(--migros-lacivert); box-shadow: 0 4px 10px rgba(0, 74, 153, 0.2); }
+        .sonuc-indir:hover { background-color: #003875; border-color: #003875; }
+
+        #sonuc { margin-top: 15px; padding: 20px; background-color: #fdfaf8; border-radius: 18px; display: none; border: 1px solid #feeadd; animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .bolum-baslik { font-weight: bold; color: var(--migros-lacivert); margin-top: 12px; margin-bottom: 6px; border-bottom: 1px solid #edf2f7; padding-bottom: 2px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .satir { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; font-size: 14px; color: #4a5568; border-bottom: 1px solid #f1f1f1; padding-bottom: 5px; }
+        
+        /* Açılır-Kapanır Kesintiler Kutusu CSS */
+        .yasal-kesintiler-kutu { border: 2px dashed #e53e3e; padding: 14px 16px; border-radius: 14px; background-color: #fffaf9; margin-top: 15px; margin-bottom: 15px; transition: all 0.3s ease; }
+        .yasal-kesintiler-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding-bottom: 5px; user-select: none; }
+        .yasal-kesintiler-header .bolum-baslik { margin: 0; padding: 0; border: none; }
+        .toggle-icon { font-size: 12px; font-weight: bold; color: #e53e3e; transition: transform 0.3s ease; display: inline-block; }
+        .yasal-kesintiler-kutu.acik .toggle-icon { transform: rotate(180deg); }
+        .yasal-kesintiler-icerik { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid #fbd5d5; animation: fadeIn 0.3s ease; }
+        .yasal-kesintiler-icerik .satir:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+        .money-kutucuk { background: #f0f4f8; padding: 15px; border-radius: 12px; font-size: 13.5px; color: var(--migros-lacivert); margin-top: 12px; border: 1px solid #d0dbe5; }
+        .money-satir { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; }
+        .money-satir:not(:last-child) { border-bottom: 1px dashed #c4d2dc; margin-bottom: 6px; }
+        
+        .footer { text-align: center; margin-top: 25px; font-size: 11px; color: #a0aec0; border-top: 1px solid #edf2f7; padding-top: 15px; font-weight: 500; }
+        .vurgu-turuncu { color: var(--migros-turuncu); font-weight: bold; }
+        .vurgu-mavi { color: #3182ce; font-weight: bold; }
+        .vurgu-mor { color: #e53e3e; font-weight: bold; font-size: 14px; }
+
+        /* Mobil & Desktop Uyumlu Tooltip Stilleri */
+        .info-icon { display: inline-flex; justify-content: center; align-items: center; width: 16px; height: 16px; background: var(--migros-turuncu); color: white; border-radius: 50%; font-size: 11px; font-style: italic; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(243,112,33,0.3); user-select: none; z-index: 10; }
+
+        .tooltip-container { position: relative; display: inline-flex; align-items: center; }
+        
+        .tooltip-text { visibility: hidden; width: 310px; background-color: white; color: #333; text-align: left; border-radius: 12px; padding: 15px; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); opacity: 0; transition: all 0.3s ease; box-shadow: 0 10px 25px rgba(0,0,0,0.15); border: 1px solid #edf2f7; font-weight: normal; z-index: 999; }
+        .tooltip-text::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -8px; border-width: 8px; border-style: solid; border-color: white transparent transparent transparent; }
+        
+        .tooltip-container.active, .tooltip-container:hover { z-index: 999; }
+        .tooltip-container.active .tooltip-text, 
+        .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; bottom: 145%; }
+        
+        .tooltip-container.tooltip-down .tooltip-text { left: auto; right: -50px; bottom: auto; top: 100%; transform: none; }
+        .tooltip-container.tooltip-down .tooltip-text::after { top: auto; bottom: 100%; left: auto; right: 55px; margin-left: 0; border-color: transparent transparent white transparent; }
+        
+        .tooltip-container.tooltip-down.active .tooltip-text,
+        .tooltip-container.tooltip-down:hover .tooltip-text { bottom: auto; top: 125%; }
+
+        /* Yeni Sol/Sağ Tooltip Yönlendirmeleri */
+        .tooltip-right .tooltip-text { left: 0%; transform: translateX(-20%); }
+        .tooltip-right .tooltip-text::after { left: 20%; }
+        
+        .tooltip-left .tooltip-text { left: auto; right: 0%; transform: translateX(20%); }
+        .tooltip-left .tooltip-text::after { left: auto; right: 20%; }
+
+        .ocr-btn { background-color: #edf2f7; border: 2px solid #cbd5e0; border-left: none; border-radius: 0 10px 10px 0; padding: 0 14px; font-size: 18px; cursor: pointer; color: #4a5568; transition: all 0.3s; display: flex; align-items: center; justify-content: center; margin-top: 0; width: auto; box-shadow: none; height: 100%; z-index: 2; position: relative;}
+        .ocr-btn:hover { background-color: var(--migros-turuncu); border-color: var(--migros-turuncu); color: white; transform: none; }
+        .ocr-input-group { display: flex; align-items: stretch; height: 46px; position: relative; overflow: hidden; border-radius: 10px; }
+        .ocr-input-group input { border-radius: 10px 0 0 10px; border-right: none; height: 100%; border-color: #cbd5e0; }
+        
+        #ocrProgressBar { position: absolute; bottom: 0; left: 0; height: 4px; background-color: #17bb71; width: 0%; transition: width 0.3s linear; pointer-events: none; z-index: 3; }
+        
+        .radio-group { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; margin-top: 6px; }
+        .radio-label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #4a5568; cursor: pointer; font-weight: 600; }
+        .radio-label input[type="radio"] { width: 16px; height: 16px; margin: 0; cursor: pointer; accent-color: var(--migros-turuncu); }
+    </style>
+</head>
+<body>
+
+<div class="card" id="captureCard">
+    <div class="logo-area">
+        <div class="logo-container">
+            <div class="logo-box">
+                <svg class="logo-img" viewBox="0 0 200 80" width="200" height="80" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="200" height="80" rx="8" fill="#ffffff" stroke="#f37021" stroke-width="3"/>
+                    <path d="M 46 38 L 46 16 L 60 8 L 74 16 L 74 38" fill="none" stroke="#f37021" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="52" y="28" width="12" height="8" rx="1" fill="#2c3e50"/>
+                    <circle cx="58" cy="18" r="3.5" fill="#2c3e50"/>
+                    <path d="M 58 18 L 54 28" stroke="#2c3e50" stroke-width="2.5" stroke-linecap="round"/>
+                    <rect x="80" y="14" width="34" height="19" rx="2" fill="#f37021"/>
+                    <text x="97" y="28" font-family="Arial" font-weight="900" font-size="14" fill="#ffffff" text-anchor="middle" font-style="italic">M</text>
+                    <path d="M 116 18 h 10 l 5 7 v 8 h -15 z" fill="#2c3e50"/>
+                    <circle cx="90" cy="35" r="4.5" fill="#2c3e50"/>
+                    <circle cx="123" cy="35" r="4.5" fill="#2c3e50"/>
+                    <path d="M 134 19 h 8 M 134 25 h 12 M 134 31 h 6" stroke="#2c3e50" stroke-width="2" stroke-linecap="round"/>
+                    <text x="50%" y="54" dominant-baseline="middle" text-anchor="middle" font-family="Segoe UI, Arial" font-size="20" font-weight="900" fill="#f37021" letter-spacing="0.5">MİGROS</text>
+                    <text x="50%" y="68" dominant-baseline="middle" text-anchor="middle" font-family="Segoe UI, Arial" font-size="9" font-weight="bold" fill="#2c3e50" letter-spacing="0.5">DAĞITIM MERKEZLERİ</text>
+                </svg>
+            </div>
+        </div>
+        <div style="margin-top: 18px; font-size: 19px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <span id="headerKirmiziSpan" style="background: linear-gradient(135deg, #e53e3e, #c53030); color: white; padding: 4px 12px; border-radius: 8px; box-shadow: 0 4px 10px rgba(229, 62, 62, 0.35); text-shadow: 1px 1px 2px rgba(0,0,0,0.2); display: none;">DEVROLAN PERSONEL</span>
+            <span id="headerTuruncuSpan" style="color:var(--migros-turuncu); font-weight: bold;">PERSONEL ÜCRET HESAPLAMA</span>
+        </div>
+    </div>
+    
+    <div style="background-color: #fffcf9; border: 2px dashed var(--migros-turuncu); padding: 15px; border-radius: 18px; margin-bottom: 18px; box-shadow: 0 4px 15px rgba(243, 112, 33, 0.1); border-left: 6px solid var(--migros-turuncu);">
+        
+        <div style="margin-bottom: 14px;">
+            <label style="margin-bottom: 6px; font-size: 12px; color: var(--migros-lacivert); font-weight: 800; display: flex; align-items: center; gap: 6px;">👤 Personel Tipi</label>
+            <select id="personelTipi" style="padding: 12px; font-size: 15px; font-weight: bold; border: 2px solid #cbd5e0; border-radius: 10px; width: 100%; color: var(--migros-lacivert); background-color: white;">
+                <option value="" selected disabled>Personel Seçiniz</option>
+                <option value="devir">DEVROLAN PERSONEL</option>
+                <option value="yeni">YENİ PERSONEL</option>
+            </select>
+        </div>
+
+        <div style="border-top: 1px dashed #fddbc7; padding-top: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <label style="margin-bottom: 0; font-size: 12px; color: var(--migros-lacivert); font-weight: 800; display: flex; align-items: center; gap: 4px;">📈 Vergi / Kümülatif Matrah</label>
+                <div class="tooltip-container tooltip-down">
+                    <span class="info-icon" style="width: 14px; height: 14px; font-size: 10px;">i</span>
+                    <div class="tooltip-text" style="width: 320px;">
+                        <strong style="color: #333; font-size: 13px; border-bottom: 2px solid var(--migros-turuncu); padding-bottom: 5px; display: block; margin-bottom: 5px;">Kümülatif Matrah Nedir?</strong>
+                        Geçen ayki ücret bordronuzda yazan <b>"Kümülatif GV Matrahı"</b> tutarını buraya girebilirsiniz. Dilerseniz kutucuğun yanındaki <b>📷 kamera simgesine</b> tıklayarak bordronuzun fotoğrafını seçip tutarın otomatik okunmasını sağlayabilirsiniz. Kümülatif tutarı bilmiyorsanız "Kolay Vergi Dilimi Seç" işaretleyerek maaşınızdan kesilen tahmini vergi oranını direkt seçebilirsiniz.
+                        <div style="margin-top: 8px; margin-bottom: 8px; padding: 8px; background-color: #f0f4f8; border-radius: 8px; font-size: 11.5px; color: #4a5568; border: 1px dashed #cbd5e0;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;"><span><b>%15:</b></span> <span>0 - 190.000 TL</span></div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;"><span><b>%20:</b></span> <span>190.000 TL - 400.000 TL</span></div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;"><span><b>%27:</b></span> <span>400.000 TL - 1.500.000 TL</span></div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;"><span><b>%35:</b></span> <span>1.500.000 TL - 5.300.000 TL</span></div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;"><span><b>%40:</b></span> <span>5.300.000 TL ve üzeri</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="radio-group">
+                <label class="radio-label"><input type="radio" name="vergiGirisTipi" value="matrah" checked> Tam Kümülatif Gir</label>
+                <label class="radio-label"><input type="radio" name="vergiGirisTipi" value="dilim"> Kolay Vergi Dilimi Seç</label>
+            </div>
+            
+            <div id="alanMatrah" class="ocr-input-group">
+                <input type="text" inputmode="decimal" id="kumulatifMatrah" placeholder="Örn: 370.310,60" oninput="formatlaMil(this)" style="padding: 10px 12px; font-size: 14px; font-weight: bold; color: #e53e3e; background-color: white; flex: 1;">
+                <button type="button" id="ocrBtn" class="ocr-btn" title="Bordrodan Oku">📷</button>
+                <input type="file" id="ocrInput" accept="image/*" style="display: none;">
+                <div id="ocrProgressBar"></div>
+            </div>
+            
+            <div id="alanDilim" style="display: none;">
+                <select id="kolayVergiDilimi" style="padding: 10px 12px; font-size: 14px; font-weight: bold; border: 2px solid #cbd5e0; border-radius: 10px; width: 100%; color: #e53e3e; background-color: white; height: 46px;">
+                    <option value="15">%15 Vergi Dilimi (Yıl Başı)</option>
+                    <option value="20">%20 Vergi Dilimi</option>
+                    <option value="27">%27 Vergi Dilimi</option>
+                    <option value="35">%35 Vergi Dilimi</option>
+                    <option value="40">%40 Vergi Dilimi</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="dinamik-gunluk">
+        Günlük Brüt Ücret (7.5 sa): <span id="gunlukGosterim">0,000</span><span> TL</span>
+    </div>
+
+    <div class="group" style="display: flex; gap: 10px;">
+        <div style="flex: 1.2;">
+            <label>Kıdem Yılı:</label>
+            <select id="yil">
+                <option value="" selected disabled hidden>Kıdem Seçiniz</option>
+                <option value="1">Yeni / 1. Yıl</option>
+                <option value="2">2. Yıl</option>
+                <option value="3">3. Yıl</option>
+                <option value="4">4. Yıl</option>
+                <option value="5">5+. Yıl</option>
+            </select>
+        </div>
+        <div style="flex: 2;">
+            <label style="color: var(--migros-turuncu); font-weight: 800;">Saatlik Brüt Ücret:</label>
+            <div class="input-icon-wrapper">
+                <input type="text" inputmode="decimal" id="saatlik" placeholder="Örn: 198.17" style="border: 2px solid var(--migros-turuncu); background-color: #fff9f5; font-weight: bold; color: var(--migros-lacivert); font-size: 16px; box-shadow: 0 4px 10px rgba(243, 112, 33, 0.1); text-align: left;">
+                <span class="unit-text" style="color: var(--migros-turuncu);">TL</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="group" style="display: flex; gap: 10px;">
+        <div style="flex: 1.6; position: relative;">
+            <div style="display: flex; justify-content: flex-start; align-items: center; gap: 6px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0;">Ay Seçimi:</label>
+                <div class="tooltip-container tooltip-right">
+                    <span class="info-icon">i</span>
+                    <div class="tooltip-text" style="width: 250px; font-size: 12px; line-height: 1.45;">
+                        <strong style="color: var(--migros-lacivert); display: block; margin-bottom: 4px;">📊 Dönem & Ödeme Mantığı</strong>
+                        Memurlar peşin maaş alır, özel sektör ise çalıştıktan sonra ücret alır. Bir önceki aya ait çalışmanız, takip eden ayda ödenir.
+                    </div>
+                </div>
+            </div>
+            <select id="secilenAy"></select>
+        </div>
+        <div style="flex: 0.9;">
+            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0;">Eksik Gün:</label>
+                <div class="tooltip-container">
+                    <span class="info-icon">i</span>
+                    <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
+                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">📅 Eksik Gün</strong>
+                        Rapor, ücretsiz izin veya devamsızlık gibi nedenlerle tam gün olarak çalışılmayan gün sayısını buraya giriniz. Maaşınızdan bu gün sayısı kadar yevmiye kesilecektir.
+                    </div>
+                </div>
+            </div>
+            <div class="input-icon-wrapper">
+                <input type="text" inputmode="decimal" id="eksikGun" placeholder="0" style="text-align: center;">
+                <span class="unit-text">Gün</span>
+            </div>
+        </div>
+        <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0;">Saatlik İzin:</label>
+                <div class="tooltip-container tooltip-left">
+                    <span class="info-icon">i</span>
+                    <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
+                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">⏳ Saatlik İzin Kesintisi</strong>
+                        Girdiğiniz saat toplamı, günlük <b>7.5 saat</b> üzerinden hesaplanarak maaşınızdan eksik yevmiye olarak kesilir.
+                    </div>
+                </div>
+            </div>
+            <div class="input-icon-wrapper">
+                <input type="text" inputmode="decimal" id="saatlikIzin" placeholder="0" style="text-align: center;">
+                <span class="unit-text">Saat</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- GENEL TATİL VE HAFTA TATİLİ (PAZAR) ALANI -->
+    <div class="group" style="display: flex; gap: 10px; margin-bottom: 15px; background-color: #fff9f5; padding: 12px; border-radius: 12px; border: 1px dashed var(--migros-turuncu);">
+        <!-- Sol Kutu: Genel Tatil -->
+        <div style="flex: 1.2;">
+            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0; color: var(--migros-turuncu); font-size: 12px;">Genel Tatil:</label>
+                <div class="tooltip-container tooltip-right">
+                    <span class="info-icon">i</span>
+                    <div class="tooltip-text" style="width: 330px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
+                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">💡 Genel Tatil Çalş. Primi</strong>
+                        <span style="display: block; margin-bottom: 4px;">
+                            <b style="color: #e53e3e;">Hangi Günler?</b><br>
+                            1 Ocak Yılbaşı, 23 Nisan, 1 Mayıs, 19 Mayıs, 15 Temmuz, 30 Ağustos ve 29 Ekim Cumhuriyet Bayramı. 
+                            <i style="color: #4a5568;">(Bu günlerde tam çalıştıysanız doğrudan <b>7.5</b> yazılır.)</i>
+                        </span>
+                        <span style="display: block; margin-bottom: 4px; margin-top: 8px; border-top: 1px dashed #edf2f7; padding-top: 6px;">
+                            <b style="color: var(--migros-turuncu);">Yarım Gün (28 Ekim Öğleden Sonrası)</b><br>
+                            28 Ekim öğleden sonrası çalıştığınız vardiyaya göre:
+                        </span>
+                        <ul style="margin: 0; padding-left: 15px; color: #4a5568;">
+                            <li style="margin-bottom: 3px;"><b>08:00 - 16:30</b> sabah vardiyasında iseniz kutuya <b>3.5</b> yazılır.</li>
+                            <li><b>15:30 - 00:00</b> vardiyasında iseniz kutuya <b>2.5</b> yazılır.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="input-icon-wrapper">
+                <input type="text" inputmode="decimal" id="gtSaat" placeholder="0" style="border-color: #fddbc7; text-align: center;">
+                <span class="unit-text" style="color: var(--migros-turuncu);">Saat</span>
+            </div>
+        </div>
+
+        <!-- Sağ Kutu: Pazar Mesaisi -->
+        <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0; color: var(--migros-turuncu); font-size: 12px;">Pazar Çalışması:</label>
+                <div class="tooltip-container tooltip-left">
+                    <span class="info-icon">i</span>
+                    <div class="tooltip-text" style="width: 260px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
+                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">💡 Pazar Mesaisi (Hafta Tatili)</strong>
+                        Çalışmasanız dahi o günün normal 1 yevmiyesi aylık ana ücretinizin içindedir. Bu kutuya girdiğiniz Pazar mesaisi için <b>+2 yevmiye</b> daha hesaplanarak brüt ek kazanç olarak yansıtılır. Böylece o gün için toplamda <b style="color:var(--migros-turuncu);">3 yevmiye</b> brüt ek kazanç olarak yansıtılır.
+                    </div>
+                </div>
+            </div>
+            <div class="input-icon-wrapper">
+                <input type="text" inputmode="decimal" id="pazarGun" placeholder="0" style="border-color: #fddbc7; text-align: center;">
+                <span class="unit-text" style="color: var(--migros-turuncu);">Gün</span>
+            </div>
+        </div>
+    </div>
+    <!-- /GENEL TATİL VE PAZAR ALANI BİTİŞİ -->
+
+    <div class="group" style="display: flex; gap: 10px;">
+        <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0;">R.Tatil Vardiyası:</label>
+                <div class="tooltip-container tooltip-right">
+                    <span class="info-icon">i</span>
+                    <div class="tooltip-text" style="width: 260px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
+                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">💡 Resmi Tatil Ödemesi</strong>
+                        <span id="rtAciklama">Normal yevmiyeniz zaten ana maaşın içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b>ekstra mesai (personele göre 1.5 veya 2 katı)</b> brüt ek kazanç olarak yansıtılır.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-icon-wrapper">
+                <input type="text" inputmode="decimal" id="bayramGun" placeholder="0" style="text-align: center;">
+                <span class="unit-text">Gün</span>
+            </div>
+        </div>
+        <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0;">Fazla Çalışma (Mesai):</label>
+                <div class="tooltip-container tooltip-left">
+                    <span class="info-icon">i</span>
+                    <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
+                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">⏱️ Fazla Çalışma (Mesai)</strong>
+                        Girdiğiniz çalışma saatleri, normal saatlik brüt ücretinizin <b style="color:var(--migros-turuncu);">%50 zamlı (1.5 katı)</b> olarak hesaplanır ve brüt ek kazanç olarak yansıtılır.
+                    </div>
+                </div>
+            </div>
+            <div class="input-icon-wrapper">
+                <input type="text" inputmode="decimal" id="fazlaMesaiSaat" placeholder="0" style="text-align: center;">
+                <span class="unit-text">Saat</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="group" style="display: flex; gap: 10px;">
+        <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0;">Gece Vardiyası:</label>
+                <div class="tooltip-container tooltip-right">
+                    <span class="info-icon">i</span>
+                    <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
+                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">🌙 Gece Vardiyası</strong>
+                        Girdiğiniz her normal gece vardiyası için saatlik <b>25 TL</b> yani günlük <b>162,50 TL</b> brüt ek kazanç olarak yansıtılır.
+                    </div>
+                </div>
+            </div>
+            <div class="input-icon-wrapper">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="geceGun" placeholder="0" style="text-align: center;">
+                <span class="unit-text">Gün</span>
+            </div>
+        </div>
+        <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0;">R.Tatil Gece Vardiyası:</label>
+                <div class="tooltip-container tooltip-left">
+                    <span class="info-icon">i</span>
+                    <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
+                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">🌙 Resmi Tatil Gece Vardiyası</strong>
+                        <span id="rtGeceAciklama">Resmi tatilde çalışılan gece vardiyası için personele göre normal gece yevmiyesinin <b>2.5 veya 3 katı</b> brüt ek kazanç olarak yansıtılır.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-icon-wrapper">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="resmiGeceGun" placeholder="0" style="text-align: center;">
+                <span class="unit-text">Gün</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="group" style="display: flex; gap: 10px;">
+        <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0;">Tz. Gıda Vardiyası:</label>
+                <div class="tooltip-container tooltip-right">
+                    <span class="info-icon">i</span>
+                    <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
+                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">📦 Tz. Gıda Vardiyası</strong>
+                        Girdiğiniz her normal taze gıda (soğuk) vardiyası için brüt <b>80,00 TL</b> brüt ek kazanç olarak yansıtılır.
+                    </div>
+                </div>
+            </div>
+            <div class="input-icon-wrapper">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="tzgGun" placeholder="0" style="text-align: center;">
+                <span class="unit-text">Gün</span>
+            </div>
+        </div>
+        <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0;">Resmi Tz. Gıda Vardiyası:</label>
+                <div class="tooltip-container tooltip-left">
+                    <span class="info-icon">i</span>
+                    <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
+                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">📦 Resmi Tz. Gıda Vardiyası</strong>
+                        <span id="rtTzgAciklama">Resmi tatilde çalışılan taze gıda vardiyası için personele göre normal tz. gıda yevmiyesinin <b>2.5 veya 3 katı</b> brüt ek kazanç olarak yansıtılır.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-icon-wrapper">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="tzgBayramGun" placeholder="0" style="text-align: center;">
+                <span class="unit-text">Gün</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bolum-baslik" style="margin-bottom: 10px; margin-top: 25px;">Aylık Değişken Primler (Brüt TL)</div>
+    
+    <div class="group" style="display: flex; gap: 6px;">
+        <div style="flex: 1.2;">
+            <label style="font-size: 12px;">Ek Primler:<br><span style="font-size: 9.5px; color: #718096; font-weight: normal;">(Perf+Dvam+Kıdem)</span></label>
+            <div class="input-icon-wrapper">
+                <input type="text" inputmode="decimal" id="ekPrimler" placeholder="Örn: 15.500" oninput="formatlaMil(this)" style="padding: 10px; font-size: 14px; text-align: left;">
+                <span class="unit-text">TL</span>
+            </div>
+        </div>
+        
+        <div style="flex: 1;">
+            <div style="margin-bottom: 6px;">
+                <div style="display: flex; align-items: center; gap: 4px;">
+                    <label style="margin-bottom: 0; font-size: 12px;">0-6 Yaş</label>
+                    <div class="tooltip-container">
+                        <span class="info-icon" style="width:14px; height:14px; font-size:10px;">i</span>
+                        <div class="tooltip-text" style="width: 210px; font-size: 11.5px; z-index: 110; padding: 10px;">
+                            <strong style="color: var(--migros-lacivert); display: block; margin-bottom: 6px; border-bottom: 1px solid #edf2f7; padding-bottom: 4px;">👶 0-6 Yaş</strong>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Ocak - Haziran:</span><b style="color:#4a5568;">693,94 TL</b></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Temmuz - Aralık:</span><b style="color:#4a5568;">787,76 TL</b></div>
+                            <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed #cbd5e0; color: #e53e3e; font-size: 11px; font-weight: bold; line-height: 1.3;">⚠️ TİS gereği maksimum 2 çocuk için ödeme yapılır.</div>
+                        </div>
+                    </div>
+                </div>
+                <span style="font-size: 9.5px; color: #718096; font-weight: normal; display:block; margin-top:1px;">(Vergiden Muaf)</span>
+            </div>
+            <select id="cocukKucuk" style="padding: 10px; font-size: 14px;">
+                <option value="0" selected>Yok</option>
+                <option value="1">1 Çocuk</option>
+                <option value="2">2 Çocuk</option>
+            </select>
+        </div>
+
+        <div style="flex: 1;">
+            <div style="margin-bottom: 6px;">
+                <div style="display: flex; align-items: center; gap: 4px;">
+                    <label style="margin-bottom: 0; font-size: 12px;">6 Yaş Üstü</label>
+                    <div class="tooltip-container tooltip-left">
+                        <span class="info-icon" style="width:14px; height:14px; font-size:10px;">i</span>
+                        <div class="tooltip-text" style="width: 210px; font-size: 11.5px; z-index: 110; padding: 10px;">
+                            <strong style="color: var(--migros-lacivert); display: block; margin-bottom: 6px; border-bottom: 1px solid #edf2f7; padding-bottom: 4px;">👦 6 Yaş Üstü</strong>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Ocak - Haziran:</span><b style="color:#4a5568;">346,97 TL</b></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Temmuz - Aralık:</span><b style="color:#4a5568;">393,88 TL</b></div>
+                            <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed #cbd5e0; color: #e53e3e; font-size: 11px; font-weight: bold; line-height: 1.3;">⚠️ TİS gereği maksimum 2 çocuk için ödeme yapılır.</div>
+                        </div>
+                    </div>
+                </div>
+                <span style="font-size: 9.5px; color: #718096; font-weight: normal; display:block; margin-top:1px;">(Vergiden Muaf)</span>
+            </div>
+            <select id="cocukBuyuk" style="padding: 10px; font-size: 14px;">
+                <option value="0" selected>Yok</option>
+                <option value="1">1 Çocuk</option>
+                <option value="2">2 Çocuk</option>
+            </select>
+        </div>
+    </div>
+    
+    <div id="hataMesaji" class="error-text"></div>
+    <div id="sonuc"></div>
+
+    <div class="footer">
+        © <span id="guncelYil"></span> Muhammed Öz • Sendika Temsilcisi • Serik DM
+    </div>
+</div>
+
+<div class="fixed-bottom-bar">
+    <div class="fixed-bottom-bar-container">
+        <!-- Temizle Butonu -->
+        <button id="sifirlaBtn" class="sifirla-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></svg>
+            Temizle
+        </button>
+        <!-- Tam Ekran Kaydet Butonu -->
+        <button id="indirTamBtn" class="indir-btn tam-indir" style="display: none;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Tam Ekran
+        </button>
+        <!-- Sonucu Kaydet Butonu -->
+        <button id="indirSonucBtn" class="indir-btn sonuc-indir" style="display: none;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+            Sadece Sonuç
+        </button>
+    </div>
+</div>
+
+<script>
+const gercekTarih = new Date();
+const dinamikYil = gercekTarih.getFullYear();
+document.getElementById('guncelYil').innerText = dinamikYil;
+
+window.toggleKesinti = function() {
+    var kutu = document.getElementById('yasalKutu');
+    var icerik = document.getElementById('kesintiIcerik');
+    if(icerik.style.display === 'block') {
+        icerik.style.display = 'none';
+        kutu.classList.remove('acik');
+    } else {
+        icerik.style.display = 'block';
+        kutu.classList.add('acik');
+    }
+};
+
+document.addEventListener('click', function(e) {
+    const icon = e.target.closest('.info-icon');
+    if (icon) {
+        e.preventDefault();
+        e.stopPropagation();
+        const container = icon.closest('.tooltip-container');
+        const wasActive = container.classList.contains('active');
+        
+        document.querySelectorAll('.tooltip-container').forEach(c => c.classList.remove('active'));
+        if (!wasActive) container.classList.add('active');
+        return;
+    }
+    if (!e.target.closest('.tooltip-container')) {
+        document.querySelectorAll('.tooltip-container').forEach(c => c.classList.remove('active'));
+    }
+});
+
+const animState = {};
+function startValueAnimation(id, element, target, decimals = 2) {
+    if (!element) return;
+    const startVal = animState[id] !== undefined ? animState[id] : 0;
+    if (startVal === target) {
+        element.innerText = target.toLocaleString('tr-TR', {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
+        return;
+    }
+    
+    const duration = 600; 
+    const startTime = performance.now();
+    
+    function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3); 
+        const current = startVal + (target - startVal) * ease;
+        
+        element.innerText = current.toLocaleString('tr-TR', {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
+        
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        } else {
+            element.innerText = target.toLocaleString('tr-TR', {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
+            animState[id] = target;
+        }
+    }
+    requestAnimationFrame(update);
+}
+
+function yuv(deger) { return parseFloat((deger + Number.EPSILON).toFixed(2)); }
+function yuv3(deger) { return parseFloat((deger + Number.EPSILON).toFixed(3)); }
+
+const radioButtons = document.querySelectorAll('input[name="vergiGirisTipi"]');
+const alanMatrah = document.getElementById('alanMatrah');
+const alanDilim = document.getElementById('alanDilim');
+
+radioButtons.forEach(radio => {
+    radio.addEventListener('change', function() {
+        if (this.value === 'matrah') {
+            alanMatrah.style.display = 'flex';
+            alanDilim.style.display = 'none';
+        } else {
+            alanMatrah.style.display = 'none';
+            alanDilim.style.display = 'block';
+        }
+    });
+});
+
+document.getElementById('personelTipi').addEventListener('change', function(e) {
+    var headerKirmiziSpan = document.getElementById('headerKirmiziSpan');
+    var headerTuruncuSpan = document.getElementById('headerTuruncuSpan');
+    var rtAciklama = document.getElementById('rtAciklama');
+    var rtGeceAciklama = document.getElementById('rtGeceAciklama');
+    var rtTzgAciklama = document.getElementById('rtTzgAciklama');
+
+    if (e.target.value === 'devir') {
+        headerKirmiziSpan.style.display = 'inline-block';
+        headerKirmiziSpan.innerText = 'DEVROLAN PERSONEL';
+        headerTuruncuSpan.innerText = 'ÜCRET HESAPLAMA';
+        if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana maaşın içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b style="color:var(--migros-turuncu);">ekstra mesai (2 katı, yani toplamda 3 katı)</b> brüt ek kazanç olarak yansıtılır.';
+        if (rtGeceAciklama) rtGeceAciklama.innerHTML = 'Resmi tatilde çalışılan gece vardiyası için personele göre normal gece yevmiyesinin <b style="color:var(--migros-turuncu);">3 katı</b> brüt ek kazanç olarak yansıtılır.';
+        if (rtTzgAciklama) rtTzgAciklama.innerHTML = 'Resmi tatilde çalışılan taze gıda vardiyası için personele göre normal tz. gıda yevmiyesinin <b style="color:var(--migros-turuncu);">3 katı</b> brüt ek kazanç olarak yansıtılır.';
+    } else if (e.target.value === 'yeni') {
+        headerKirmiziSpan.style.display = 'none';
+        headerTuruncuSpan.innerText = 'PERSONEL ÜCRET HESAPLAMA';
+        if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana maaşın içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b style="color:var(--migros-turuncu);">ekstra mesai (1.5 katı, yani toplamda 2.5 katı)</b> brüt ek kazanç olarak yansıtılır.';
+        if (rtGeceAciklama) rtGeceAciklama.innerHTML = 'Resmi tatilde çalışılan gece vardiyası için personele göre normal gece yevmiyesinin <b style="color:var(--migros-turuncu);">2.5 katı</b> brüt ek kazanç olarak yansıtılır.';
+        if (rtTzgAciklama) rtTzgAciklama.innerHTML = 'Resmi tatilde çalışılan taze gıda vardiyası için personele göre normal tz. gıda yevmiyesinin <b style="color:var(--migros-turuncu);">2.5 katı</b> brüt ek kazanç olarak yansıtılır.';
+    } else {
+        headerKirmiziSpan.style.display = 'none';
+        headerTuruncuSpan.innerText = 'PERSONEL ÜCRET HESAPLAMA';
+        if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana maaşın içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b>ekstra mesai (personele göre 1.5 veya 2 katı)</b> brüt ek kazanç olarak yansıtılır.';
+        if (rtGeceAciklama) rtGeceAciklama.innerHTML = 'Resmi tatilde çalışılan gece vardiyası için personele göre normal gece yevmiyesinin <b>2.5 veya 3 katı</b> brüt ek kazanç olarak yansıtılır.';
+        if (rtTzgAciklama) rtTzgAciklama.innerHTML = 'Resmi tatilde çalışılan taze gıda vardiyası için personele göre normal tz. gıda yevmiyesinin <b>2.5 veya 3 katı</b> brüt ek kazanç olarak yansıtılır.';
+    }
+});
+
+function ayGunleriniBul(yil, ay) { return new Date(yil, ay, 0).getDate(); }
+
+function formatlaMil(input) {
+    let deger = input.value.replace(/[^0-9,]/g, "");
+    let parcalar = deger.split(',');
+    if (parcalar.length > 2) {
+        deger = parcalar[0] + ',' + parcalar.slice(1).join('').replace(/,/g, '');
+        parcalar = deger.split(',');
+    }
+    if (parcalar[0] === "" && parcalar.length === 1) {
+        input.value = "";
+        return;
+    }
+    let tamSayi = "";
+    if (parcalar[0] !== "") {
+        tamSayi = parseInt(parcalar[0], 10).toLocaleString('tr-TR');
+    }
+    if (parcalar.length > 1) {
+        input.value = tamSayi + ',' + parcalar[1];
+    } else {
+        input.value = tamSayi;
+    }
+}
+
+function metniSayiyaCevir(id) {
+    let val = document.getElementById(id).value.trim();
+    if (!val) return 0;
+    val = val.replace(',', '.');
+    let sonuc = parseFloat(val) || 0;
+    if (!id.toLowerCase().includes('saat')) {
+        let tahminEdilenSaat = sonuc * 7.5;
+        let gercekSaat = Math.round(tahminEdilenSaat * 2) / 2;
+        sonuc = gercekSaat / 7.5;
+    }
+    return sonuc;
+}
+
+function guvenliSayiAl(id) {
+    let val = document.getElementById(id).value.trim();
+    if (!val) return 0;
+    val = val.replace(/\./g, '');
+    val = val.replace(',', '.');
+    return parseFloat(val) || 0;
+}
+
+const aylar2026 = [
+    { ad: "Ocak", tatil: 1 }, { ad: "Şubat", tatil: 0 }, { ad: "Mart", tatil: 3.5 }, 
+    { ad: "Nisan", tatil: 1 }, { ad: "Mayıs", tatil: 6.5 }, { ad: "Haziran", tatil: 0 }, 
+    { ad: "Temmuz", tatil: 1 }, { ad: "Ağustos", tatil: 1 }, { ad: "Eylül", tatil: 0 }, 
+    { ad: "Ekim", tatil: 1.5 }, { ad: "Kasım", tatil: 0 }, { ad: "Aralık", tatil: 0 }
+];
+
+const selectElement = document.getElementById('secilenAy');
+let placeholderAy = document.createElement('option');
+placeholderAy.value = "";
+placeholderAy.selected = true;
+placeholderAy.disabled = true;
+placeholderAy.hidden = true;
+placeholderAy.text = "Ay Seçiniz";
+selectElement.appendChild(placeholderAy);
+
+aylar2026.forEach((ay, indeks) => {
+    let gunSayisi = ayGunleriniBul(dinamikYil, indeks + 1); 
+    let option = document.createElement('option');
+    option.value = gunSayisi;
+    option.dataset.tatil = ay.tatil;
+    option.dataset.ayIndex = indeks; 
+    option.text = `${ay.ad} (${gunSayisi} Gün)`;
+    selectElement.appendChild(option);
+});
+
+function gunlukHesapla() {
+    var s_ucret = metniSayiyaCevir('saatlik');
+    var gunluk = yuv3(s_ucret * 7.5); 
+    startValueAnimation('anim_gunluk', document.getElementById('gunlukGosterim'), gunluk, 3);
+}
+
+const vergiDilimleri2026 = [
+    { sinir: 190000, oran: 0.15 },
+    { sinir: 400000, oran: 0.20 },
+    { sinir: 1500000, oran: 0.27 },
+    { sinir: 5300000, oran: 0.35 },
+    { sinir: Infinity, oran: 0.40 }
+];
+
+function dinamikGelirVergisiHesapla(gecenAyKumulatif, buAykiMatrah) {
+    let kalanMatrah = buAykiMatrah;
+    let toplamKesilecekVergi = 0;
+    let anlikKumulatif = gecenAyKumulatif;
+
+    for (let i = 0; i < vergiDilimleri2026.length; i++) {
+        if (kalanMatrah <= 0) break;
+        let dilimSiniri = vergiDilimleri2026[i].sinir;
+        let dilimOrani = vergiDilimleri2026[i].oran;
+        if (anlikKumulatif >= dilimSiniri) continue;
+
+        let buDilimdekiKapasite = dilimSiniri - anlikKumulatif;
+        let buDilimdenGiden = Math.min(kalanMatrah, buDilimdekiKapasite);
+
+        toplamKesilecekVergi += buDilimdenGiden * dilimOrani;
+        kalanMatrah -= buDilimdenGiden;
+        anlikKumulatif += buDilimdenGiden;
+    }
+    return yuv(toplamKesilecekVergi);
+}
+
+function tumHesaplamalariCalistir() {
+    gunlukHesapla();
+    var personelTipiSelect = document.getElementById('personelTipi');
+    var aySelect = document.getElementById('secilenAy');
+    var s_ucret = metniSayiyaCevir('saatlik');
+    var girdi_yil = parseInt(document.getElementById('yil').value);
+    var sonucDiv = document.getElementById('sonuc');
+    var hataMesaji = document.getElementById('hataMesaji');
+    var indirTamBtn = document.getElementById('indirTamBtn');
+    var indirSonucBtn = document.getElementById('indirSonucBtn');
+    
+    var seciliVergi = document.querySelector('input[name="vergiGirisTipi"]:checked');
+    if (!seciliVergi) return;
+    var vergiGirisTipi = seciliVergi.value;
+    
+    if (personelTipiSelect.value === "" || aySelect.value === "" || isNaN(girdi_yil) || s_ucret <= 0) {
+        sonucDiv.style.display = 'none';
+        indirTamBtn.style.display = 'none';
+        indirSonucBtn.style.display = 'none';
+        hataMesaji.innerHTML = "💡 Hesaplamayı görmek için <b>Personel Tipi, Kıdem, Saatlik Ücret ve Ay Seçimi</b> alanlarını doldurun.";
+        hataMesaji.style.display = 'block';
+        return;
+    }
+    
+    if (vergiGirisTipi === 'matrah' && document.getElementById('kumulatifMatrah').value.trim() === "") {
+        sonucDiv.style.display = 'none';
+        indirTamBtn.style.display = 'none';
+        indirSonucBtn.style.display = 'none';
+        hataMesaji.innerHTML = "💡 Lütfen vergi hesabı için <b>Kümülatif Matrah</b> giriniz.";
+        hataMesaji.style.display = 'block';
+        return;
+    }
+    
+    hataMesaji.style.display = 'none';
+    var gecenAyKumulatif = 0;
+
+    if (vergiGirisTipi === 'matrah') {
+        gecenAyKumulatif = guvenliSayiAl('kumulatifMatrah');
+    } else {
+        var secilenDilim = parseInt(document.getElementById('kolayVergiDilimi').value);
+        if (secilenDilim === 15) gecenAyKumulatif = 0;
+        else if (secilenDilim === 20) gecenAyKumulatif = 190001;
+        else if (secilenDilim === 27) gecenAyKumulatif = 400001;
+        else if (secilenDilim === 35) gecenAyKumulatif = 1500001;
+        else if (secilenDilim === 40) gecenAyKumulatif = 5300001;
+    }
+
+    var pTipi = personelTipiSelect.value;
+    var isYeniPersonel = pTipi === 'yeni';
+
+    var ay_gun = parseInt(aySelect.value);
+    var eksik_gun = metniSayiyaCevir('eksikGun');
+    var saatlik_izin = metniSayiyaCevir('saatlikIzin'); 
+    var b_gun = metniSayiyaCevir('bayramGun');
+    var fm_saat = metniSayiyaCevir('fazlaMesaiSaat');
+    var g_gun = metniSayiyaCevir('geceGun');
+    var rg_gun = metniSayiyaCevir('resmiGeceGun');
+    var t_gun = metniSayiyaCevir('tzgGun');
+    var t_bayram_gun = metniSayiyaCevir('tzgBayramGun');
+    var ek_prim = yuv(guvenliSayiAl('ekPrimler'));
+    
+    // Genel Tatil Hesabı
+    var gt_saat_degeri = metniSayiyaCevir('gtSaat');
+    var kok_saatlik_gt = s_ucret > 2.42 ? (s_ucret - 2.42) : s_ucret; 
+    var gt_ham_hesap = gt_saat_degeri * kok_saatlik_gt;
+    var gt_primi = Math.floor(gt_ham_hesap * 100) / 100;
+
+    // Hafta Tatili / Pazar Hesabı (2x Çarpanlı)
+    var p_gun = metniSayiyaCevir('pazarGun');
+    var g_saat = 7.5; 
+    var brutPazarMesaisi = yuv(p_gun * yuv(yuv3(s_ucret * g_saat) * 2.0));
+    
+    var secilenOptionIndex = aySelect.options[aySelect.selectedIndex].dataset.ayIndex;
+    var ayIndex = parseInt(secilenOptionIndex);
+    
+    var cocukTutarKucuk = (ayIndex <= 5) ? 693.94 : 787.76;
+    var cocukTutarBuyuk = (ayIndex <= 5) ? 346.97 : 393.88;
+
+    var cocuk_kucuk = parseInt(document.getElementById('cocukKucuk').value) || 0;
+    var cocuk_buyuk = parseInt(document.getElementById('cocukBuyuk').value) || 0;
+    
+    var odenecek_kucuk = Math.min(cocuk_kucuk, 2);
+    var odenecek_buyuk = Math.min(cocuk_buyuk, 2 - odenecek_kucuk);
+    var cocuk_sayisi = odenecek_kucuk + odenecek_buyuk; 
+    
+    var cocuk_parasi_brut = yuv((odenecek_kucuk * cocukTutarKucuk) + (odenecek_buyuk * cocukTutarBuyuk));
+    var cocuk_parasi_istisna = cocuk_parasi_brut; 
+    
+    var toplamEksikGun = yuv(eksik_gun + (saatlik_izin / g_saat));
+    var calisilanGun = yuv(ay_gun - toplamEksikGun);
+    
+    var brutAnaUcret = yuv(s_ucret * calisilanGun * g_saat);
+    var ikramiyeIcinAnaUcret = yuv(s_ucret * ay_gun * g_saat);
+    
+    var rgCarpani = isYeniPersonel ? 2.5 : 3.0;
+    var brutGeceZami = yuv((g_gun * 162.5) + (rg_gun * yuv(162.5 * rgCarpani))); 
+    
+    var tzgCarpani = isYeniPersonel ? 2.5 : 3.0;
+    var brutTzgZami = yuv((t_gun * 80) + (t_bayram_gun * yuv(80 * tzgCarpani))); 
+    
+    var bayramCarpani = isYeniPersonel ? 1.5 : 2.0;
+    var brutTatilMesaisiEkran = yuv(b_gun * yuv(yuv3(s_ucret * g_saat) * bayramCarpani));
+    var brutFazlaMesai = yuv(fm_saat * yuv(s_ucret * 1.5)); 
+
+    var carpanYazi = "";
+    var carpanSayi = 0;
+    var dmIkramiyeEkOdeme = 0;
+
+    if (girdi_yil === 1 || girdi_yil === 2) {
+        if (isYeniPersonel) { carpanSayi = 1.6; carpanYazi = "1.6 Maaş / 12"; dmIkramiyeEkOdeme = 0; } 
+        else { carpanSayi = 2.0; carpanYazi = "2 Maaş / 12"; dmIkramiyeEkOdeme = 2500; }
+    } else if (girdi_yil === 3) {
+        carpanSayi = 2.0; carpanYazi = "2 Maaş / 12"; dmIkramiyeEkOdeme = isYeniPersonel ? 0 : 2500;
+    } else if (girdi_yil === 4) { carpanSayi = 3.2; carpanYazi = "3.2 Maaş / 12"; dmIkramiyeEkOdeme = 0;
+    } else if (girdi_yil >= 5) { carpanSayi = 4.0; carpanYazi = "4 Maaş / 12"; dmIkramiyeEkOdeme = 0; }
+
+    var brutAylikIkramiye = yuv((ikramiyeIcinAnaUcret * carpanSayi) / 12);
+
+    var toplamGidaBono = 0;
+    var moneyYilText = girdi_yil;
+    if (girdi_yil === 1) toplamGidaBono = isYeniPersonel ? 2060.00 : 2250.00;
+    else if (girdi_yil === 2) toplamGidaBono = isYeniPersonel ? 2206.67 : 2250.00;
+    else if (girdi_yil === 3) toplamGidaBono = 2758.33;
+    else if (girdi_yil === 4) toplamGidaBono = 4413.33;
+    else if (girdi_yil >= 5) { toplamGidaBono = 5516.66; moneyYilText = "5+"; }
+
+    var sendikaYevmiyeCarpani = (isYeniPersonel || ayIndex >= 10) ? 0.70 : 1.05;
+    
+    var targetYolNet = (ayIndex >= 6) ? 3628.00 : 3298.00; 
+    var targetDeterjanNet = 119.95;
+    
+    var tahminiSgkMatrah = yuv(brutAnaUcret + brutTatilMesaisiEkran + brutPazarMesaisi + brutFazlaMesai + brutGeceZami + dmIkramiyeEkOdeme + brutTzgZami + brutAylikIkramiye + ek_prim + gt_primi);
+    var tahminiVergiMatrah = yuv(tahminiSgkMatrah * 0.85); 
+    var tahminiKumulatif = yuv(gecenAyKumulatif + tahminiVergiMatrah);
+    
+    var marginalVergiOrani = 0.15;
+    for(var i=0; i<vergiDilimleri2026.length; i++) {
+        if(tahminiKumulatif < vergiDilimleri2026[i].sinir) {
+            marginalVergiOrani = vergiDilimleri2026[i].oran; break;
+        }
+    }
+    var dinamikDeterjanBrut = yuv(targetDeterjanNet / (1 - marginalVergiOrani - 0.00759)); 
+
+    function netMiktariHesapla(yolBrutDeneme) {
+        var s_brut = yuv(brutAnaUcret + brutTatilMesaisiEkran + brutPazarMesaisi + brutFazlaMesai + brutGeceZami + dmIkramiyeEkOdeme + brutTzgZami + brutAylikIkramiye + toplamGidaBono + yolBrutDeneme + dinamikDeterjanBrut + ek_prim + gt_primi + cocuk_parasi_brut);
+        var s_istisna = yuv(toplamGidaBono + dinamikDeterjanBrut + cocuk_parasi_istisna); 
+        var s_sgkMatrah = yuv(Math.max(0, s_brut - s_istisna));
+        var s_sgkIsci = yuv(s_sgkMatrah * 0.14);
+        var s_sgkIssizlik = yuv(s_sgkMatrah * 0.01);
+        var saatlikSendika = yuv(s_ucret * sendikaYevmiyeCarpani);
+        var sendikaAidati = Number(Math.ceil((saatlikSendika * 7.5) + 'e2') + 'e-2'); 
+        var s_vMatrah = yuv(Math.max(0, s_brut - s_sgkIsci - s_sgkIssizlik - sendikaAidati - cocuk_parasi_istisna)); 
+        var s_gercekVergi = dinamikGelirVergisiHesapla(gecenAyKumulatif, s_vMatrah);
+        var s_netGelir = yuv(Math.max(0, s_gercekVergi - 4211.33));
+        var s_netDamga = yuv(Math.max(0, (s_brut * 0.00759) - 250.70)); 
+        return yuv(s_brut - s_sgkIsci - s_sgkIssizlik - s_netGelir - s_netDamga - sendikaAidati - (toplamGidaBono + targetDeterjanNet));
+    }
+
+    var baseNetSifirYolVeDeterjan = netMiktariHesapla(0);
+    var targetToplamNet = yuv(baseNetSifirYolVeDeterjan + targetYolNet);
+    var minBrut = 3298.00, maxBrut = 15000.00, dinamikYolBrut = 0; 
+    
+    for(var iter = 0; iter < 60; iter++) {
+        dinamikYolBrut = (minBrut + maxBrut) / 2;
+        var currentNet = netMiktariHesapla(dinamikYolBrut);
+        var fark = targetToplamNet - currentNet;
+        if(Math.abs(fark) < 0.001) break; 
+        if(currentNet < targetToplamNet) minBrut = dinamikYolBrut; 
+        else maxBrut = dinamikYolBrut; 
+    }
+    dinamikYolBrut = yuv(dinamikYolBrut);
+
+    var sabitYanHaklarBrut = yuv(dinamikYolBrut + toplamGidaBono + dinamikDeterjanBrut);
+    var toplamBrutKazanc = yuv(brutAnaUcret + brutTatilMesaisiEkran + brutPazarMesaisi + brutFazlaMesai + brutGeceZami + dmIkramiyeEkOdeme + brutTzgZami + brutAylikIkramiye + sabitYanHaklarBrut + ek_prim + gt_primi + cocuk_parasi_brut);
+
+    var sgkIstisnaTutari = yuv(toplamGidaBono + dinamikDeterjanBrut + cocuk_parasi_istisna); 
+    var sgkMatrahi = Math.max(0, yuv(toplamBrutKazanc - sgkIstisnaTutari));
+    var sgkIsciPayi = yuv(sgkMatrahi * 0.14);
+    var sgkIssizlikPayi = yuv(sgkMatrahi * 0.01);
+    
+    var saatlikSendikaGosterim = yuv(s_ucret * sendikaYevmiyeCarpani);
+    var sendikaAidati = Number(Math.ceil((saatlikSendikaGosterim * 7.5) + 'e2') + 'e-2'); 
+    
+    var vergiMatrahi = Math.max(0, yuv(toplamBrutKazanc - sgkIsciPayi - sgkIssizlikPayi - sendikaAidati - cocuk_parasi_istisna)); 
+    
+    var kullanilanDilimler = [];
+    var testKalan = vergiMatrahi;
+    var testKumulatif = gecenAyKumulatif;
+    for (var i = 0; i < vergiDilimleri2026.length; i++) {
+        if (testKalan <= 0) break;
+        if (testKumulatif >= vergiDilimleri2026[i].sinir) continue;
+        kullanilanDilimler.push(vergiDilimleri2026[i].oran * 100);
+        var kapasite = yuv(vergiDilimleri2026[i].sinir - testKumulatif);
+        var giden = yuv(Math.min(testKalan, kapasite));
+        testKalan = yuv(testKalan - giden);
+        testKumulatif = yuv(testKumulatif + giden);
+    }
+
+    var dilimMetni = (kullanilanDilimler.length <= 1) ? "%" + (kullanilanDilimler[0] || 15) : "%" + kullanilanDilimler[0] + " ➔ %" + kullanilanDilimler[kullanilanDilimler.length - 1] + " Geçişi";
+
+    var hesaplananGercekVergi = dinamikGelirVergisiHesapla(gecenAyKumulatif, vergiMatrahi);
+    var netGelirVergisi = yuv(Math.max(0, hesaplananGercekVergi - 4211.33));
+    var netDamgaVergisi = yuv(Math.max(0, (toplamBrutKazanc * 0.00759) - 250.70));
+    var toplamYasalKesinti = yuv(sgkIsciPayi + sgkIssizlikPayi + netGelirVergisi + netDamgaVergisi);
+
+    var sirketIciKesintiler = yuv(toplamGidaBono + targetDeterjanNet);
+    var netEleGecenMaas = yuv(toplamBrutKazanc - toplamYasalKesinti - sendikaAidati - sirketIciKesintiler);
+
+    var bayramEkstraMetin = isYeniPersonel ? "1.5x ek mesai tutarı" : "2x ek mesai tutarı";
+
+    var netMaasYolHaric = yuv(netEleGecenMaas - targetYolNet);
+    var moneyKutucukHTML = "";
+    
+    if (toplamGidaBono > 0) {
+        moneyKutucukHTML = 
+            "<div class='money-kutucuk'>" +
+                "<div class='bolum-baslik' style='font-size:14px; font-weight:900; color:var(--migros-lacivert); margin-top:0; text-align:center; border-bottom:2px solid var(--migros-lacivert); padding-bottom:8px; margin-bottom:10px;'>📊 HAK EDİLEN NET TUTARLAR</div>" +
+                "<div class='money-satir' style='font-size:14.5px; color:#4a5568; align-items:center;'>" +
+                    "<div>" +
+                        "<div style='font-weight:bold;'>💵 NET ÜCRET:</div>" +
+                        "<div style='font-size:11px; color:#627d98; margin-top:4px;'>(Yol Parası Hariç)</div>" +
+                    "</div>" +
+                    "<div style='font-weight:bold; font-size:15px;'><span id='anim_net_ucret'>" + netMaasYolHaric.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "</span> TL</div>" +
+                "</div>" +
+                "<div class='money-satir' style='font-size:14.5px; color:#4a5568; border-bottom: 2px solid #cbd5e0; padding-bottom: 8px; margin-bottom: 8px; align-items:center;'>" +
+                    "<div>" +
+                        "<div style='font-weight:bold;'>🚌 YOL PARASI:</div>" +
+                        "<div style='font-size:11px; color:#627d98; margin-top:4px;'>(Vergiden Muaf)</div>" +
+                    "</div>" +
+                    "<div style='font-weight:bold; font-size:15px;'>+<span id='anim_yol_parasi'>" + targetYolNet.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "</span> TL</div>" +
+                "</div>" +
+                "<div class='money-satir' style='font-size:16px; font-weight:900; color:var(--migros-lacivert); align-items:center;'>" +
+                    "<div style='font-weight:900;'>💰 TOPLAM ÖDENEN:</div>" +
+                    "<div style='font-weight:900;'><span id='anim_toplam_odenen'>" + netEleGecenMaas.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "</span> TL</div>" +
+                "</div>" +
+                "<div style='margin-top:8px; margin-bottom: 6px; padding:6px; background-color:#fff5f5; border:1px dashed #feb2b2; border-radius:6px; font-size:11.5px; color:#c53030; text-align:center; font-weight:500;'>" +
+                    "💡 Bu ay maaşınız <b>" + dilimMetni + "</b> üzerinden vergilendirilmiştir." +
+                "</div>" +
+                "<div class='money-satir' style='margin-top:5px; font-size:14px; border-bottom:none; align-items:center;'>" +
+                    "<div>" +
+                        "<div style='font-weight:bold;'>💳 Money Kart:</div>" +
+                        "<div style='font-size:11px; color:#627d98; margin-top:4px;'>(" + moneyYilText + ". Yıl Kıdem) (Vergiden Muaf)</div>" +
+                    "</div>" +
+                    "<div class='vurgu-mor' style='font-weight:bold; font-size:15px;'>+<span id='anim_money'>" + toplamGidaBono.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "</span> TL</div>" +
+                "</div>" +
+            "</div>";
+    }
+
+    var bayramBrutYazi = isYeniPersonel ? "Bayram Fazla Mesai (1.5x):" : "Bayram Fazla Mesai (2x):";
+
+    sonucDiv.style.display = 'block';
+    indirTamBtn.style.display = 'flex';
+    indirSonucBtn.style.display = 'flex';
+    
+    sonucDiv.innerHTML = 
+        "<div class='bolum-baslik'>BRÜT KAZANÇ DETAYLARI</div>" +
+        "<div class='satir'><div>Temel Ücret:</div> <b>" + brutAnaUcret.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" +
+        (b_gun > 0 ? "<div class='satir'><div>" + bayramBrutYazi + "</div> <b>" + brutTatilMesaisiEkran.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (p_gun > 0 ? "<div class='satir'><div>Hafta Tatili Mesaisi (2 Katı):</div> <b>" + brutPazarMesaisi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (brutFazlaMesai > 0 ? "<div class='satir'><div>Normal Fazla Mesai %50 Fazla:</div> <b>" + brutFazlaMesai.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (brutGeceZami > 0 ? "<div class='satir'><div>Vardiya Fazla Mesai (Gece):</div> <b>" + brutGeceZami.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (dmIkramiyeEkOdeme > 0 ? "<div class='satir'><div style='display: flex; align-items: center; gap: 4px;'><span>DM İkramiye Ek Ödeme:</span><div class='tooltip-container tooltip-right'><span class='info-icon' style='width:14px; height:14px; font-size:10px;'>i</span><div class='tooltip-text' style='width: 250px; font-size: 11.5px; z-index: 110; padding: 12px; font-weight: normal; text-transform: none; line-height: 1.4;'><strong style='color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;'>💰 Ek İkramiye</strong>Devrolan personele 4. Yıla girene ve %80’e varıncaya kadar aylık <b>2.500 TL</b> brüt ek kazanç olarak yansıtılır.</div></div></div> <b class='vurgu-turuncu'>" + dmIkramiyeEkOdeme.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (brutTzgZami > 0 ? "<div class='satir'><div>Tz. Gıda Vard. Primi:</div> <b>" + brutTzgZami.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (ek_prim > 0 ? "<div class='satir'><div>Ek Primler Toplamı:</div> <b>" + ek_prim.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (gt_primi > 0 ? "<div class='satir'><div>Genel Tatil Çalışma Primi:</div> <b>" + gt_primi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (cocuk_parasi_brut > 0 ? "<div class='satir'><div>Çocuk Yardımı (" + cocuk_sayisi + " Çocuk):</div> <b>" + cocuk_parasi_brut.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        "<div class='satir'>" + 
+            "<div style='display: flex; align-items: center; gap: 4px;'>" +
+                "<span>İkramiye Payı (" + carpanYazi + "):</span>" +
+                "<div class='tooltip-container'>" +
+                    "<span class='info-icon' style='width:14px; height:14px; font-size:10px;'>i</span>" +
+                    "<div class='tooltip-text' style='width: 280px; font-size: 11.5px; z-index: 110; padding: 12px; margin-left: -20px; line-height: 1.4;'>" +
+                        "<strong style='color: var(--migros-lacivert); display: block; margin-bottom: 6px; border-bottom: 1px solid #edf2f7; padding-bottom: 4px;'>🎁 İkramiye Ödemesi</strong>" +
+                        "Kıdeminize göre belirlenen yıllık toplam ikramiyenin <b>12 aya bölünmüş</b> aylık yansımasıdır.<br><br>" +
+                        "<span style='color: #4a5568;'>• Tamamen <b>Brüt</b> tutardır, üzerinden SGK ve Gelir Vergisi kesintisi yapılır.</span>" +
+                    "</div>" +
+                "</div>" +
+            "</div>" +
+            "<b class='vurgu-turuncu'>" + brutAylikIkramiye.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b>" +
+        "</div>" +
+        "<div class='satir' style='background:#ebf8ff; padding:8px 10px; border-radius:8px; margin-bottom:8px; align-items:center;'>" +
+            "<div>" +
+                "<div>Deterjan Y. Brüt:</div>" +
+                "<div style='font-size:11px; color:#718096; margin-top:4px;'>(Vergiden Muaf)</div>" +
+            "</div>" +
+            "<div class='vurgu-mavi' style='font-weight:bold;'>+" + dinamikDeterjanBrut.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div>" +
+        "</div>" +
+        "<div class='satir' style='background:#ebf8ff; padding:8px 10px; border-radius:8px; margin-bottom:8px; align-items:center;'>" +
+            "<div>" +
+                "<div>Yol Parası Brüt:</div>" +
+                "<div style='font-size:11px; color:#718096; margin-top:4px;'>(Vergiden Muaf)</div>" +
+            "</div>" +
+            "<div class='vurgu-mavi' style='font-weight:bold;'>+" + dinamikYolBrut.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div>" +
+        "</div>" +
+        "<div class='satir' style='background:#ebf8ff; padding:8px 10px; border-radius:8px; margin-bottom:8px; align-items:center;'>" +
+            "<div>" +
+                "<div>Sendika Aidat Kesintisi:</div>" +
+                "<div style='font-size:11px; color:#718096; margin-top:4px;'>(Vergiden Muaf)</div>" +
+            "</div>" +
+            "<div style='color:#e53e3e; font-weight:bold;'>-" + sendikaAidati.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div>" +
+        "</div>" +
+        "<div class='satir' style='font-weight:bold; background:#edf2f7; padding:8px 10px; border-radius:8px; align-items:center;'>" +
+            "<div>Toplam Brüt Kazanç:</div>" +
+            "<div>" + toplamBrutKazanc.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div>" +
+        "</div>" +
+        
+        "<div class='yasal-kesintiler-kutu' id='yasalKutu'>" +
+            "<div class='yasal-kesintiler-header' onclick='toggleKesinti()'>" +
+                "<div class='bolum-baslik' style='color:#e53e3e; border:none; margin:0; padding:0;'>YASAL KESİNTİLER VE MUAFİYETLER</div>" +
+                "<div class='toggle-icon'>▼</div>" +
+            "</div>" +
+            "<div id='kesintiIcerik' class='yasal-kesintiler-icerik'>" +
+                "<div class='satir' style='margin-bottom: 2px;'><div>Gelir Vergisi (" + dilimMetni + "):</div> <div style='color:#e53e3e; font-weight:bold;'>" + netGelirVergisi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
+                "<div class='satir' style='margin-top: 0; padding-top: 0; border-bottom: 1px solid #fbd5d5; padding-bottom: 8px;'><div>↳ <i style='font-size:11.5px; color:#38a169;'>AÜ Gelir Vergisi Muafiyeti</i></div> <div style='color:#38a169; font-size:12px; font-weight:bold;'>-4.211,33 TL</div></div>" +
+                "<div class='satir'><div>SGK İşszilik Payı (%1):</div> <div style='color:#e53e3e; font-weight:bold;'>" + sgkIssizlikPayi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
+                "<div class='satir'><div>SGK İşçi Payı (%14):</div> <div style='color:#e53e3e; font-weight:bold;'>" + sgkIsciPayi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
+                "<div class='satir' style='margin-bottom: 2px;'><div>Damga Vergisi:</div> <div style='color:#e53e3e; font-weight:bold;'>" + netDamgaVergisi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
+                "<div class='satir' style='margin-top: 0; padding-top: 0; border-bottom: none; padding-bottom: 0;'><div>↳ <i style='font-size:11.5px; color:#38a169;'>AÜ Damga Vergisi Muafiyeti</i></div> <div style='color:#38a169; font-size:12px; font-weight:bold;'>-250,70 TL</div></div>" +
+            "</div>" +
+        "</div>" +
+        moneyKutucukHTML;
+        
+    startValueAnimation('anim_net', document.getElementById('anim_net_ucret'), netMaasYolHaric);
+    startValueAnimation('anim_yol', document.getElementById('anim_yol_parasi'), targetYolNet);
+    startValueAnimation('anim_toplam', document.getElementById('anim_toplam_odenen'), netEleGecenMaas);
+    if(document.getElementById('anim_money')) {
+        startValueAnimation('anim_money_val', document.getElementById('anim_money'), toplamGidaBono);
+    }
+}
+
+const tumGirdiler = document.querySelectorAll('input, select');
+tumGirdiler.forEach(girdi => {
+    girdi.addEventListener('input', tumHesaplamalariCalistir);
+    girdi.addEventListener('change', tumHesaplamalariCalistir);
+});
+
+// 1. BUTON: TAM EKRANI KAYDET
+document.getElementById('indirTamBtn').addEventListener('click', function() {
+    const btn = this;
+    if (btn.disabled) return; 
+    
+    const oldHtml = btn.innerHTML;
+    btn.innerHTML = '⏳';
+    btn.disabled = true;
+    
+    document.querySelectorAll('.tooltip-container').forEach(c => c.classList.remove('active'));
+
+    const captureTarget = document.getElementById('captureCard');
+    
+    captureTarget.querySelectorAll('select').forEach(sel => {
+        sel.querySelectorAll('option').forEach(opt => opt.removeAttribute('selected'));
+        const seciliOption = sel.options[sel.selectedIndex];
+        if(seciliOption) seciliOption.setAttribute('selected', 'selected');
+    });
+
+    captureTarget.querySelectorAll('input').forEach(inp => {
+        inp.setAttribute('value', inp.value);
+        inp.setAttribute('data-placeholder', inp.placeholder || ''); 
+        inp.placeholder = ''; 
+        if(inp.type === 'radio' || inp.type === 'checkbox') {
+            if(inp.checked) inp.setAttribute('checked', 'checked');
+            else inp.removeAttribute('checked');
+        }
+    });
+
+    const sonucDiv = document.getElementById('sonuc');
+    const yasalIcerikler = document.querySelectorAll('.yasal-kesintiler-icerik');
+    
+    if (sonucDiv) {
+        sonucDiv.style.setProperty('animation', 'none', 'important');
+        sonucDiv.style.setProperty('opacity', '1', 'important');
+    }
+    yasalIcerikler.forEach(el => {
+        el.style.setProperty('animation', 'none', 'important');
+        el.style.setProperty('opacity', '1', 'important');
+    });
+    
+    setTimeout(() => { 
+        html2canvas(captureTarget, { 
+            scale: 2, 
+            useCORS: true, 
+            backgroundColor: '#ffffff',
+            scrollY: 0,
+            windowY: 0
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'Migros_Tum_Hesap.jpeg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+        }).catch(err => {
+            console.error("Hata:", err);
+            alert("Fotoğraf kaydedilirken bir hata oluştu.");
+        }).finally(() => {
+            btn.innerHTML = oldHtml;
+            btn.disabled = false;
+            
+            captureTarget.querySelectorAll('input').forEach(inp => {
+                if (inp.hasAttribute('data-placeholder')) {
+                    inp.placeholder = inp.getAttribute('data-placeholder');
+                }
+            });
+
+            if (sonucDiv) {
+                sonucDiv.style.removeProperty('animation');
+                sonucDiv.style.removeProperty('opacity');
+            }
+            yasalIcerikler.forEach(el => {
+                el.style.removeProperty('animation');
+                el.style.removeProperty('opacity');
+            });
+        });
+    }, 150);
+});
+
+// 2. BUTON: SADECE SONUCU KAYDET
+document.getElementById('indirSonucBtn').addEventListener('click', function() {
+    const btn = this;
+    if (btn.disabled) return; 
+    
+    const oldHtml = btn.innerHTML;
+    btn.innerHTML = '⏳';
+    btn.disabled = true;
+    
+    document.querySelectorAll('.tooltip-container').forEach(c => c.classList.remove('active'));
+
+    const captureTarget = document.getElementById('sonuc');
+    
+    if (!captureTarget || captureTarget.style.display === 'none') {
+        alert("Lütfen önce hesaplama yapın.");
+        btn.innerHTML = oldHtml;
+        btn.disabled = false;
+        return;
+    }
+
+    captureTarget.style.setProperty('animation', 'none', 'important');
+    captureTarget.style.setProperty('opacity', '1', 'important');
+
+    const yasalIcerikler = captureTarget.querySelectorAll('.yasal-kesintiler-icerik');
+    yasalIcerikler.forEach(el => {
+        el.style.setProperty('animation', 'none', 'important');
+        el.style.setProperty('opacity', '1', 'important');
+    });
+
+    setTimeout(() => { 
+        html2canvas(captureTarget, { 
+            scale: 2, 
+            useCORS: true, 
+            backgroundColor: '#ffffff',
+            scrollY: 0,
+            windowY: 0
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'Migros_Maas_Detayi.jpeg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+        }).catch(err => {
+            console.error("Hata:", err);
+            alert("Fotoğraf kaydedilirken bir hata oluştu.");
+        }).finally(() => {
+            btn.innerHTML = oldHtml;
+            btn.disabled = false;
+            captureTarget.style.removeProperty('animation');
+            captureTarget.style.removeProperty('opacity');
+            yasalIcerikler.forEach(el => {
+                el.style.removeProperty('animation');
+                el.style.removeProperty('opacity');
+            });
+        });
+    }, 150);
+});
+
+// OCR (FOTOĞRAFTAN OKUMA) MANTIĞI VE PROGRESS BAR
+document.getElementById('ocrBtn').addEventListener('click', function() {
+    document.getElementById('ocrInput').click();
+});
+
+document.getElementById('ocrInput').addEventListener('change', function(e) {
+    if (e.target.files.length === 0) return;
+    const file = e.target.files[0];
+    const btn = document.getElementById('ocrBtn');
+    const inputField = document.getElementById('kumulatifMatrah');
+    const hataMesaji = document.getElementById('hataMesaji');
+    const sonucDiv = document.getElementById('sonuc');
+    const progressBar = document.getElementById('ocrProgressBar');
+    
+    btn.innerHTML = '⏳';
+    btn.disabled = true;
+    inputField.value = '';
+    inputField.placeholder = "Hazırlanıyor...";
+    hataMesaji.style.display = 'none';
+    progressBar.style.width = '0%';
+
+    Tesseract.recognize(
+      file,
+      'tur', 
+      { 
+        logger: m => {
+            if (m.progress) {
+                progressBar.style.width = (m.progress * 100) + '%';
+            }
+            if (m.status === 'recognizing text') {
+                inputField.placeholder = "Okunuyor... %" + Math.round(m.progress * 100);
+            }
+        } 
+      } 
+    ).then(({ data: { text } }) => {
+        let regex = /(?:K[üu]m[üu]lat[iı]f|KUMULATIF).*?([\d]{1,3}(?:\.[\d]{3})*,\d{2})/i;
+        let match = text.match(regex);
+        
+        if(match && match[1]) {
+            inputField.value = match[1];
+            formatlaMil(inputField);
+            inputField.style.borderColor = '#17bb71'; 
+            setTimeout(() => { inputField.style.borderColor = '#cbd5e0'; }, 2000);
+            tumHesaplamalariCalistir(); 
+        } else {
+            hataMesaji.innerHTML = "Fotoğraftan matrah okunamadı. Lütfen net bir fotoğraf seçin veya manuel girin.";
+            hataMesaji.style.display = 'block';
+            sonucDiv.style.display = 'none';
+            document.getElementById('indirTamBtn').style.display = 'none';
+            document.getElementById('indirSonucBtn').style.display = 'none';
+        }
+    }).catch(err => {
+        hataMesaji.innerHTML = "Okuma sırasında bir hata oluştu.";
+        hataMesaji.style.display = 'block';
+        sonucDiv.style.display = 'none';
+        document.getElementById('indirTamBtn').style.display = 'none';
+        document.getElementById('indirSonucBtn').style.display = 'none';
+    }).finally(() => {
+        btn.innerHTML = '📷';
+        btn.disabled = false;
+        inputField.placeholder = "Örn: 370.310,60";
+        progressBar.style.width = '0%';
+        e.target.value = ''; 
+    });
+});
+
+// Temizle (Sıfırla) Butonu İşlemi
+document.getElementById('sifirlaBtn').addEventListener('click', function() {
+    document.querySelectorAll('input[type="text"]').forEach(el => {
+        if (el.id === 'gtSaat' || el.id === 'pazarGun') {
+            el.value = '0';
+        } else {
+            el.value = '';
+        }
+    });
+    document.getElementById('personelTipi').selectedIndex = 0;
+    document.getElementById('yil').selectedIndex = 0;
+    document.getElementById('secilenAy').selectedIndex = 0;
+    document.getElementById('cocukKucuk').selectedIndex = 0;
+    document.getElementById('cocukBuyuk').selectedIndex = 0;
+    document.getElementById('kolayVergiDilimi').selectedIndex = 0;
+    
+    document.querySelector('input[name="vergiGirisTipi"][value="matrah"]').checked = true;
+    document.getElementById('alanMatrah').style.display = 'flex';
+    document.getElementById('alanDilim').style.display = 'none';
+
+    document.getElementById('headerKirmiziSpan').style.display = 'none';
+    document.getElementById('headerTuruncuSpan').innerText = 'PERSONEL ÜCRET HESAPLAMA';
+    
+    var rtAciklama = document.getElementById('rtAciklama');
+    if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana maaşın içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b>ekstra mesai (personele göre 1.5 veya 2 katı)</b> brüt ek kazanç olarak yansıtılır.';
+    
+    var rtGeceAciklama = document.getElementById('rtGeceAciklama');
+    if (rtGeceAciklama) rtGeceAciklama.innerHTML = 'Resmi tatilde çalışılan gece vardiyası için personele göre normal gece yevmiyesinin <b>2.5 veya 3 katı</b> brüt ek kazanç olarak yansıtılır.';
+    
+    var rtTzgAciklama = document.getElementById('rtTzgAciklama');
+    if (rtTzgAciklama) rtTzgAciklama.innerHTML = 'Resmi tatilde çalışılan taze gıda vardiyası için personele göre normal tz. gıda yevmiyesinin <b>2.5 veya 3 katı</b> brüt ek kazanç olarak yansıtılır.';
+    
+    document.getElementById('sonuc').style.display = 'none';
+    document.getElementById('indirTamBtn').style.display = 'none';
+    document.getElementById('indirSonucBtn').style.display = 'none';
+    document.getElementById('hataMesaji').style.display = 'none';
+    document.getElementById('gunlukGosterim').innerText = "0,000";
+    
+    for (let key in animState) delete animState[key];
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
+</body>
+</html>
