@@ -67,7 +67,7 @@
 
         h1 { color: #004a99; text-align: center; font-size: 22px; border-bottom: 3px solid #f37021; padding-bottom: 10px; margin-bottom: 25px; }
         h2 { color: #004a99; font-size: 18px; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        h3 { color: #e53e3e; font-size: 15px; margin-top: 20px; }
+        h3 { color: #e53e3e; font-size: 16px; margin-top: 25px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 5px; }
         
         .madde { background: #f8f9fa; padding: 12px 15px; border-left: 4px solid #f37021; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
         .madde strong { color: #004a99; }
@@ -76,17 +76,16 @@
         
         .imza { text-align: right; margin-top: 50px; font-weight: bold; font-style: italic; color: #666; border-top: 1px solid #ddd; padding-top: 15px; }
 
-        /* MOBİL UYUM (Ekrana sığdırma sihirbazı) */
+        /* MOBİL UYUM */
         @media (max-width: 768px) {
             .a4-kagit { margin: 15px auto; padding: 15px 8px; width: calc(100% - 10px); }
             .ust-bar { padding: 12px 15px; }
             h1 { font-size: 18px; }
             h2 { font-size: 16px; margin-top: 20px; }
-            h3 { font-size: 14px; margin-top: 15px; }
+            h3 { font-size: 15px; margin-top: 20px; }
             
-            /* Tabloyu zorla ekrana sığdırır, taşmayı engeller */
-            table { font-size: 10.5px; table-layout: fixed; word-wrap: break-word; width: 100%; }
-            th, td { padding: 5px 2px; }
+            table { font-size: 11px; table-layout: fixed; word-wrap: break-word; width: 100%; }
+            th, td { padding: 6px 2px; }
             
             .madde { padding: 10px; font-size: 13px; }
             .uyari { padding: 10px; font-size: 12.5px; }
@@ -112,13 +111,27 @@
         </div>
         
         <div class="madde">
-            <strong>🚌 Yol Parası (Vergiden Muaf):</strong> İstanbul’da belediye otobüslerinde uygulanan mavi kart abonman bedeli Ankara, İzmir, Adana, Antalya, Bursa, Manisa, Muğla ve Kocaeli illerinde de uygulanır.<br>
-            <i>2026 Ocak – 2.758 ₺ | Şubat-Temmuz – 3.298 ₺ | Ağustos ve sonrası – 3.628 ₺</i>
+            <strong>🚌 Yol Parası (Vergiden Muaf):</strong> İstanbul’da belediye otobüslerinde uygulanan mavi kart abonman bedeli Ankara, İzmir, Adana, Antalya, Bursa, Manisa, Muğla ve Kocaeli illerinde de uygulanır.
+            
+            <div style="margin-top: 10px; background-color: white; border-radius: 6px; padding: 10px; border: 1px solid #e2e8f0; font-size: 13px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed #edf2f7; padding-bottom: 4px;">
+                    <span style="color: #4a5568;">2026 Ocak</span>
+                    <strong style="color: #004a99;">2.758 ₺</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed #edf2f7; padding-bottom: 4px;">
+                    <span style="color: #4a5568;">Şubat - Temmuz</span>
+                    <strong style="color: #004a99;">3.298 ₺</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="color: #4a5568;">Ağustos ve Sonrası</span>
+                    <strong style="color: #004a99;">3.628 ₺</strong>
+                </div>
+            </div>
         </div>
         
         <div class="madde">
-            <strong>📦 Money (Bono) (4’lü paket) (Vergiden Muaf):</strong> Migros Sanal ve Migros mağaza alışverişlerinizi tekel ürünleri ve alkol hariç, %5 indirimli alışveriş hakkı verilir. (Aylık 10.000 ₺’ye kadar)<br><br>
-            2 Yılı doldurma şartı ile "Elektronik" ve “Gıda Dışı” kategorilerinde Migros mağazalarından yıllık 33.030 ₺’ye kadar taksitli alışveriş hakkı verilir.<br>
+            <strong>📦 Money (Bono) (4’lü paket) (Vergiden Muaf):</strong> Migros Sanal ve Migros mağaza alışverişlerinizi tekel ürünleri ve alkol hariç, %5 indirimli alışveriş hakkı verilir. (Aylık 10.000&nbsp;₺’ye kadar)<br><br>
+            2 Yılı doldurma şartı ile "Elektronik" ve “Gıda Dışı” kategorilerinde Migros mağazalarından yıllık 33.030&nbsp;₺’ye kadar taksitli alışveriş hakkı verilir.<br>
             <span style="font-size: 11px; color: #e53e3e;">*Not: Hakkında icra veya yasal takip bulunan personel bu uygulamadan yararlanamaz.</span>
         </div>
         
@@ -229,7 +242,7 @@
                     <th>5. Yıl</th>
                 </tr>
                 <tr>
-                    <td>İkramiye (Yıllık)</td>
+                    <td>İkramiye<br>(Yıllık)</td>
                     <td>%50<br>(2 Maaş/12)<br>+2500₺</td>
                     <td>%50<br>(2 Maaş/12)<br>+2500₺</td>
                     <td>%50<br>(2 Maaş/12)<br>+2500₺</td>
@@ -237,7 +250,7 @@
                     <td>%100<br>(4 Maaş/12)</td>
                 </tr>
                 <tr>
-                    <td>Bono (Money)</td>
+                    <td>Bono<br>(Money)</td>
                     <td>2.250 ₺</td>
                     <td>2.250 ₺</td>
                     <td>2.758,33 ₺</td>
@@ -270,7 +283,7 @@
                     <th>5. Yıl</th>
                 </tr>
                 <tr>
-                    <td>İkramiye (Yıllık)</td>
+                    <td>İkramiye<br>(Yıllık)</td>
                     <td>%40<br>(1.6 Maaş/12)</td>
                     <td>%40<br>(1.6 Maaş/12)</td>
                     <td>%50<br>(2 Maaş/12)</td>
@@ -278,7 +291,7 @@
                     <td>%100<br>(4 Maaş/12)</td>
                 </tr>
                 <tr>
-                    <td>Bono (Money)</td>
+                    <td>Bono<br>(Money)</td>
                     <td>2.060 ₺</td>
                     <td>2.206,67 ₺</td>
                     <td>2.758,33 ₺</td>
@@ -312,87 +325,94 @@
             </table>
         </div>
 
-        <h2>Örnek Net Ücret Tabloları</h2>
+        <h2 style="margin-top: 40px;">Örnek Net Ücret Tabloları</h2>
         <div class="uyari" style="border-color: #004a99; background: #ebf8ff; color: #004a99;">
-            <strong>Bilgi:</strong> Tablolardaki tüm tutarlar; en başta damga vergisi (%0,759), %14 SGK İşçi Payı, %1 SGK İşsizlik Payı (Toplam %15) ve ilgili Gelir Vergisi dilimi (%15, %20, %27) kesilerek hesaplanmıştır.
+            <strong>Bilgi:</strong> Tablolardaki tüm tutarlar; en başta damga vergisi (%0,759), %14 SGK İşçi Payı, %1 SGK İşsizlik Payı (Toplam %15) ve ilgili Gelir Vergisi dilimi kesilerek hesaplanmıştır.
         </div>
 
-        <h3>Ücrete Göre Hafta Tatili (Pazar) 2 Katı Net Ücretleri</h3>
-        <p style="font-size: 13px; color: #666;">Normal yevmiyeniz zaten çalışmasanız da hesaplandığı için sadece hak ettiğiniz ekstra 2 katı listelenmiştir.</p>
+        <!-- YENİLENEN 1. TABLO (PAZAR) -->
+        <h3>Ücrete Göre Hafta Tatili (Pazar) Net Ücretleri</h3>
+        <p style="font-size: 13.5px; color: #4a5568; margin-top: -10px; margin-bottom: 15px;">
+            💡 <strong>Nasıl Okunmalı?</strong> Pazar günü çalıştığınızda normal 1 yevmiyeniz zaten ana maaşın içindedir. Aşağıdaki tutarlar, Pazar çalışması karşılığında maaşınıza <strong>ilave edilecek +2 yevmiyenin NET (ele geçen)</strong> tutarlarıdır.
+        </p>
         <div class="tablo-kapsayici">
             <table>
                 <tr>
-                    <th>Saatlik ve Günlük Ücret</th>
-                    <th>%15 Vergi Dilimi (Net)</th>
-                    <th>%20 Vergi Dilimi (Net)</th>
-                    <th>%27 Vergi Dilimi (Net)</th>
+                    <th style="background-color: #2c3e50;">Saatlik / Günlük<br>Brüt Ücret</th>
+                    <th style="background-color: #38a169;">%15 Diliminde<br>(Net Kazanç)</th>
+                    <th style="background-color: #d69e2e;">%20 Diliminde<br>(Net Kazanç)</th>
+                    <th style="background-color: #e53e3e;">%27 Diliminde<br>(Net Kazanç)</th>
                 </tr>
                 <tr>
-                    <td><strong>186,51 ₺</strong><br>1.398,825 ₺</td>
-                    <td>2.000,10 ₺</td>
-                    <td>1.881,20 ₺</td>
-                    <td>1.714,74 ₺</td>
+                    <td><span style="color:#f37021; font-weight:bold; font-size:13px;">186,51 ₺</span><br><span style="font-size:11px; color:#666;">(Günlük: 1.398,83 ₺)</span></td>
+                    <td><strong style="color: #276749;">2.000,10 ₺</strong></td>
+                    <td><strong style="color: #975a16;">1.881,20 ₺</strong></td>
+                    <td><strong style="color: #9b2c2c;">1.714,74 ₺</strong></td>
                 </tr>
                 <tr>
-                    <td><strong>198,17 ₺</strong><br>1.486,275 ₺</td>
-                    <td>2.125,11 ₺</td>
-                    <td>1.998,77 ₺</td>
-                    <td>1.821,91 ₺</td>
+                    <td><span style="color:#f37021; font-weight:bold; font-size:13px;">198,17 ₺</span><br><span style="font-size:11px; color:#666;">(Günlük: 1.486,28 ₺)</span></td>
+                    <td><strong style="color: #276749;">2.125,11 ₺</strong></td>
+                    <td><strong style="color: #975a16;">1.998,77 ₺</strong></td>
+                    <td><strong style="color: #9b2c2c;">1.821,91 ₺</strong></td>
                 </tr>
                 <tr>
-                    <td><strong>202,59 ₺</strong><br>1.519,525 ₺</td>
-                    <td>2.172,64 ₺</td>
-                    <td>2.043,48 ₺</td>
-                    <td>1.862,66 ₺</td>
+                    <td><span style="color:#f37021; font-weight:bold; font-size:13px;">202,59 ₺</span><br><span style="font-size:11px; color:#666;">(Günlük: 1.519,53 ₺)</span></td>
+                    <td><strong style="color: #276749;">2.172,64 ₺</strong></td>
+                    <td><strong style="color: #975a16;">2.043,48 ₺</strong></td>
+                    <td><strong style="color: #9b2c2c;">1.862,66 ₺</strong></td>
                 </tr>
             </table>
         </div>
 
-        <h3>Ücrete Göre Fazla Çalışma (Mesai) +%50 Net Ücretleri</h3>
+        <!-- YENİLENEN 2. TABLO (MESAİ) -->
+        <h3>Ücrete Göre Fazla Çalışma (Mesai) Net Ücretleri</h3>
+        <p style="font-size: 13.5px; color: #4a5568; margin-top: -10px; margin-bottom: 15px;">
+            💡 <strong>Nasıl Okunmalı?</strong> Aşağıdaki tutarlar, yaptığınız 1 saatlik veya 3.5 saatlik (yarım gün) fazla mesainin <strong>%50 zamlı olarak cebinize girecek NET</strong> tutarlarını göstermektedir.
+        </p>
         <div class="tablo-kapsayici">
             <table>
                 <tr>
-                    <th>Saatlik ve Günlük Ücret</th>
-                    <th>Çalışma Süresi</th>
-                    <th>%15 Vergi Dilimi (Net)</th>
-                    <th>%20 Vergi Dilimi (Net)</th>
-                    <th>%27 Vergi Dilimi (Net)</th>
+                    <th style="background-color: #2c3e50;">Brüt Ücret</th>
+                    <th style="background-color: #004a99;">Mesai<br>Süresi</th>
+                    <th style="background-color: #38a169;">%15<br>Diliminde</th>
+                    <th style="background-color: #d69e2e;">%20<br>Diliminde</th>
+                    <th style="background-color: #e53e3e;">%27<br>Diliminde</th>
                 </tr>
                 <tr>
-                    <td rowspan="2" style="vertical-align: middle;"><strong>186,51 ₺</strong><br>1.398,825 ₺</td>
-                    <td>1 Saat</td>
+                    <td rowspan="2" style="vertical-align: middle;"><span style="color:#f37021; font-weight:bold; font-size:13px;">186,51 ₺</span><br><span style="font-size:11px; color:#666;">(Günlük: 1.398,83 ₺)</span></td>
+                    <td style="background-color: #edf2f7; font-weight:bold; color: #4a5568;">1 Saat</td>
                     <td>200,01 ₺</td>
                     <td>188,12 ₺</td>
                     <td>171,47 ₺</td>
                 </tr>
                 <tr>
-                    <td>3,5 Saat</td>
+                    <td style="background-color: #edf2f7; font-weight:bold; color: #4a5568;">3,5 Saat</td>
                     <td>700,02 ₺</td>
                     <td>658,41 ₺</td>
                     <td>600,15 ₺</td>
                 </tr>
                 <tr>
-                    <td rowspan="2" style="vertical-align: middle;"><strong>198,17 ₺</strong><br>1.486,275 ₺</td>
-                    <td>1 Saat</td>
-                    <td>212,51 ₺</td>
-                    <td>199,88 ₺</td>
-                    <td>182,19 ₺</td>
+                    <td rowspan="2" style="vertical-align: middle; border-top: 2px solid #cbd5e0;"><span style="color:#f37021; font-weight:bold; font-size:13px;">198,17 ₺</span><br><span style="font-size:11px; color:#666;">(Günlük: 1.486,28 ₺)</span></td>
+                    <td style="background-color: #edf2f7; font-weight:bold; color: #4a5568; border-top: 2px solid #cbd5e0;">1 Saat</td>
+                    <td style="border-top: 2px solid #cbd5e0;">212,51 ₺</td>
+                    <td style="border-top: 2px solid #cbd5e0;">199,88 ₺</td>
+                    <td style="border-top: 2px solid #cbd5e0;">182,19 ₺</td>
                 </tr>
                 <tr>
-                    <td>3,5 Saat</td>
+                    <td style="background-color: #edf2f7; font-weight:bold; color: #4a5568;">3,5 Saat</td>
                     <td>743,79 ₺</td>
                     <td>699,57 ₺</td>
                     <td>637,67 ₺</td>
                 </tr>
                 <tr>
-                    <td rowspan="2" style="vertical-align: middle;"><strong>202,59 ₺</strong><br>1.519,525 ₺</td>
-                    <td>1 Saat</td>
-                    <td>217,25 ₺</td>
-                    <td>204,34 ₺</td>
-                    <td>186,25 ₺</td>
+                    <td rowspan="2" style="vertical-align: middle; border-top: 2px solid #cbd5e0;"><span style="color:#f37021; font-weight:bold; font-size:13px;">202,59 ₺</span><br><span style="font-size:11px; color:#666;">(Günlük: 1.519,53 ₺)</span></td>
+                    <td style="background-color: #edf2f7; font-weight:bold; color: #4a5568; border-top: 2px solid #cbd5e0;">1 Saat</td>
+                    <td style="border-top: 2px solid #cbd5e0;">217,25 ₺</td>
+                    <td style="border-top: 2px solid #cbd5e0;">204,34 ₺</td>
+                    <td style="border-top: 2px solid #cbd5e0;">186,25 ₺</td>
                 </tr>
                 <tr>
-                    <td>3,5 Saat</td>
+                    <td style="background-color: #edf2f7; font-weight:bold; color: #4a5568;">3,5 Saat</td>
                     <td>760,37 ₺</td>
                     <td>715,17 ₺</td>
                     <td>651,89 ₺</td>
