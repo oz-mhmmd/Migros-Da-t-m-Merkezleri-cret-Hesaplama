@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sendika Bilgilendirme</title>
+    <style>
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background-color: #525659; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+        .ust-bar {
+            background-color: #f37021; 
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .kapat-btn {
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            background: rgba(0,0,0,0.2);
+            padding: 8px 14px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+        .kapat-btn:hover { background: rgba(0,0,0,0.4); }
+        
+        /* A4 Kağıdı Tasarımı */
+        .a4-kagit {
+            background: white;
+            max-width: 800px;
+            margin: 25px auto;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-radius: 4px;
+            line-height: 1.6;
+            box-sizing: border-box;
+        }
+        
+        @media (max-width: 768px) {
+            .a4-kagit {
+                margin: 15px;
+                padding: 20px;
+            }
+        }
+
+        h1 { color: #004a99; text-align: center; font-size: 22px; border-bottom: 3px solid #f37021; padding-bottom: 10px; margin-bottom: 25px; }
+        h2 { color: #004a99; font-size: 18px; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        h3 { color: #e53e3e; font-size: 15px; margin-top: 20px; }
+        
+        .madde { background: #f8f9fa; padding: 12px 15px; border-left: 4px solid #f37021; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
+        .madde strong { color: #004a99; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 15px 0 25px 0; font-size: 14px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background-color: #004a99; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        
+        .uyari { background: #fff5f5; border: 1px dashed #fc8181; padding: 15px; border-radius: 8px; color: #c53030; font-size: 14px; margin-bottom: 15px; }
+        
+        .imza { text-align: right; margin-top: 50px; font-weight: bold; font-style: italic; color: #666; border-top: 1px solid #ddd; padding-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="ust-bar">
+        <b style="font-size: 15px;">📄 Tez Koop İş Bilgilendirme</b>
+        <a href="index.html" class="kapat-btn">Geri Dön</a>
+    </div>
+
+    <div class="a4-kagit">
+        <h1>TEZ KOOP İŞ SENDİKASI BİLGİLENDİRME</h1>
+        
+        <h2>Hak Ettiğimiz Yan Haklar</h2>
+        
+        <div class="madde">
+            <strong>💰 İkramiye:</strong> Brüt ana ücretinizin, kıdeminize denk gelen yıllık ikramiye katsayısıyla (örn:2) çarpılıp 12’ye bölünmesiyle elde edilen, ancak vergi kesintilerine tabi olan aylık düzenli ek kazancınızdır.
+        </div>
+        
+        <div class="madde">
+            <strong>🚌 Yol Parası (Vergiden Muaf):</strong> İstanbul’da belediye otobüslerinde uygulanan mavi kart abonman bedeli Ankara, İzmir, Adana, Antalya, Bursa, Manisa, Muğla ve Kocaeli illerinde de uygulanır.<br>
+            <i>2026 Ocak – 2.758 ₺ | Şubat-Temmuz – 3.298 ₺ | Ağustos ve sonrası – 3.628 ₺</i>
+        </div>
+        
+        <div class="madde">
+            <strong>📦 Money (Bono) (4’lü paket) (Vergiden Muaf):</strong> Migros Sanal ve Migros mağaza alışverişlerinizi tekel ürünleri ve alkol hariç, %5 indirimli alışveriş hakkı verilir. (Aylık 10.000 ₺’ye kadar)<br><br>
+            2 Yılı doldurma şartı ile "Elektronik" ve “Gıda Dışı” kategorilerinde Migros mağazalarından yıllık 33.030 ₺’ye kadar taksitli alışveriş hakkı verilir.<br>
+            <span style="font-size: 12px; color: #e53e3e;">*Not: Hakkında icra veya yasal takip bulunan personel bu uygulamadan yararlanamaz.</span>
+        </div>
+        
+        <div class="madde">
+            <strong>🧼 Aylık 1,5 kg Migros Deterjan (Vergiden Muaf)</strong>
+        </div>
+        <div class="uyari">
+            <strong>⚠️ Deterjan Yardımı İçin Önemli Kural:</strong> Bir ay içinde 10 günden az çalışması olan personele aylık 1,5 kg deterjan yardımı verilmez. Bu hakkı kazanabilmek için ayda en az 10 gün çalışmış olmanız gerekir.
+        </div>
+
+        <ul>
+            <li><strong>📅 +2 gün ek yıllık izin</strong></li>
+            <li>Hafta tatili (Pazar) çalıştıkları takdirde brüt <strong>3 yevmiye</strong> ödenir.</li>
+            <li>Gece çalışmaları için 23.30-06.30 arasındaki 6.5 saat için geçerli, saatlik brüt <strong>25 ₺</strong>, günlük brüt <strong>162.5 ₺</strong> ödenir.</li>
+            <li>Soğuk hava vardiyası çalışanlarına günlük brüt <strong>80 ₺</strong> ödenir.</li>
+            <li>Fazla çalışma (Mesai) saat ücretinin brüt <strong>%50 fazlasıdır.</strong></li>
+        </ul>
+
+        <h3>👶 Çocuk Yardımı (Vergiden Muaf)</h3>
+        <p style="font-size: 14px;">657 sayılı kanun’a göre çocuk yardımı çalışmayan ve 18 yaşını doldurmamış en fazla iki çocuk için ödeme yapılır.</p>
+        <table>
+            <tr>
+                <th>2026 Yılı</th>
+                <th>0-6 Yaş</th>
+                <th>6 Yaş Üstü</th>
+            </tr>
+            <tr>
+                <td>Ocak - Haziran</td>
+                <td>693,94 ₺</td>
+                <td>346,97 ₺</td>
+            </tr>
+            <tr>
+                <td>Temmuz - Aralık</td>
+                <td>787,76 ₺</td>
+                <td>393,88 ₺</td>
+            </tr>
+        </table>
+
+        <h3>🎓 Tahsil Yardımı</h3>
+        <p style="font-size: 14px;">Çalışmayan 25 yaşını doldurmamış çocukları ile engelli çocukları için yılda 1 defa ve okulların açılmasıyla en geç 1 ay içerisinde brüt tahsil yardımı yapılır.</p>
+        <table>
+            <tr>
+                <th>İlköğretim</th>
+                <th>Lise</th>
+                <th>Yüksekokul</th>
+            </tr>
+            <tr>
+                <td>1.850 ₺</td>
+                <td>2.750 ₺</td>
+                <td>3.700 ₺</td>
+            </tr>
+        </table>
+
+        <h3>🤝 DİĞER YARDIMLAR (NET)</h3>
+        <table>
+            <tr>
+                <th>Evlenme</th>
+                <th>Askerlik</th>
+                <th>Doğum</th>
+                <th>Ölüm</th>
+                <th>Normal Ölüm</th>
+                <th>İş Kazası Ölümü</th>
+            </tr>
+            <tr>
+                <td>3.300 ₺</td>
+                <td>3.200 ₺</td>
+                <td>3.200 ₺</td>
+                <td>3.200 ₺</td>
+                <td>35.000 ₺</td>
+                <td>40.000 ₺</td>
+            </tr>
+        </table>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <span style="background: #f37021; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold;">27 OCAK İTİBARIYLA DEVROLAN DM PERSONELİ</span>
+        </div>
+
+        <ul>
+            <li>Yılını dolduran devrolan depo personeline MAYIS ayında kademe artışı yapıldı ve KASIM ayında tekrar kademe artışı yapılacaktır.</li>
+            <li>İkramiye minimum %50 uygulanacak ayrıca 4. Yıl ve %80’e varıncaya kadar aylık ilave <strong>2500 ₺ brüt ek ikramiye</strong> ödenecektir.</li>
+            <li>Resmî tatilde çalıştıkları takdirde brüt <strong>3 yevmiye</strong> ödenecektir.</li>
+        </ul>
+        
+        <div class="uyari" style="border-color: #004a99; background: #ebf8ff; color: #004a99;">
+            <strong>ℹ️ Sendika Aidatı:</strong> Günlük ücretin %70 alınarak hesaplanır. Şubat, mart, nisan yani 3 aylık biriken 3.121,20 ₺ aidat 6 taksitle ödenecektir. Ekim’de bitecektir.<br>
+            <i>Örn: (1486,275 * 0.70 = 1040,40 ₺) (Vergiden Muaf)</i>
+        </div>
+
+        <h3>İkramiye ve Bono Yararlanma Oranları (Devrolan Personel)</h3>
+        <table>
+            <tr>
+                <th>Kıdem Yılı</th>
+                <th>1. Yıl</th>
+                <th>2. Yıl</th>
+                <th>3. Yıl</th>
+                <th>4. Yıl</th>
+                <th>5. Yıl</th>
+            </tr>
+            <tr>
+                <td>İkramiye (Yıllık)</td>
+                <td>%50<br>(2 Maaş/12) +2500₺</td>
+                <td>%50<br>(2 Maaş/12) +2500₺</td>
+                <td>%50<br>(2 Maaş/12) +2500₺</td>
+                <td>%80<br>(3.2 Maaş/12)</td>
+                <td>%100<br>(4 Maaş/12)</td>
+            </tr>
+            <tr>
+                <td>Bono (Money)</td>
+                <td>2.250 ₺</td>
+                <td>2.250 ₺</td>
+                <td>2.758,33 ₺</td>
+                <td>4.413,33 ₺</td>
+                <td>5.516,66 ₺</td>
+            </tr>
+        </table>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <span style="background: #004a99; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold;">ŞUBAT SONRASI İŞE GİREN MİGROS DM PERSONELİ</span>
+        </div>
+
+        <ul>
+            <li>1 Mayıs ile 30 Ekim arası işe giren personele KASIM ayında kademe artışı yapılır.</li>
+            <li>Resmî tatilde çalıştıkları takdirde brüt <strong>2,5 yevmiye</strong> ödenecektir.</li>
+        </ul>
+
+        <h3>İkramiye ve Bono Yararlanma Oranları (Yeni Personel)</h3>
+        <table>
+            <tr>
+                <th>Kıdem Yılı</th>
+                <th>1. Yıl</th>
+                <th>2. Yıl</th>
+                <th>3. Yıl</th>
+                <th>4. Yıl</th>
+                <th>5. Yıl</th>
+            </tr>
+            <tr>
+                <td>İkramiye (Yıllık)</td>
+                <td>%40<br>(1.6 Maaş/12)</td>
+                <td>%40<br>(1.6 Maaş/12)</td>
+                <td>%50<br>(2 Maaş/12)</td>
+                <td>%80<br>(3.2 Maaş/12)</td>
+                <td>%100<br>(4 Maaş/12)</td>
+            </tr>
+            <tr>
+                <td>Bono (Money)</td>
+                <td>2.060 ₺</td>
+                <td>2.206,67 ₺</td>
+                <td>2.758,33 ₺</td>
+                <td>4.413,33 ₺</td>
+                <td>5.516,66 ₺</td>
+            </tr>
+        </table>
+
+        <h2>Asgari Ücret Vergi İstisnası</h2>
+        <p style="font-size: 14px;">Türkiye'de yürürlükte olan vergi mevzuatı gereğince, tüm çalışanların maaşlarının asgari ücrete kadar olan kısmı Gelir Vergisi ve Damga Vergisinden muaf tutulmaktadır. Yani bir çalışanın brüt maaşı ne olursa olsun, o ayki asgari ücret tutarına isabet eden kısmından vergi kesintisi yapılmaz. Bu tablodaki vergi oranları, çalışanın kümülatif (yıllık toplam) gelir vergisi matrahının asgari ücreti aşan kısmı üzerinden hesaplanarak uygulanır.</p>
+
+        <table>
+            <tr>
+                <th>Vergi Dilimi (Oran)</th>
+                <th>Gelir Vergisi Matrahı Tutarı</th>
+            </tr>
+            <tr>
+                <td>%15</td>
+                <td>190.000 ₺'ye kadar</td>
+            </tr>
+            <tr>
+                <td>%20</td>
+                <td>190.000 ₺ - 400.000 ₺ arası</td>
+            </tr>
+            <tr>
+                <td>%27</td>
+                <td>400.000 ₺ - 1.500.000 ₺ arası</td>
+            </tr>
+        </table>
+
+        <div class="imza">
+            Hazırlayan: Muhammed Öz<br>
+            İşyeri Sendika Temsilcisi - Serik DM
+        </div>
+
+    </div>
+</body>
+</html>
