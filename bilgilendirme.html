@@ -1,11 +1,10 @@
-z<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=900">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sendika Bilgilendirme</title>
     <style>
-        /* Taşıp ekranı bozmayı kesin olarak engelleyen ayar */
         html, body {
             max-width: 100%;
             overflow-x: hidden; 
@@ -43,7 +42,7 @@ z<!DOCTYPE html>
             padding: 8px 14px;
             border-radius: 8px;
             transition: background 0.3s;
-            white-space: nowrap; /* Buton yazısının alt alta kaymasını engeller */
+            white-space: nowrap; 
         }
         .kapat-btn:hover { background: rgba(0,0,0,0.4); }
         
@@ -58,19 +57,10 @@ z<!DOCTYPE html>
             box-sizing: border-box;
             width: calc(100% - 30px); 
         }
-        
-        /* MOBİL UYUM: Tabloları kaydırılabilir yapan kapsayıcı */
-        .tablo-kapsayici {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin: 15px 0 25px 0;
-            border-radius: 6px;
-        }
 
-        /* Tablo yazılarının ezilmesini önlemek için minimum genişlik atadık */
-        table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 500px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        /* TABLO STANDART AYARLARI */
+        table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 15px 0 25px 0; table-layout: fixed; word-wrap: break-word; }
+        th, td { border: 1px solid #ddd; padding: 10px 5px; text-align: center; vertical-align: middle; }
         th { background-color: #004a99; color: white; }
         tr:nth-child(even) { background-color: #f9f9f9; }
 
@@ -85,10 +75,17 @@ z<!DOCTYPE html>
         
         .imza { text-align: right; margin-top: 50px; font-weight: bold; font-style: italic; color: #666; border-top: 1px solid #ddd; padding-top: 15px; }
 
-        /* Mobilde Kağıt Kenar Boşluklarını Küçültme */
+        /* MOBİL UYUM: Tabloları kaydırmadan ekrana tam sığdırma taktiği */
         @media (max-width: 768px) {
-            .a4-kagit { margin: 15px auto; padding: 20px 15px; width: calc(100% - 16px); }
+            .a4-kagit { margin: 15px auto; padding: 20px 10px; width: calc(100% - 10px); }
             .ust-bar { padding: 12px 15px; }
+            h1 { font-size: 19px; }
+            h2 { font-size: 17px; }
+            h3 { font-size: 15px; }
+            
+            /* Tablo metinlerini ve boşluklarını ekran dışına taşmaması için küçültüyoruz */
+            table { font-size: 10.5px; } 
+            th, td { padding: 4px 1px; } 
         }
     </style>
 </head>
@@ -126,7 +123,7 @@ z<!DOCTYPE html>
             <strong>⚠️ Deterjan Yardımı İçin Önemli Kural:</strong> Bir ay içinde 10 günden az çalışması olan personele aylık 1,5 kg deterjan yardımı verilmez. Bu hakkı kazanabilmek için ayda en az 10 gün çalışmış olmanız gerekir.
         </div>
 
-        <ul>
+        <ul style="font-size: 14.5px;">
             <li><strong>📅 +2 gün ek yıllık izin</strong></li>
             <li>Hafta tatili (Pazar) çalıştıkları takdirde brüt <strong>3 yevmiye</strong> ödenir.</li>
             <li>Gece çalışmaları için 23.30-06.30 arasındaki 6.5 saat için geçerli, saatlik brüt <strong>25 ₺</strong>, günlük brüt <strong>162.5 ₺</strong> ödenir.</li>
@@ -137,73 +134,67 @@ z<!DOCTYPE html>
         <h3>👶 Çocuk Yardımı (Vergiden Muaf)</h3>
         <p style="font-size: 14px;">657 sayılı kanun’a göre çocuk yardımı çalışmayan ve 18 yaşını doldurmamış en fazla iki çocuk için ödeme yapılır.</p>
         
-        <div class="tablo-kapsayici">
-            <table>
-                <tr>
-                    <th>2026 Yılı</th>
-                    <th>0-6 Yaş</th>
-                    <th>6 Yaş Üstü</th>
-                </tr>
-                <tr>
-                    <td>Ocak - Haziran</td>
-                    <td>693,94 ₺</td>
-                    <td>346,97 ₺</td>
-                </tr>
-                <tr>
-                    <td>Temmuz - Aralık</td>
-                    <td>787,76 ₺</td>
-                    <td>393,88 ₺</td>
-                </tr>
-            </table>
-        </div>
+        <table>
+            <tr>
+                <th>2026 Yılı</th>
+                <th>0-6 Yaş</th>
+                <th>6 Yaş Üstü</th>
+            </tr>
+            <tr>
+                <td>Ocak - Haziran</td>
+                <td>693,94 ₺</td>
+                <td>346,97 ₺</td>
+            </tr>
+            <tr>
+                <td>Temmuz - Aralık</td>
+                <td>787,76 ₺</td>
+                <td>393,88 ₺</td>
+            </tr>
+        </table>
 
         <h3>🎓 Tahsil Yardımı</h3>
         <p style="font-size: 14px;">Çalışmayan 25 yaşını doldurmamış çocukları ile engelli çocukları için yılda 1 defa ve okulların açılmasıyla en geç 1 ay içerisinde brüt tahsil yardımı yapılır.</p>
         
-        <div class="tablo-kapsayici">
-            <table>
-                <tr>
-                    <th>İlköğretim</th>
-                    <th>Lise</th>
-                    <th>Yüksekokul</th>
-                </tr>
-                <tr>
-                    <td>1.850 ₺</td>
-                    <td>2.750 ₺</td>
-                    <td>3.700 ₺</td>
-                </tr>
-            </table>
-        </div>
+        <table>
+            <tr>
+                <th>İlköğretim</th>
+                <th>Lise</th>
+                <th>Yüksekokul</th>
+            </tr>
+            <tr>
+                <td>1.850 ₺</td>
+                <td>2.750 ₺</td>
+                <td>3.700 ₺</td>
+            </tr>
+        </table>
 
         <h3>🤝 DİĞER YARDIMLAR (NET)</h3>
-        <div class="tablo-kapsayici">
-            <table>
-                <tr>
-                    <th>Evlenme</th>
-                    <th>Askerlik</th>
-                    <th>Doğum</th>
-                    <th>Ölüm</th>
-                    <th>Normal Ölüm</th>
-                    <th>İş Kazası Ölümü</th>
-                </tr>
-                <tr>
-                    <td>3.300 ₺</td>
-                    <td>3.200 ₺</td>
-                    <td>3.200 ₺</td>
-                    <td>3.200 ₺</td>
-                    <td>35.000 ₺</td>
-                    <td>40.000 ₺</td>
-                </tr>
-            </table>
-        </div>
+        <table>
+            <tr>
+                <th>Evlenme</th>
+                <th>Askerlik</th>
+                <th>Doğum</th>
+                <th>Ölüm</th>
+                <th>Normal Ölüm</th>
+                <th>İş Kazası Ölümü</th>
+            </tr>
+            <tr>
+                <td>3.300 ₺</td>
+                <td>3.200 ₺</td>
+                <td>3.200 ₺</td>
+                <td>3.200 ₺</td>
+                <td>35.000 ₺</td>
+                <td>40.000 ₺</td>
+            </tr>
+        </table>
 
         <div style="text-align: center; margin: 40px 0;">
-            <div style="background: #f37021; color: white; padding: 10px 20px; border-radius: 30px; font-weight: bold; display: inline-block;">
+            <div style="background: #f37021; color: white; padding: 10px 15px; border-radius: 30px; font-weight: bold; display: inline-block; font-size: 14px;">
                 27 OCAK İTİBARIYLA DEVROLAN DM PERSONELİ
             </div>
         </div>
 
-        <ul>
+        <ul style="font-size: 14.5px;">
             <li>Yılını dolduran devrolan depo personeline MAYIS ayında kademe artışı yapıldı ve KASIM ayında tekrar kademe artışı yapılacaktır.</li>
             <li>İkramiye minimum %50 uygulanacak ayrıca 4. Yıl ve %80’e varıncaya kadar aylık ilave <strong>2500 ₺ brüt ek ikramiye</strong> ödenecektir.</li>
             <li>Resmî tatilde çalıştıkları takdirde brüt <strong>3 yevmiye</strong> ödenecektir.</li>
@@ -211,103 +202,97 @@ z<!DOCTYPE html>
         
         <div class="uyari" style="border-color: #004a99; background: #ebf8ff; color: #004a99;">
             <strong>ℹ️ Sendika Aidatı:</strong> Günlük ücretin %70 alınarak hesaplanır. Şubat, mart, nisan yani 3 aylık biriken 3.121,20 ₺ aidat 6 taksitle ödenecektir. Ekim’de bitecektir.<br>
-            <i>Örn: (1486,275 * 0.70 = 1040,40 ₺) (Vergiden Muaf)</i>
+            <i style="font-size: 13px;">Örn: (1486,275 * 0.70 = 1040,40 ₺) (Vergiden Muaf)</i>
         </div>
 
         <h3>İkramiye ve Bono Yararlanma Oranları (Devrolan Personel)</h3>
-        <div class="tablo-kapsayici">
-            <table>
-                <tr>
-                    <th>Kıdem Yılı</th>
-                    <th>1. Yıl</th>
-                    <th>2. Yıl</th>
-                    <th>3. Yıl</th>
-                    <th>4. Yıl</th>
-                    <th>5. Yıl</th>
-                </tr>
-                <tr>
-                    <td>İkramiye (Yıllık)</td>
-                    <td>%50<br>(2 Maaş/12)<br>+2500₺</td>
-                    <td>%50<br>(2 Maaş/12)<br>+2500₺</td>
-                    <td>%50<br>(2 Maaş/12)<br>+2500₺</td>
-                    <td>%80<br>(3.2 Maaş/12)</td>
-                    <td>%100<br>(4 Maaş/12)</td>
-                </tr>
-                <tr>
-                    <td>Bono (Money)</td>
-                    <td>2.250 ₺</td>
-                    <td>2.250 ₺</td>
-                    <td>2.758,33 ₺</td>
-                    <td>4.413,33 ₺</td>
-                    <td>5.516,66 ₺</td>
-                </tr>
-            </table>
-        </div>
+        <table>
+            <tr>
+                <th>Kıdem Yılı</th>
+                <th>1. Yıl</th>
+                <th>2. Yıl</th>
+                <th>3. Yıl</th>
+                <th>4. Yıl</th>
+                <th>5. Yıl</th>
+            </tr>
+            <tr>
+                <td>İkramiye (Yıllık)</td>
+                <td>%50<br>(2 Maaş/12)<br>+2500₺</td>
+                <td>%50<br>(2 Maaş/12)<br>+2500₺</td>
+                <td>%50<br>(2 Maaş/12)<br>+2500₺</td>
+                <td>%80<br>(3.2 Maaş/12)</td>
+                <td>%100<br>(4 Maaş/12)</td>
+            </tr>
+            <tr>
+                <td>Bono (Money)</td>
+                <td>2.250 ₺</td>
+                <td>2.250 ₺</td>
+                <td>2.758,33 ₺</td>
+                <td>4.413,33 ₺</td>
+                <td>5.516,66 ₺</td>
+            </tr>
+        </table>
 
         <div style="text-align: center; margin: 40px 0;">
-            <div style="background: #004a99; color: white; padding: 10px 20px; border-radius: 30px; font-weight: bold; display: inline-block;">
+            <div style="background: #004a99; color: white; padding: 10px 15px; border-radius: 30px; font-weight: bold; display: inline-block; font-size: 14px;">
                 ŞUBAT SONRASI İŞE GİREN MİGROS DM PERSONELİ
             </div>
         </div>
 
-        <ul>
+        <ul style="font-size: 14.5px;">
             <li>1 Mayıs ile 30 Ekim arası işe giren personele KASIM ayında kademe artışı yapılır.</li>
             <li>Resmî tatilde çalıştıkları takdirde brüt <strong>2,5 yevmiye</strong> ödenecektir.</li>
         </ul>
 
         <h3>İkramiye ve Bono Yararlanma Oranları (Yeni Personel)</h3>
-        <div class="tablo-kapsayici">
-            <table>
-                <tr>
-                    <th>Kıdem Yılı</th>
-                    <th>1. Yıl</th>
-                    <th>2. Yıl</th>
-                    <th>3. Yıl</th>
-                    <th>4. Yıl</th>
-                    <th>5. Yıl</th>
-                </tr>
-                <tr>
-                    <td>İkramiye (Yıllık)</td>
-                    <td>%40<br>(1.6 Maaş/12)</td>
-                    <td>%40<br>(1.6 Maaş/12)</td>
-                    <td>%50<br>(2 Maaş/12)</td>
-                    <td>%80<br>(3.2 Maaş/12)</td>
-                    <td>%100<br>(4 Maaş/12)</td>
-                </tr>
-                <tr>
-                    <td>Bono (Money)</td>
-                    <td>2.060 ₺</td>
-                    <td>2.206,67 ₺</td>
-                    <td>2.758,33 ₺</td>
-                    <td>4.413,33 ₺</td>
-                    <td>5.516,66 ₺</td>
-                </tr>
-            </table>
-        </div>
+        <table>
+            <tr>
+                <th>Kıdem Yılı</th>
+                <th>1. Yıl</th>
+                <th>2. Yıl</th>
+                <th>3. Yıl</th>
+                <th>4. Yıl</th>
+                <th>5. Yıl</th>
+            </tr>
+            <tr>
+                <td>İkramiye (Yıllık)</td>
+                <td>%40<br>(1.6 Maaş)</td>
+                <td>%40<br>(1.6 Maaş)</td>
+                <td>%50<br>(2 Maaş)</td>
+                <td>%80<br>(3.2 Maaş)</td>
+                <td>%100<br>(4 Maaş)</td>
+            </tr>
+            <tr>
+                <td>Bono (Money)</td>
+                <td>2.060 ₺</td>
+                <td>2.206,67 ₺</td>
+                <td>2.758,33 ₺</td>
+                <td>4.413,33 ₺</td>
+                <td>5.516,66 ₺</td>
+            </tr>
+        </table>
 
         <h2>Asgari Ücret Vergi İstisnası</h2>
         <p style="font-size: 14px;">Türkiye'de yürürlükte olan vergi mevzuatı gereğince, tüm çalışanların maaşlarının asgari ücrete kadar olan kısmı Gelir Vergisi ve Damga Vergisinden muaf tutulmaktadır. Yani bir çalışanın brüt maaşı ne olursa olsun, o ayki asgari ücret tutarına isabet eden kısmından vergi kesintisi yapılmaz. Bu tablodaki vergi oranları, çalışanın kümülatif (yıllık toplam) gelir vergisi matrahının asgari ücreti aşan kısmı üzerinden hesaplanarak uygulanır.</p>
 
-        <div class="tablo-kapsayici">
-            <table>
-                <tr>
-                    <th>Vergi Dilimi (Oran)</th>
-                    <th>Gelir Vergisi Matrahı Tutarı</th>
-                </tr>
-                <tr>
-                    <td>%15</td>
-                    <td>190.000 ₺'ye kadar</td>
-                </tr>
-                <tr>
-                    <td>%20</td>
-                    <td>190.000 ₺ - 400.000 ₺ arası</td>
-                </tr>
-                <tr>
-                    <td>%27</td>
-                    <td>400.000 ₺ - 1.500.000 ₺ arası</td>
-                </tr>
-            </table>
-        </div>
+        <table>
+            <tr>
+                <th>Vergi Dilimi (Oran)</th>
+                <th>Gelir Vergisi Matrahı Tutarı</th>
+            </tr>
+            <tr>
+                <td>%15</td>
+                <td>190.000 ₺'ye kadar</td>
+            </tr>
+            <tr>
+                <td>%20</td>
+                <td>190.000 ₺ - 400.000 ₺ arası</td>
+            </tr>
+            <tr>
+                <td>%27</td>
+                <td>400.000 ₺ - 1.500.000 ₺ arası</td>
+            </tr>
+        </table>
 
         <div class="imza">
             Hazırlayan: Muhammed Öz<br>
@@ -316,4 +301,4 @@ z<!DOCTYPE html>
 
     </div>
 </body>
-</html>s
+</html>
