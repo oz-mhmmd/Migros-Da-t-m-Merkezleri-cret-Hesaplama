@@ -2,9 +2,15 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sendika Bilgilendirme</title>
     <style>
+        /* Taşıp ekranı bozmayı kesin olarak engelleyen ayar */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden; 
+        }
+        
         body { 
             margin: 0; 
             padding: 0; 
@@ -12,6 +18,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #333;
         }
+        
         .ust-bar {
             background-color: #f37021; 
             color: white;
@@ -23,7 +30,10 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            width: 100%;
+            box-sizing: border-box;
         }
+        
         .kapat-btn {
             color: white;
             text-decoration: none;
@@ -33,10 +43,10 @@
             padding: 8px 14px;
             border-radius: 8px;
             transition: background 0.3s;
+            white-space: nowrap; /* Buton yazısının alt alta kaymasını engeller */
         }
         .kapat-btn:hover { background: rgba(0,0,0,0.4); }
         
-        /* A4 Kağıdı Tasarımı */
         .a4-kagit {
             background: white;
             max-width: 800px;
@@ -46,14 +56,23 @@
             border-radius: 4px;
             line-height: 1.6;
             box-sizing: border-box;
+            width: calc(100% - 30px); 
         }
         
-        @media (max-width: 768px) {
-            .a4-kagit {
-                margin: 15px;
-                padding: 20px;
-            }
+        /* MOBİL UYUM: Tabloları kaydırılabilir yapan kapsayıcı */
+        .tablo-kapsayici {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 15px 0 25px 0;
+            border-radius: 6px;
         }
+
+        /* Tablo yazılarının ezilmesini önlemek için minimum genişlik atadık */
+        table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 500px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background-color: #004a99; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
 
         h1 { color: #004a99; text-align: center; font-size: 22px; border-bottom: 3px solid #f37021; padding-bottom: 10px; margin-bottom: 25px; }
         h2 { color: #004a99; font-size: 18px; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
@@ -62,14 +81,15 @@
         .madde { background: #f8f9fa; padding: 12px 15px; border-left: 4px solid #f37021; margin-bottom: 15px; border-radius: 0 8px 8px 0; }
         .madde strong { color: #004a99; }
         
-        table { width: 100%; border-collapse: collapse; margin: 15px 0 25px 0; font-size: 14px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
-        th { background-color: #004a99; color: white; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        
         .uyari { background: #fff5f5; border: 1px dashed #fc8181; padding: 15px; border-radius: 8px; color: #c53030; font-size: 14px; margin-bottom: 15px; }
         
         .imza { text-align: right; margin-top: 50px; font-weight: bold; font-style: italic; color: #666; border-top: 1px solid #ddd; padding-top: 15px; }
+
+        /* Mobilde Kağıt Kenar Boşluklarını Küçültme */
+        @media (max-width: 768px) {
+            .a4-kagit { margin: 15px auto; padding: 20px 15px; width: calc(100% - 16px); }
+            .ust-bar { padding: 12px 15px; }
+        }
     </style>
 </head>
 <body>
@@ -116,61 +136,71 @@
 
         <h3>👶 Çocuk Yardımı (Vergiden Muaf)</h3>
         <p style="font-size: 14px;">657 sayılı kanun’a göre çocuk yardımı çalışmayan ve 18 yaşını doldurmamış en fazla iki çocuk için ödeme yapılır.</p>
-        <table>
-            <tr>
-                <th>2026 Yılı</th>
-                <th>0-6 Yaş</th>
-                <th>6 Yaş Üstü</th>
-            </tr>
-            <tr>
-                <td>Ocak - Haziran</td>
-                <td>693,94 ₺</td>
-                <td>346,97 ₺</td>
-            </tr>
-            <tr>
-                <td>Temmuz - Aralık</td>
-                <td>787,76 ₺</td>
-                <td>393,88 ₺</td>
-            </tr>
-        </table>
+        
+        <div class="tablo-kapsayici">
+            <table>
+                <tr>
+                    <th>2026 Yılı</th>
+                    <th>0-6 Yaş</th>
+                    <th>6 Yaş Üstü</th>
+                </tr>
+                <tr>
+                    <td>Ocak - Haziran</td>
+                    <td>693,94 ₺</td>
+                    <td>346,97 ₺</td>
+                </tr>
+                <tr>
+                    <td>Temmuz - Aralık</td>
+                    <td>787,76 ₺</td>
+                    <td>393,88 ₺</td>
+                </tr>
+            </table>
+        </div>
 
         <h3>🎓 Tahsil Yardımı</h3>
         <p style="font-size: 14px;">Çalışmayan 25 yaşını doldurmamış çocukları ile engelli çocukları için yılda 1 defa ve okulların açılmasıyla en geç 1 ay içerisinde brüt tahsil yardımı yapılır.</p>
-        <table>
-            <tr>
-                <th>İlköğretim</th>
-                <th>Lise</th>
-                <th>Yüksekokul</th>
-            </tr>
-            <tr>
-                <td>1.850 ₺</td>
-                <td>2.750 ₺</td>
-                <td>3.700 ₺</td>
-            </tr>
-        </table>
+        
+        <div class="tablo-kapsayici">
+            <table>
+                <tr>
+                    <th>İlköğretim</th>
+                    <th>Lise</th>
+                    <th>Yüksekokul</th>
+                </tr>
+                <tr>
+                    <td>1.850 ₺</td>
+                    <td>2.750 ₺</td>
+                    <td>3.700 ₺</td>
+                </tr>
+            </table>
+        </div>
 
         <h3>🤝 DİĞER YARDIMLAR (NET)</h3>
-        <table>
-            <tr>
-                <th>Evlenme</th>
-                <th>Askerlik</th>
-                <th>Doğum</th>
-                <th>Ölüm</th>
-                <th>Normal Ölüm</th>
-                <th>İş Kazası Ölümü</th>
-            </tr>
-            <tr>
-                <td>3.300 ₺</td>
-                <td>3.200 ₺</td>
-                <td>3.200 ₺</td>
-                <td>3.200 ₺</td>
-                <td>35.000 ₺</td>
-                <td>40.000 ₺</td>
-            </tr>
-        </table>
+        <div class="tablo-kapsayici">
+            <table>
+                <tr>
+                    <th>Evlenme</th>
+                    <th>Askerlik</th>
+                    <th>Doğum</th>
+                    <th>Ölüm</th>
+                    <th>Normal Ölüm</th>
+                    <th>İş Kazası Ölümü</th>
+                </tr>
+                <tr>
+                    <td>3.300 ₺</td>
+                    <td>3.200 ₺</td>
+                    <td>3.200 ₺</td>
+                    <td>3.200 ₺</td>
+                    <td>35.000 ₺</td>
+                    <td>40.000 ₺</td>
+                </tr>
+            </table>
+        </div>
 
         <div style="text-align: center; margin: 40px 0;">
-            <span style="background: #f37021; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold;">27 OCAK İTİBARIYLA DEVROLAN DM PERSONELİ</span>
+            <div style="background: #f37021; color: white; padding: 10px 20px; border-radius: 30px; font-weight: bold; display: inline-block;">
+                27 OCAK İTİBARIYLA DEVROLAN DM PERSONELİ
+            </div>
         </div>
 
         <ul>
@@ -185,35 +215,39 @@
         </div>
 
         <h3>İkramiye ve Bono Yararlanma Oranları (Devrolan Personel)</h3>
-        <table>
-            <tr>
-                <th>Kıdem Yılı</th>
-                <th>1. Yıl</th>
-                <th>2. Yıl</th>
-                <th>3. Yıl</th>
-                <th>4. Yıl</th>
-                <th>5. Yıl</th>
-            </tr>
-            <tr>
-                <td>İkramiye (Yıllık)</td>
-                <td>%50<br>(2 Maaş/12) +2500₺</td>
-                <td>%50<br>(2 Maaş/12) +2500₺</td>
-                <td>%50<br>(2 Maaş/12) +2500₺</td>
-                <td>%80<br>(3.2 Maaş/12)</td>
-                <td>%100<br>(4 Maaş/12)</td>
-            </tr>
-            <tr>
-                <td>Bono (Money)</td>
-                <td>2.250 ₺</td>
-                <td>2.250 ₺</td>
-                <td>2.758,33 ₺</td>
-                <td>4.413,33 ₺</td>
-                <td>5.516,66 ₺</td>
-            </tr>
-        </table>
+        <div class="tablo-kapsayici">
+            <table>
+                <tr>
+                    <th>Kıdem Yılı</th>
+                    <th>1. Yıl</th>
+                    <th>2. Yıl</th>
+                    <th>3. Yıl</th>
+                    <th>4. Yıl</th>
+                    <th>5. Yıl</th>
+                </tr>
+                <tr>
+                    <td>İkramiye (Yıllık)</td>
+                    <td>%50<br>(2 Maaş/12)<br>+2500₺</td>
+                    <td>%50<br>(2 Maaş/12)<br>+2500₺</td>
+                    <td>%50<br>(2 Maaş/12)<br>+2500₺</td>
+                    <td>%80<br>(3.2 Maaş/12)</td>
+                    <td>%100<br>(4 Maaş/12)</td>
+                </tr>
+                <tr>
+                    <td>Bono (Money)</td>
+                    <td>2.250 ₺</td>
+                    <td>2.250 ₺</td>
+                    <td>2.758,33 ₺</td>
+                    <td>4.413,33 ₺</td>
+                    <td>5.516,66 ₺</td>
+                </tr>
+            </table>
+        </div>
 
         <div style="text-align: center; margin: 40px 0;">
-            <span style="background: #004a99; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold;">ŞUBAT SONRASI İŞE GİREN MİGROS DM PERSONELİ</span>
+            <div style="background: #004a99; color: white; padding: 10px 20px; border-radius: 30px; font-weight: bold; display: inline-block;">
+                ŞUBAT SONRASI İŞE GİREN MİGROS DM PERSONELİ
+            </div>
         </div>
 
         <ul>
@@ -222,54 +256,58 @@
         </ul>
 
         <h3>İkramiye ve Bono Yararlanma Oranları (Yeni Personel)</h3>
-        <table>
-            <tr>
-                <th>Kıdem Yılı</th>
-                <th>1. Yıl</th>
-                <th>2. Yıl</th>
-                <th>3. Yıl</th>
-                <th>4. Yıl</th>
-                <th>5. Yıl</th>
-            </tr>
-            <tr>
-                <td>İkramiye (Yıllık)</td>
-                <td>%40<br>(1.6 Maaş/12)</td>
-                <td>%40<br>(1.6 Maaş/12)</td>
-                <td>%50<br>(2 Maaş/12)</td>
-                <td>%80<br>(3.2 Maaş/12)</td>
-                <td>%100<br>(4 Maaş/12)</td>
-            </tr>
-            <tr>
-                <td>Bono (Money)</td>
-                <td>2.060 ₺</td>
-                <td>2.206,67 ₺</td>
-                <td>2.758,33 ₺</td>
-                <td>4.413,33 ₺</td>
-                <td>5.516,66 ₺</td>
-            </tr>
-        </table>
+        <div class="tablo-kapsayici">
+            <table>
+                <tr>
+                    <th>Kıdem Yılı</th>
+                    <th>1. Yıl</th>
+                    <th>2. Yıl</th>
+                    <th>3. Yıl</th>
+                    <th>4. Yıl</th>
+                    <th>5. Yıl</th>
+                </tr>
+                <tr>
+                    <td>İkramiye (Yıllık)</td>
+                    <td>%40<br>(1.6 Maaş/12)</td>
+                    <td>%40<br>(1.6 Maaş/12)</td>
+                    <td>%50<br>(2 Maaş/12)</td>
+                    <td>%80<br>(3.2 Maaş/12)</td>
+                    <td>%100<br>(4 Maaş/12)</td>
+                </tr>
+                <tr>
+                    <td>Bono (Money)</td>
+                    <td>2.060 ₺</td>
+                    <td>2.206,67 ₺</td>
+                    <td>2.758,33 ₺</td>
+                    <td>4.413,33 ₺</td>
+                    <td>5.516,66 ₺</td>
+                </tr>
+            </table>
+        </div>
 
         <h2>Asgari Ücret Vergi İstisnası</h2>
         <p style="font-size: 14px;">Türkiye'de yürürlükte olan vergi mevzuatı gereğince, tüm çalışanların maaşlarının asgari ücrete kadar olan kısmı Gelir Vergisi ve Damga Vergisinden muaf tutulmaktadır. Yani bir çalışanın brüt maaşı ne olursa olsun, o ayki asgari ücret tutarına isabet eden kısmından vergi kesintisi yapılmaz. Bu tablodaki vergi oranları, çalışanın kümülatif (yıllık toplam) gelir vergisi matrahının asgari ücreti aşan kısmı üzerinden hesaplanarak uygulanır.</p>
 
-        <table>
-            <tr>
-                <th>Vergi Dilimi (Oran)</th>
-                <th>Gelir Vergisi Matrahı Tutarı</th>
-            </tr>
-            <tr>
-                <td>%15</td>
-                <td>190.000 ₺'ye kadar</td>
-            </tr>
-            <tr>
-                <td>%20</td>
-                <td>190.000 ₺ - 400.000 ₺ arası</td>
-            </tr>
-            <tr>
-                <td>%27</td>
-                <td>400.000 ₺ - 1.500.000 ₺ arası</td>
-            </tr>
-        </table>
+        <div class="tablo-kapsayici">
+            <table>
+                <tr>
+                    <th>Vergi Dilimi (Oran)</th>
+                    <th>Gelir Vergisi Matrahı Tutarı</th>
+                </tr>
+                <tr>
+                    <td>%15</td>
+                    <td>190.000 ₺'ye kadar</td>
+                </tr>
+                <tr>
+                    <td>%20</td>
+                    <td>190.000 ₺ - 400.000 ₺ arası</td>
+                </tr>
+                <tr>
+                    <td>%27</td>
+                    <td>400.000 ₺ - 1.500.000 ₺ arası</td>
+                </tr>
+            </table>
+        </div>
 
         <div class="imza">
             Hazırlayan: Muhammed Öz<br>
@@ -278,4 +316,4 @@
 
     </div>
 </body>
-</html>
+</html>s
