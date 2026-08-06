@@ -59,8 +59,8 @@
         }
 
         /* TABLO STANDART AYARLARI */
-        .tablo-kapsayici { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 15px 0 25px 0; border-radius: 6px; }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 500px; }
+        .tablo-kapsayici { width: 100%; margin: 15px 0 25px 0; border-radius: 6px; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
         th, td { border: 1px solid #ddd; padding: 10px; text-align: center; vertical-align: middle; }
         th { background-color: #004a99; color: white; }
         tr:nth-child(even) { background-color: #f9f9f9; }
@@ -76,13 +76,22 @@
         
         .imza { text-align: right; margin-top: 50px; font-weight: bold; font-style: italic; color: #666; border-top: 1px solid #ddd; padding-top: 15px; }
 
-        /* MOBİL UYUM */
+        /* MOBİL UYUM (Ekrana sığdırma sihirbazı) */
         @media (max-width: 768px) {
-            .a4-kagit { margin: 15px auto; padding: 20px 10px; width: calc(100% - 10px); }
+            .a4-kagit { margin: 15px auto; padding: 15px 8px; width: calc(100% - 10px); }
             .ust-bar { padding: 12px 15px; }
-            h1 { font-size: 19px; }
-            h2 { font-size: 17px; }
-            h3 { font-size: 15px; }
+            h1 { font-size: 18px; }
+            h2 { font-size: 16px; margin-top: 20px; }
+            h3 { font-size: 14px; margin-top: 15px; }
+            
+            /* Tabloyu zorla ekrana sığdırır, taşmayı engeller */
+            table { font-size: 10.5px; table-layout: fixed; word-wrap: break-word; width: 100%; }
+            th, td { padding: 5px 2px; }
+            
+            .madde { padding: 10px; font-size: 13px; }
+            .uyari { padding: 10px; font-size: 12.5px; }
+            ul { padding-left: 20px; font-size: 13px !important; }
+            p { font-size: 13px !important; }
         }
     </style>
 </head>
@@ -110,7 +119,7 @@
         <div class="madde">
             <strong>📦 Money (Bono) (4’lü paket) (Vergiden Muaf):</strong> Migros Sanal ve Migros mağaza alışverişlerinizi tekel ürünleri ve alkol hariç, %5 indirimli alışveriş hakkı verilir. (Aylık 10.000 ₺’ye kadar)<br><br>
             2 Yılı doldurma şartı ile "Elektronik" ve “Gıda Dışı” kategorilerinde Migros mağazalarından yıllık 33.030 ₺’ye kadar taksitli alışveriş hakkı verilir.<br>
-            <span style="font-size: 12px; color: #e53e3e;">*Not: Hakkında icra veya yasal takip bulunan personel bu uygulamadan yararlanamaz.</span>
+            <span style="font-size: 11px; color: #e53e3e;">*Not: Hakkında icra veya yasal takip bulunan personel bu uygulamadan yararlanamaz.</span>
         </div>
         
         <div class="madde">
@@ -205,7 +214,7 @@
         
         <div class="uyari" style="border-color: #004a99; background: #ebf8ff; color: #004a99;">
             <strong>ℹ️ Sendika Aidatı:</strong> Günlük ücretin %70 alınarak hesaplanır. Şubat, mart, nisan yani 3 aylık biriken 3.121,20 ₺ aidat 6 taksitle ödenecektir. Ekim’de bitecektir.<br>
-            <i style="font-size: 13px;">Örn: (1486,275 * 0.70 = 1040,40 ₺) (Vergiden Muaf)</i>
+            <i style="font-size: 12px;">Örn: (1486,275 * 0.70 = 1040,40 ₺) (Vergiden Muaf)</i>
         </div>
 
         <h3>İkramiye ve Bono Yararlanma Oranları (Devrolan Personel)</h3>
