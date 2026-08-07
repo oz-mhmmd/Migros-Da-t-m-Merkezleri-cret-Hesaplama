@@ -2,7 +2,6 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <!-- EKRAN BOYUTUNU CİHAZA GÖRE OTOMATİK AYARLAYAN DUYARLI VIEWPORT -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <title>Migros Personel Ücret Hesaplama</title>
@@ -24,7 +23,7 @@
             align-items: flex-start; 
             min-height: 100vh; 
             margin: 0; 
-            padding: 20px 15px; 
+            padding: 20px 10px; 
             padding-bottom: 100px; 
             box-sizing: border-box; 
         }
@@ -35,10 +34,12 @@
             border-radius: 24px; 
             box-shadow: 0 15px 40px rgba(0,0,0,0.12), 0 5px 15px rgba(0,0,0,0.05); 
             width: 100%; 
-            max-width: 460px; /* Eski haline, tek sütun genişliğine döndürüldü */
+            max-width: 480px; 
             border-top: 10px solid var(--migros-turuncu); 
             box-sizing: border-box; 
             position: relative; 
+            margin: 0 auto;
+            transition: zoom 0.3s ease-in-out;
         }
         
         .logo-area { text-align: center; margin-bottom: 20px; color: var(--migros-lacivert); font-weight: 900; letter-spacing: -1px; font-size: 18px; text-transform: uppercase; line-height: 1.3; }
@@ -140,9 +141,8 @@
         .radio-label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #4a5568; cursor: pointer; font-weight: 600; }
         .radio-label input[type="radio"] { width: 16px; height: 16px; margin: 0; cursor: pointer; accent-color: var(--migros-turuncu); }
 
-        /* YENİ: Dar Ekranlı Telefonlar İçin Ekstra Ufak Optimizasyonlar */
         @media (max-width: 480px) {
-            .card { padding: 20px 15px; border-radius: 18px; }
+            .card { padding: 20px 15px; border-radius: 20px; } 
             .logo-img { max-height: 70px; }
             input, select { font-size: 14px; padding: 10px; }
             label { font-size: 12px; }
@@ -534,6 +534,29 @@ const gercekTarih = new Date();
 const dinamikYil = gercekTarih.getFullYear();
 document.getElementById('guncelYil').innerText = dinamikYil;
 
+// YENİ: Masaüstü için Otomatik Ölçeklendirme (Zoom) Fonksiyonu
+function otoOlceklendir() {
+    const card = document.getElementById('captureCard');
+    if (window.innerWidth > 850) {
+        card.style.zoom = 1; 
+        
+        const kullanilabilirAlan = window.innerHeight - 110; 
+        const gercekBoyut = card.scrollHeight;
+        
+        if (gercekBoyut > kullanilabilirAlan) {
+            let oran = kullanilabilirAlan / gercekBoyut;
+            oran = Math.max(oran, 0.65);
+            card.style.zoom = oran;
+        } else {
+            card.style.zoom = 1;
+        }
+    } else {
+        card.style.zoom = 1;
+    }
+}
+window.addEventListener('load', otoOlceklendir);
+window.addEventListener('resize', otoOlceklendir);
+
 window.toggleKesinti = function() {
     var kutu = document.getElementById('yasalKutu');
     var icerik = document.getElementById('kesintiIcerik');
@@ -544,6 +567,7 @@ window.toggleKesinti = function() {
         icerik.style.display = 'none';
         kutu.classList.remove('acik');
     }
+    setTimeout(otoOlceklendir, 350);
 };
 
 document.addEventListener('click', function(e) {
@@ -609,6 +633,7 @@ radioButtons.forEach(radio => {
             alanMatrah.style.display = 'none';
             alanDilim.style.display = 'block';
         }
+        otoOlceklendir(); 
     });
 });
 
@@ -764,6 +789,7 @@ function tumHesaplamalariCalistir() {
         indirSonucBtn.style.display = 'none';
         hataMesaji.innerHTML = "💡 Hesaplamayı görmek için <b>Personel Tipi, Kıdem, Saatlik Ücret ve Ay Seçimi</b> alanlarını doldurun.";
         hataMesaji.style.display = 'block';
+        setTimeout(otoOlceklendir, 100); 
         return;
     }
     
@@ -773,6 +799,7 @@ function tumHesaplamalariCalistir() {
         indirSonucBtn.style.display = 'none';
         hataMesaji.innerHTML = "💡 Lütfen vergi hesabı için <b>Kümülatif Matrah</b> giriniz.";
         hataMesaji.style.display = 'block';
+        setTimeout(otoOlceklendir, 100);
         return;
     }
     
@@ -1042,6 +1069,8 @@ function tumHesaplamalariCalistir() {
     if(document.getElementById('anim_money')) {
         startValueAnimation('anim_money_val', document.getElementById('anim_money'), toplamGidaBono);
     }
+
+    setTimeout(otoOlceklendir, 150); 
 }
 
 const tumGirdiler = document.querySelectorAll('input, select');
@@ -1063,6 +1092,9 @@ document.getElementById('indirTamBtn').addEventListener('click', function() {
 
     const captureTarget = document.getElementById('captureCard');
     
+    const orijinalZoom = captureTarget.style.zoom || 1;
+    captureTarget.style.zoom = 1;
+
     captureTarget.querySelectorAll('select').forEach(sel => {
         sel.querySelectorAll('option').forEach(opt => opt.removeAttribute('selected'));
         const seciliOption = sel.options[sel.selectedIndex];
@@ -1124,6 +1156,8 @@ document.getElementById('indirTamBtn').addEventListener('click', function() {
                 el.style.removeProperty('animation');
                 el.style.removeProperty('opacity');
             });
+
+            captureTarget.style.zoom = orijinalZoom;
         });
     }, 150);
 });
@@ -1140,6 +1174,10 @@ document.getElementById('indirSonucBtn').addEventListener('click', function() {
     document.querySelectorAll('.tooltip-container').forEach(c => c.classList.remove('active'));
 
     const captureTarget = document.getElementById('captureCard'); 
+    
+    const orijinalZoom = captureTarget.style.zoom || 1;
+    captureTarget.style.zoom = 1;
+
     const sonucAlani = document.getElementById('sonuc');
     const netAlani = document.querySelector('.money-kutucuk'); 
     const footerAlani = document.querySelector('.footer');
@@ -1148,6 +1186,7 @@ document.getElementById('indirSonucBtn').addEventListener('click', function() {
         alert("Lütfen önce hesaplama yapın.");
         btn.innerHTML = oldHtml;
         btn.disabled = false;
+        captureTarget.style.zoom = orijinalZoom; 
         return;
     }
 
@@ -1199,7 +1238,6 @@ document.getElementById('indirSonucBtn').addEventListener('click', function() {
             ctx.fillStyle = "#ffffff";
             ctx.fillRect(0, 0, yeniCanvas.width, yeniCanvas.height);
 
-            // Sütunları dikey olarak ortalamak için matematiksel hesaplamalar
             const solY = padding + (maksH - solYukseklik) / 2;
             const sagY = padding + (maksH - sagYukseklik) / 2;
 
@@ -1227,6 +1265,8 @@ document.getElementById('indirSonucBtn').addEventListener('click', function() {
                 el.style.removeProperty('animation');
                 el.style.removeProperty('opacity');
             });
+            
+            captureTarget.style.zoom = orijinalZoom;
         });
     }, 150);
 });
@@ -1281,6 +1321,7 @@ document.getElementById('ocrInput').addEventListener('change', function(e) {
             sonucDiv.style.display = 'none';
             document.getElementById('indirTamBtn').style.display = 'none';
             document.getElementById('indirSonucBtn').style.display = 'none';
+            setTimeout(otoOlceklendir, 100);
         }
     }).catch(err => {
         hataMesaji.innerHTML = "Okuma sırasında bir hata oluştu.";
@@ -1288,6 +1329,7 @@ document.getElementById('ocrInput').addEventListener('change', function(e) {
         sonucDiv.style.display = 'none';
         document.getElementById('indirTamBtn').style.display = 'none';
         document.getElementById('indirSonucBtn').style.display = 'none';
+        setTimeout(otoOlceklendir, 100);
     }).finally(() => {
         btn.innerHTML = '📷';
         btn.disabled = false;
@@ -1335,6 +1377,8 @@ document.getElementById('sifirlaBtn').addEventListener('click', function() {
     for (let key in animState) delete animState[key];
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    setTimeout(otoOlceklendir, 150);
 });
 </script>
 </body>
