@@ -2,7 +2,8 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=900">
+    <!-- EKRAN BOYUTUNU CİHAZA GÖRE OTOMATİK AYARLAYAN DUYARLI VIEWPORT -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <title>Migros Personel Ücret Hesaplama</title>
     <!-- OCR ve Ekran Resmi Kaydetme Kütüphaneleri -->
@@ -34,7 +35,7 @@
             border-radius: 24px; 
             box-shadow: 0 15px 40px rgba(0,0,0,0.12), 0 5px 15px rgba(0,0,0,0.05); 
             width: 100%; 
-            max-width: 460px; 
+            max-width: 460px; /* Eski haline, tek sütun genişliğine döndürüldü */
             border-top: 10px solid var(--migros-turuncu); 
             box-sizing: border-box; 
             position: relative; 
@@ -138,6 +139,15 @@
         .radio-group { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; margin-top: 6px; }
         .radio-label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #4a5568; cursor: pointer; font-weight: 600; }
         .radio-label input[type="radio"] { width: 16px; height: 16px; margin: 0; cursor: pointer; accent-color: var(--migros-turuncu); }
+
+        /* YENİ: Dar Ekranlı Telefonlar İçin Ekstra Ufak Optimizasyonlar */
+        @media (max-width: 480px) {
+            .card { padding: 20px 15px; border-radius: 18px; }
+            .logo-img { max-height: 70px; }
+            input, select { font-size: 14px; padding: 10px; }
+            label { font-size: 12px; }
+            .bolum-baslik { font-size: 11px; }
+        }
     </style>
 </head>
 <body>
@@ -299,9 +309,7 @@
         </div>
     </div>
 
-    <!-- GENEL TATİL VE HAFTA TATİLİ (PAZAR) ALANI -->
     <div class="group" style="display: flex; gap: 10px; margin-bottom: 15px; background-color: #fff9f5; padding: 12px; border-radius: 12px; border: 1px dashed var(--migros-turuncu);">
-        <!-- Sol Kutu: Genel Tatil -->
         <div style="flex: 1.2;">
             <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
                 <label style="margin-bottom: 0; color: var(--migros-turuncu); font-size: 12px;">Genel Tatil:</label>
@@ -331,7 +339,6 @@
             </div>
         </div>
 
-        <!-- Sağ Kutu: Pazar Mesaisi -->
         <div style="flex: 1;">
             <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
                 <label style="margin-bottom: 0; color: var(--migros-turuncu); font-size: 12px;">Pazar Çalışması:</label>
@@ -349,7 +356,6 @@
             </div>
         </div>
     </div>
-    <!-- /GENEL TATİL VE PAZAR ALANI BİTİŞİ -->
 
     <div class="group" style="display: flex; gap: 10px;">
         <div style="flex: 1;">
@@ -400,22 +406,6 @@
             </div>
             <div class="input-icon-wrapper">
                 <input type="text" inputmode="numeric" pattern="[0-9]*" id="geceGun" placeholder="0" style="text-align: center;">
-                <span class="unit-text">Gün</span>
-            </div>
-        </div>
-        <div style="flex: 1;">
-            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0;">R.Tatil Gece Vardiyası:</label>
-                <div class="tooltip-container tooltip-left">
-                    <span class="info-icon">i</span>
-                    <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
-                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">🌙 Resmi Tatil Gece Vardiyası</strong>
-                        <span id="rtGeceAciklama">Resmi tatilde çalışılan gece vardiyası için personele göre normal gece yevmiyesinin <b>2.5 veya 3 katı</b> brüt ek kazanç olarak yansıtılır.</span>
-                    </div>
-                </div>
-            </div>
-            <div class="input-icon-wrapper">
-                <input type="text" inputmode="numeric" pattern="[0-9]*" id="resmiGeceGun" placeholder="0" style="text-align: center;">
                 <span class="unit-text">Gün</span>
             </div>
         </div>
@@ -626,7 +616,6 @@ document.getElementById('personelTipi').addEventListener('change', function(e) {
     var headerKirmiziSpan = document.getElementById('headerKirmiziSpan');
     var headerTuruncuSpan = document.getElementById('headerTuruncuSpan');
     var rtAciklama = document.getElementById('rtAciklama');
-    var rtGeceAciklama = document.getElementById('rtGeceAciklama');
     var rtTzgAciklama = document.getElementById('rtTzgAciklama');
 
     if (e.target.value === 'devir') {
@@ -634,19 +623,16 @@ document.getElementById('personelTipi').addEventListener('change', function(e) {
         headerKirmiziSpan.innerText = 'DEVROLAN PERSONEL';
         headerTuruncuSpan.innerText = 'ÜCRET HESAPLAMA';
         if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana maaşın içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b style="color:var(--migros-turuncu);">ekstra mesai (2 katı, yani toplamda 3 katı)</b> brüt ek kazanç olarak yansıtılır.';
-        if (rtGeceAciklama) rtGeceAciklama.innerHTML = 'Resmi tatilde çalışılan gece vardiyası için personele göre normal gece yevmiyesinin <b style="color:var(--migros-turuncu);">3 katı</b> brüt ek kazanç olarak yansıtılır.';
         if (rtTzgAciklama) rtTzgAciklama.innerHTML = 'Resmi tatilde çalışılan taze gıda vardiyası için personele göre normal tz. gıda yevmiyesinin <b style="color:var(--migros-turuncu);">3 katı</b> brüt ek kazanç olarak yansıtılır.';
     } else if (e.target.value === 'yeni') {
         headerKirmiziSpan.style.display = 'none';
         headerTuruncuSpan.innerText = 'PERSONEL ÜCRET HESAPLAMA';
         if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana maaşın içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b style="color:var(--migros-turuncu);">ekstra mesai (1.5 katı, yani toplamda 2.5 katı)</b> brüt ek kazanç olarak yansıtılır.';
-        if (rtGeceAciklama) rtGeceAciklama.innerHTML = 'Resmi tatilde çalışılan gece vardiyası için personele göre normal gece yevmiyesinin <b style="color:var(--migros-turuncu);">2.5 katı</b> brüt ek kazanç olarak yansıtılır.';
         if (rtTzgAciklama) rtTzgAciklama.innerHTML = 'Resmi tatilde çalışılan taze gıda vardiyası için personele göre normal tz. gıda yevmiyesinin <b style="color:var(--migros-turuncu);">2.5 katı</b> brüt ek kazanç olarak yansıtılır.';
     } else {
         headerKirmiziSpan.style.display = 'none';
         headerTuruncuSpan.innerText = 'PERSONEL ÜCRET HESAPLAMA';
         if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana maaşın içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b>ekstra mesai (personele göre 1.5 veya 2 katı)</b> brüt ek kazanç olarak yansıtılır.';
-        if (rtGeceAciklama) rtGeceAciklama.innerHTML = 'Resmi tatilde çalışılan gece vardiyası için personele göre normal gece yevmiyesinin <b>2.5 veya 3 katı</b> brüt ek kazanç olarak yansıtılır.';
         if (rtTzgAciklama) rtTzgAciklama.innerHTML = 'Resmi tatilde çalışılan taze gıda vardiyası için personele göre normal tz. gıda yevmiyesinin <b>2.5 veya 3 katı</b> brüt ek kazanç olarak yansıtılır.';
     }
 });
@@ -813,7 +799,6 @@ function tumHesaplamalariCalistir() {
     var b_gun = metniSayiyaCevir('bayramGun');
     var fm_saat = metniSayiyaCevir('fazlaMesaiSaat');
     var g_gun = metniSayiyaCevir('geceGun');
-    var rg_gun = metniSayiyaCevir('resmiGeceGun');
     var t_gun = metniSayiyaCevir('tzgGun');
     var t_bayram_gun = metniSayiyaCevir('tzgBayramGun');
     var ek_prim = yuv(guvenliSayiAl('ekPrimler'));
@@ -849,8 +834,7 @@ function tumHesaplamalariCalistir() {
     var brutAnaUcret = yuv(s_ucret * calisilanGun * g_saat);
     var ikramiyeIcinAnaUcret = yuv(s_ucret * ay_gun * g_saat);
     
-    var rgCarpani = isYeniPersonel ? 2.5 : 3.0;
-    var brutGeceZami = yuv((g_gun * 162.5) + (rg_gun * yuv(162.5 * rgCarpani))); 
+    var brutGeceZami = yuv(g_gun * 162.5); 
     
     var tzgCarpani = isYeniPersonel ? 2.5 : 3.0;
     var brutTzgZami = yuv((t_gun * 80) + (t_bayram_gun * yuv(80 * tzgCarpani))); 
@@ -1338,9 +1322,6 @@ document.getElementById('sifirlaBtn').addEventListener('click', function() {
     
     var rtAciklama = document.getElementById('rtAciklama');
     if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana maaşın içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b>ekstra mesai (personele göre 1.5 veya 2 katı)</b> brüt ek kazanç olarak yansıtılır.';
-    
-    var rtGeceAciklama = document.getElementById('rtGeceAciklama');
-    if (rtGeceAciklama) rtGeceAciklama.innerHTML = 'Resmi tatilde çalışılan gece vardiyası için personele göre normal gece yevmiyesinin <b>2.5 veya 3 katı</b> brüt ek kazanç olarak yansıtılır.';
     
     var rtTzgAciklama = document.getElementById('rtTzgAciklama');
     if (rtTzgAciklama) rtTzgAciklama.innerHTML = 'Resmi tatilde çalışılan taze gıda vardiyası için personele göre normal tz. gıda yevmiyesinin <b>2.5 veya 3 katı</b> brüt ek kazanç olarak yansıtılır.';
