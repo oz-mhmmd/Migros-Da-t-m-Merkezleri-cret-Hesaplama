@@ -142,7 +142,6 @@
 </head>
 <body>
     <div class="card" id="captureCard">
-    <!-- AÇIKLAMA BUTONU (SAĞ ÜST VE LOGO HİZALI) -->
     <a href="bilgilendirme.html" target="_blank" style="position: absolute; top: 35px; right: 20px; font-size: 12px; font-weight: 800; color: var(--migros-lacivert); text-decoration: none; display: flex; align-items: center; gap: 4px; z-index: 10; padding: 6px 10px; background-color: #f0f4f8; border-radius: 8px; border: 1px solid #d0dbe5; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
         ℹ️ Açıklama
     </a>
@@ -195,8 +194,7 @@
                             <div style="display: flex; justify-content: space-between; margin-bottom: 3px;"><span><b>%15:</b></span> <span>0 - 190.000 TL</span></div>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 3px;"><span><b>%20:</b></span> <span>190.000 TL - 400.000 TL</span></div>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 3px;"><span><b>%27:</b></span> <span>400.000 TL - 1.500.000 TL</span></div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;"><span><b>%35:</b></span> <span>1.500.000 TL - 5.300.000 TL</span></div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;"><span><b>%40:</b></span> <span>5.300.000 TL ve üzeri</span></div>
+                            
                         </div>
                     </div>
                 </div>
@@ -299,39 +297,25 @@
         </div>
     </div>
 
-    <!-- GENEL TATİL VE HAFTA TATİLİ (PAZAR) ALANI -->
+    <!-- FAZLA MESAİ VE PAZAR ÇALIŞMASI ALANI -->
     <div class="group" style="display: flex; gap: 10px; margin-bottom: 15px; background-color: #fff9f5; padding: 12px; border-radius: 12px; border: 1px dashed var(--migros-turuncu);">
-        <!-- Sol Kutu: Genel Tatil -->
         <div style="flex: 1.2;">
             <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0; color: var(--migros-turuncu); font-size: 12px;">Genel Tatil:</label>
+                <label style="margin-bottom: 0; color: var(--migros-turuncu); font-size: 12px;">Fazla Çalışma (Mesai):</label>
                 <div class="tooltip-container tooltip-right">
                     <span class="info-icon">i</span>
-                    <div class="tooltip-text" style="width: 330px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
-                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">💡 Genel Tatil Çalş. Primi</strong>
-                        <span style="display: block; margin-bottom: 4px;">
-                            <b style="color: #e53e3e;">Hangi Günler?</b><br>
-                            1 Ocak Yılbaşı, 23 Nisan, 1 Mayıs, 19 Mayıs, 15 Temmuz, 30 Ağustos ve 29 Ekim Cumhuriyet Bayramı. 
-                            <i style="color: #4a5568;">(Bu günlerde tam çalıştıysanız doğrudan <b>7.5</b> yazılır.)</i>
-                        </span>
-                        <span style="display: block; margin-bottom: 4px; margin-top: 8px; border-top: 1px dashed #edf2f7; padding-top: 6px;">
-                            <b style="color: var(--migros-turuncu);">Yarım Gün (28 Ekim Öğleden Sonrası)</b><br>
-                            28 Ekim öğleden sonrası çalıştığınız vardiyaya göre:
-                        </span>
-                        <ul style="margin: 0; padding-left: 15px; color: #4a5568;">
-                            <li style="margin-bottom: 3px;"><b>08:00 - 16:30</b> sabah vardiyasında iseniz kutuya <b>3.5</b> yazılır.</li>
-                            <li><b>15:30 - 00:00</b> vardiyasında iseniz kutuya <b>2.5</b> yazılır.</li>
-                        </ul>
+                    <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
+                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">⏱️ Fazla Çalışma (Mesai)</strong>
+                        Girdiğiniz çalışma saatleri, normal saatlik brüt ücretinizin <b style="color:var(--migros-turuncu);">%50 zamlı (1.5 katı)</b> olarak hesaplanır ve brüt ek kazanç olarak yansıtılır.
                     </div>
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="gtSaat" placeholder="0" style="border-color: #fddbc7; text-align: center;">
+                <input type="text" inputmode="decimal" id="fazlaMesaiSaat" placeholder="0" style="border-color: #fddbc7; text-align: center;">
                 <span class="unit-text" style="color: var(--migros-turuncu);">Saat</span>
             </div>
         </div>
 
-        <!-- Sağ Kutu: Pazar Mesaisi -->
         <div style="flex: 1;">
             <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
                 <label style="margin-bottom: 0; color: var(--migros-turuncu); font-size: 12px;">Pazar Çalışması:</label>
@@ -349,12 +333,12 @@
             </div>
         </div>
     </div>
-    <!-- /GENEL TATİL VE PAZAR ALANI BİTİŞİ -->
 
+    <!-- RESMİ TATİL VE GECE VARDİYASI ALANI -->
     <div class="group" style="display: flex; gap: 10px;">
         <div style="flex: 1;">
             <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0;">R.Tatil Vardiyası:</label>
+                <label style="margin-bottom: 0;">Resmi Tatil Vardiyası:</label>
                 <div class="tooltip-container tooltip-right">
                     <span class="info-icon">i</span>
                     <div class="tooltip-text" style="width: 260px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
@@ -370,27 +354,8 @@
         </div>
         <div style="flex: 1;">
             <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0;">Fazla Çalışma (Mesai):</label>
-                <div class="tooltip-container tooltip-left">
-                    <span class="info-icon">i</span>
-                    <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
-                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">⏱️ Fazla Çalışma (Mesai)</strong>
-                        Girdiğiniz çalışma saatleri, normal saatlik brüt ücretinizin <b style="color:var(--migros-turuncu);">%50 zamlı (1.5 katı)</b> olarak hesaplanır ve brüt ek kazanç olarak yansıtılır.
-                    </div>
-                </div>
-            </div>
-            <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="fazlaMesaiSaat" placeholder="0" style="text-align: center;">
-                <span class="unit-text">Saat</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="group" style="display: flex; gap: 10px;">
-        <div style="flex: 1;">
-            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
                 <label style="margin-bottom: 0;">Gece Vardiyası:</label>
-                <div class="tooltip-container tooltip-right">
+                <div class="tooltip-container tooltip-left">
                     <span class="info-icon">i</span>
                     <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
                         <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">🌙 Gece Vardiyası</strong>
@@ -497,6 +462,46 @@
             </select>
         </div>
     </div>
+
+    <!-- ÖZEL YARDIMLAR VE TAHSİL YARDIMI KUTUSU -->
+    <div class="group" style="display: flex; gap: 10px; margin-top: 5px;">
+        <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0; font-size: 12px;">Özel Yardım (Doğum/Evlilik):</label>
+                <div class="tooltip-container tooltip-right">
+                    <span class="info-icon">i</span>
+                    <div class="tooltip-text" style="width: 260px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
+                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">💍 Özel Yardımlar</strong>
+                        Evlilik veya Doğum yardımı SGK ve Gelir Vergisinden tamamen muaftır. Sadece <b>Damga Vergisi (%0.759)</b> hesaplanarak <i>netten brüte</i> brütleştirilir ve maaşınıza net olarak yansır.
+                    </div>
+                </div>
+            </div>
+            <select id="ozelYardim" style="padding: 10px; font-size: 14px; width: 100%;">
+                <option value="0" selected>Yok</option>
+                <option value="evlilik">Evlilik Yardımı (+3.300 TL Net)</option>
+                <option value="dogum">Doğum Yardımı (+3.200 TL Net)</option>
+            </select>
+        </div>
+        <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0; font-size: 12px;">Tahsil Yardımı:</label>
+                <div class="tooltip-container tooltip-left">
+                    <span class="info-icon">i</span>
+                    <div class="tooltip-text" style="width: 260px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
+                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">🎓 Tahsil Yardımı</strong>
+                        Çalışmayan 25 yaşını doldurmamış çocukları ile engelli çocukları için yılda 1 defa ve okulların açılmasıyla en geç 1 ay içerisinde brüt tahsil yardımı yapılır.
+                    </div>
+                </div>
+            </div>
+            <select id="tahsilYardimi" style="padding: 10px; font-size: 14px; width: 100%;">
+                <option value="0" selected>Yok</option>
+                <option value="1850">İlköğretim (1.850 TL Brüt)</option>
+                <option value="2750">Lise (2.750 TL Brüt)</option>
+                <option value="3700">Yüksekokul (3.700 TL Brüt)</option>
+            </select>
+        </div>
+    </div>
+    <!-- /ÖZEL YARDIMLAR BİTİŞ -->
     
     <div id="hataMesaji" class="error-text"></div>
     <div id="sonuc"></div>
@@ -716,6 +721,14 @@ const vergiDilimleri2026 = [
     { sinir: Infinity, oran: 0.40 }
 ];
 
+const muafiyetDegerleri = {
+    0.15: 4211.33,
+    0.20: 4537.75,
+    0.27: 6125.50,
+    0.35: 7940.46,
+    0.40: 9074.81
+};
+
 function dinamikGelirVergisiHesapla(gecenAyKumulatif, buAykiMatrah) {
     let kalanMatrah = buAykiMatrah;
     let toplamKesilecekVergi = 0;
@@ -735,6 +748,31 @@ function dinamikGelirVergisiHesapla(gecenAyKumulatif, buAykiMatrah) {
         anlikKumulatif += buDilimdenGiden;
     }
     return yuv(toplamKesilecekVergi);
+}
+
+function dinamikMuafiyetHesapla(gecenAyKumulatif, buAykiMatrah) {
+    if (buAykiMatrah <= 0) return 4211.33; 
+    let kalanMatrah = buAykiMatrah;
+    let anlikKumulatif = gecenAyKumulatif;
+    let toplamMuafiyet = 0;
+
+    for (let i = 0; i < vergiDilimleri2026.length; i++) {
+        if (kalanMatrah <= 0) break;
+        let dilimSiniri = vergiDilimleri2026[i].sinir;
+        let dilimOrani = vergiDilimleri2026[i].oran;
+        let muafiyetKarsiligi = muafiyetDegerleri[dilimOrani] || 4211.33;
+
+        if (anlikKumulatif >= dilimSiniri) continue;
+
+        let buDilimdekiKapasite = dilimSiniri - anlikKumulatif;
+        let buDilimdenGiden = Math.min(kalanMatrah, buDilimdekiKapasite);
+        
+        toplamMuafiyet += (buDilimdenGiden / buAykiMatrah) * muafiyetKarsiligi;
+        
+        kalanMatrah -= buDilimdenGiden;
+        anlikKumulatif += buDilimdenGiden;
+    }
+    return yuv(toplamMuafiyet);
 }
 
 function tumHesaplamalariCalistir() {
@@ -796,11 +834,6 @@ function tumHesaplamalariCalistir() {
     var t_gun = metniSayiyaCevir('tzgGun');
     var t_bayram_gun = metniSayiyaCevir('tzgBayramGun');
     var ek_prim = yuv(guvenliSayiAl('ekPrimler'));
-    
-    var gt_saat_degeri = metniSayiyaCevir('gtSaat');
-    var kok_saatlik_gt = s_ucret > 2.42 ? (s_ucret - 2.42) : s_ucret; 
-    var gt_ham_hesap = gt_saat_degeri * kok_saatlik_gt;
-    var gt_primi = Math.floor(gt_ham_hesap * 100) / 100;
 
     var p_gun = metniSayiyaCevir('pazarGun');
     var g_saat = 7.5; 
@@ -808,7 +841,7 @@ function tumHesaplamalariCalistir() {
     
     var secilenOptionIndex = aySelect.options[aySelect.selectedIndex].dataset.ayIndex;
     var ayIndex = parseInt(secilenOptionIndex);
-    
+
     var cocukTutarKucuk = (ayIndex <= 5) ? 693.94 : 787.76;
     var cocukTutarBuyuk = (ayIndex <= 5) ? 346.97 : 393.88;
 
@@ -822,6 +855,17 @@ function tumHesaplamalariCalistir() {
     var cocuk_parasi_brut = yuv((odenecek_kucuk * cocukTutarKucuk) + (odenecek_buyuk * cocukTutarBuyuk));
     var cocuk_parasi_istisna = cocuk_parasi_brut; 
     
+    // ÖZEL YARDIMLAR (NETTEN BRÜTE DAMGA VERGİSİ DAHİL)
+    var ozelYardimSecim = document.getElementById('ozelYardim').value;
+    var ozelYardimNet = 0;
+    if (ozelYardimSecim === 'evlilik') ozelYardimNet = 3300;
+    if (ozelYardimSecim === 'dogum') ozelYardimNet = 3200;
+    var ozelYardimBrut = yuv(ozelYardimNet / (1 - 0.00759)); 
+
+    // TAHSİL YARDIMI (STANDART BRÜT)
+    var tahsilYardimiSecim = parseInt(document.getElementById('tahsilYardimi').value) || 0;
+    var tahsilYardimiBrut = tahsilYardimiSecim;
+
     var toplamEksikGun = yuv(eksik_gun + (saatlik_izin / g_saat));
     var calisilanGun = yuv(ay_gun - toplamEksikGun);
     
@@ -863,7 +907,8 @@ function tumHesaplamalariCalistir() {
     var targetYolNet = (ayIndex >= 6) ? 3628.00 : 3298.00; 
     var targetDeterjanNet = 119.95;
     
-    var tahminiSgkMatrah = yuv(brutAnaUcret + brutTatilMesaisiEkran + brutPazarMesaisi + brutFazlaMesai + brutGeceZami + dmIkramiyeEkOdeme + brutTzgZami + brutAylikIkramiye + ek_prim + gt_primi);
+    // Tahsil yardımı Brüt olduğu için standart matrahlara eklenir
+    var tahminiSgkMatrah = yuv(brutAnaUcret + brutTatilMesaisiEkran + brutPazarMesaisi + brutFazlaMesai + brutGeceZami + dmIkramiyeEkOdeme + brutTzgZami + brutAylikIkramiye + ek_prim + tahsilYardimiBrut);
     var tahminiVergiMatrah = yuv(tahminiSgkMatrah * 0.85); 
     var tahminiKumulatif = yuv(gecenAyKumulatif + tahminiVergiMatrah);
     
@@ -876,17 +921,21 @@ function tumHesaplamalariCalistir() {
     var dinamikDeterjanBrut = yuv(targetDeterjanNet / (1 - marginalVergiOrani - 0.00759)); 
 
     function netMiktariHesapla(yolBrutDeneme) {
-        var s_brut = yuv(brutAnaUcret + brutTatilMesaisiEkran + brutPazarMesaisi + brutFazlaMesai + brutGeceZami + dmIkramiyeEkOdeme + brutTzgZami + brutAylikIkramiye + toplamGidaBono + yolBrutDeneme + dinamikDeterjanBrut + ek_prim + gt_primi + cocuk_parasi_brut);
-        var s_istisna = yuv(toplamGidaBono + dinamikDeterjanBrut + cocuk_parasi_istisna); 
+        var s_brut = yuv(brutAnaUcret + brutTatilMesaisiEkran + brutPazarMesaisi + brutFazlaMesai + brutGeceZami + dmIkramiyeEkOdeme + brutTzgZami + brutAylikIkramiye + toplamGidaBono + yolBrutDeneme + dinamikDeterjanBrut + ek_prim + cocuk_parasi_brut + ozelYardimBrut + tahsilYardimiBrut);
+        
+        var s_istisna = yuv(toplamGidaBono + dinamikDeterjanBrut + cocuk_parasi_istisna + ozelYardimBrut); 
         var s_sgkMatrah = yuv(Math.max(0, s_brut - s_istisna));
         var s_sgkIsci = yuv(s_sgkMatrah * 0.14);
         var s_sgkIssizlik = yuv(s_sgkMatrah * 0.01);
         var saatlikSendika = yuv(s_ucret * sendikaYevmiyeCarpani);
         var sendikaAidati = Number(Math.ceil((saatlikSendika * 7.5) + 'e2') + 'e-2'); 
-        var s_vMatrah = yuv(Math.max(0, s_brut - s_sgkIsci - s_sgkIssizlik - sendikaAidati - cocuk_parasi_istisna)); 
+        
+        var s_vMatrah = yuv(Math.max(0, s_brut - s_sgkIsci - s_sgkIssizlik - sendikaAidati - cocuk_parasi_istisna - ozelYardimBrut)); 
         var s_gercekVergi = dinamikGelirVergisiHesapla(gecenAyKumulatif, s_vMatrah);
-        var s_netGelir = yuv(Math.max(0, s_gercekVergi - 4211.33));
+        var dinamikMuafiyet = dinamikMuafiyetHesapla(gecenAyKumulatif, s_vMatrah);
+        var s_netGelir = yuv(Math.max(0, s_gercekVergi - dinamikMuafiyet)); 
         var s_netDamga = yuv(Math.max(0, (s_brut * 0.00759) - 250.70)); 
+        
         return yuv(s_brut - s_sgkIsci - s_sgkIssizlik - s_netGelir - s_netDamga - sendikaAidati - (toplamGidaBono + targetDeterjanNet));
     }
 
@@ -905,9 +954,10 @@ function tumHesaplamalariCalistir() {
     dinamikYolBrut = yuv(dinamikYolBrut);
 
     var sabitYanHaklarBrut = yuv(dinamikYolBrut + toplamGidaBono + dinamikDeterjanBrut);
-    var toplamBrutKazanc = yuv(brutAnaUcret + brutTatilMesaisiEkran + brutPazarMesaisi + brutFazlaMesai + brutGeceZami + dmIkramiyeEkOdeme + brutTzgZami + brutAylikIkramiye + sabitYanHaklarBrut + ek_prim + gt_primi + cocuk_parasi_brut);
+    
+    var toplamBrutKazanc = yuv(brutAnaUcret + brutTatilMesaisiEkran + brutPazarMesaisi + brutFazlaMesai + brutGeceZami + dmIkramiyeEkOdeme + brutTzgZami + brutAylikIkramiye + sabitYanHaklarBrut + ek_prim + cocuk_parasi_brut + ozelYardimBrut + tahsilYardimiBrut);
 
-    var sgkIstisnaTutari = yuv(toplamGidaBono + dinamikDeterjanBrut + cocuk_parasi_istisna); 
+    var sgkIstisnaTutari = yuv(toplamGidaBono + dinamikDeterjanBrut + cocuk_parasi_istisna + ozelYardimBrut); 
     var sgkMatrahi = Math.max(0, yuv(toplamBrutKazanc - sgkIstisnaTutari));
     var sgkIsciPayi = yuv(sgkMatrahi * 0.14);
     var sgkIssizlikPayi = yuv(sgkMatrahi * 0.01);
@@ -915,7 +965,7 @@ function tumHesaplamalariCalistir() {
     var saatlikSendikaGosterim = yuv(s_ucret * sendikaYevmiyeCarpani);
     var sendikaAidati = Number(Math.ceil((saatlikSendikaGosterim * 7.5) + 'e2') + 'e-2'); 
     
-    var vergiMatrahi = Math.max(0, yuv(toplamBrutKazanc - sgkIsciPayi - sgkIssizlikPayi - sendikaAidati - cocuk_parasi_istisna)); 
+    var vergiMatrahi = Math.max(0, yuv(toplamBrutKazanc - sgkIsciPayi - sgkIssizlikPayi - sendikaAidati - cocuk_parasi_istisna - ozelYardimBrut)); 
     
     var kullanilanDilimler = [];
     var testKalan = vergiMatrahi;
@@ -933,7 +983,8 @@ function tumHesaplamalariCalistir() {
     var dilimMetni = (kullanilanDilimler.length <= 1) ? "%" + (kullanilanDilimler[0] || 15) : "%" + kullanilanDilimler[0] + "&nbsp;&rarr;&nbsp;%" + kullanilanDilimler[kullanilanDilimler.length - 1] + "&nbsp;Geçişi";
 
     var hesaplananGercekVergi = dinamikGelirVergisiHesapla(gecenAyKumulatif, vergiMatrahi);
-    var netGelirVergisi = yuv(Math.max(0, hesaplananGercekVergi - 4211.33));
+    var gelirVergisiMuafiyeti = dinamikMuafiyetHesapla(gecenAyKumulatif, vergiMatrahi);
+    var netGelirVergisi = yuv(Math.max(0, hesaplananGercekVergi - gelirVergisiMuafiyeti));
     var netDamgaVergisi = yuv(Math.max(0, (toplamBrutKazanc * 0.00759) - 250.70));
     var toplamYasalKesinti = yuv(sgkIsciPayi + sgkIssizlikPayi + netGelirVergisi + netDamgaVergisi);
 
@@ -993,8 +1044,9 @@ function tumHesaplamalariCalistir() {
         (dmIkramiyeEkOdeme > 0 ? "<div class='satir'><div style='display: flex; align-items: center; gap: 4px;'><span>DM&nbsp;İkramiye&nbsp;Ek&nbsp;Ödeme:</span><div class='tooltip-container tooltip-right'><span class='info-icon' style='width:14px; height:14px; font-size:10px;'>i</span><div class='tooltip-text' style='width: 250px; font-size: 11.5px; z-index: 110; padding: 12px; font-weight: normal; text-transform: none; line-height: 1.4;'><strong style='color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;'>💰 Ek İkramiye</strong>Devrolan personele 4. Yıla girene ve %80’e varıncaya kadar aylık <b>2.500 TL</b> brüt ek kazanç olarak yansıtılır.</div></div></div> <b class='vurgu-turuncu'>" + dmIkramiyeEkOdeme.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
         (brutTzgZami > 0 ? "<div class='satir'><div>Tz.&nbsp;Gıda&nbsp;Vard.&nbsp;Primi:</div> <b>" + brutTzgZami.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
         (ek_prim > 0 ? "<div class='satir'><div>Ek&nbsp;Primler&nbsp;Toplamı:</div> <b>" + ek_prim.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
-        (gt_primi > 0 ? "<div class='satir'><div>Genel&nbsp;Tatil&nbsp;Çalışma&nbsp;Primi:</div> <b>" + gt_primi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
         (cocuk_parasi_brut > 0 ? "<div class='satir'><div>Çocuk&nbsp;Yardımı&nbsp;(&nbsp;" + cocuk_sayisi + "&nbsp;Çocuk&nbsp;):</div> <b>" + cocuk_parasi_brut.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (ozelYardimBrut > 0 ? "<div class='satir'><div>Özel&nbsp;Yardım&nbsp;(&nbsp;" + (ozelYardimSecim === 'evlilik' ? "Evlilik" : "Doğum") + "&nbsp;):</div> <b class='vurgu-mavi'>" + ozelYardimBrut.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (tahsilYardimiBrut > 0 ? "<div class='satir'><div>Tahsil&nbsp;Yardımı:</div> <b>" + tahsilYardimiBrut.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
         "<div class='satir'>" + 
             "<div style='display: flex; align-items: center; gap: 4px;'>" +
                 "<span>İkramiye&nbsp;Payı&nbsp;(&nbsp;" + carpanYazi.replace(/ /g, '&nbsp;') + "&nbsp;):</span>" +
@@ -1021,11 +1073,12 @@ function tumHesaplamalariCalistir() {
             "</div>" +
             "<div id='kesintiIcerik' class='yasal-kesintiler-icerik' style='display: block;'>" +
                 "<div class='satir' style='margin-bottom: 2px;'><div>Gelir&nbsp;Vergisi&nbsp;(&nbsp;" + dilimMetni + "&nbsp;):</div> <div style='color:#e53e3e; font-weight:bold;'>" + netGelirVergisi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
-                "<div class='satir' style='margin-top: 0; padding-top: 0; border-bottom: 1px solid #fbd5d5; padding-bottom: 8px;'><div>↳ <i style='font-size:11.5px; color:#38a169;'>AÜ&nbsp;Gelir&nbsp;Vergisi&nbsp;Muafiyeti</i></div> <div style='color:#38a169; font-size:12px; font-weight:bold;'>-4.211,33 TL</div></div>" +
+                "<div class='satir' style='margin-top: 0; padding-top: 0; border-bottom: 1px solid #fbd5d5; padding-bottom: 8px;'><div>↳ <i style='font-size:11.5px; color:#38a169;'>AÜ&nbsp;Gelir&nbsp;Vergisi&nbsp;Muafiyeti</i></div> <div style='color:#38a169; font-size:12px; font-weight:bold;'>-" + gelirVergisiMuafiyeti.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
                 "<div class='satir'><div>SGK&nbsp;İşsizlik&nbsp;Payı&nbsp;(&nbsp;%1&nbsp;):</div> <div style='color:#e53e3e; font-weight:bold;'>" + sgkIssizlikPayi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
                 "<div class='satir'><div>SGK&nbsp;İşçi&nbsp;Payı&nbsp;(&nbsp;%14&nbsp;):</div> <div style='color:#e53e3e; font-weight:bold;'>" + sgkIsciPayi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
                 "<div class='satir' style='margin-bottom: 2px;'><div>Damga&nbsp;Vergisi:</div> <div style='color:#e53e3e; font-weight:bold;'>" + netDamgaVergisi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
-                "<div class='satir' style='margin-top: 0; padding-top: 0; border-bottom: none; padding-bottom: 0;'><div>↳ <i style='font-size:11.5px; color:#38a169;'>AÜ&nbsp;Damga&nbsp;Vergisi&nbsp;Muafiyeti</i></div> <div style='color:#38a169; font-size:12px; font-weight:bold;'>-250,70 TL</div></div>" +
+                "<div class='satir' style='margin-top: 0; padding-top: 0; border-bottom: 1px solid #fbd5d5; padding-bottom: 8px;'><div>↳ <i style='font-size:11.5px; color:#38a169;'>AÜ&nbsp;Damga&nbsp;Vergisi&nbsp;Muafiyeti</i></div> <div style='color:#38a169; font-size:12px; font-weight:bold;'>-250,70 TL</div></div>" +
+                "<div class='satir' style='border-bottom: none; margin-bottom: 0; padding-bottom: 0;'><div>Sendika&nbsp;Aidatı:</div> <div style='color:#e53e3e; font-weight:bold;'>" + sendikaAidati.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
             "</div>" +
         "</div>" +
         moneyKutucukHTML;
@@ -1122,7 +1175,7 @@ document.getElementById('indirTamBtn').addEventListener('click', function() {
     }, 150);
 });
 
-// 2. BUTON: SADECE SONUCU VE FOOTER'I KAYDET (2 Sütun + Alt Bilgi, Ortalı)
+// 2. BUTON: SADECE SONUCU VE FOOTER'I KAYDET
 document.getElementById('indirSonucBtn').addEventListener('click', function() {
     const btn = this;
     if (btn.disabled) return; 
@@ -1225,7 +1278,7 @@ document.getElementById('indirSonucBtn').addEventListener('click', function() {
     }, 150);
 });
 
-// OCR (FOTOĞRAFTAN OKUMA) MANTIĞI VE PROGRESS BAR
+// OCR (FOTOĞRAFTAN OKUMA)
 document.getElementById('ocrBtn').addEventListener('click', function() {
     document.getElementById('ocrInput').click();
 });
@@ -1291,10 +1344,9 @@ document.getElementById('ocrInput').addEventListener('change', function(e) {
     });
 });
 
-// Temizle (Sıfırla) Butonu İşlemi
 document.getElementById('sifirlaBtn').addEventListener('click', function() {
     document.querySelectorAll('input[type="text"]').forEach(el => {
-        if (el.id === 'gtSaat' || el.id === 'pazarGun') {
+        if (el.id === 'fazlaMesaiSaat' || el.id === 'pazarGun') {
             el.value = '0';
         } else {
             el.value = '';
@@ -1306,6 +1358,8 @@ document.getElementById('sifirlaBtn').addEventListener('click', function() {
     document.getElementById('cocukKucuk').selectedIndex = 0;
     document.getElementById('cocukBuyuk').selectedIndex = 0;
     document.getElementById('kolayVergiDilimi').selectedIndex = 0;
+    document.getElementById('ozelYardim').selectedIndex = 0;
+    document.getElementById('tahsilYardimi').selectedIndex = 0;
     
     document.querySelector('input[name="vergiGirisTipi"][value="matrah"]').checked = true;
     document.getElementById('alanMatrah').style.display = 'flex';
