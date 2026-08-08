@@ -23,7 +23,6 @@
             display: flex;
             justify-content: center;
             line-height: 1.5;
-            /* Mobilde yatay kaymayı engellemek için */
             overflow-x: hidden; 
         }
 
@@ -36,7 +35,6 @@
             max-width: 900px;
             border-top: 10px solid var(--migros-turuncu);
             box-sizing: border-box;
-            /* Mobilde taşmaları kart içinde tutmak için */
             overflow: hidden; 
         }
 
@@ -62,7 +60,6 @@
             margin-bottom: 15px;
             display: inline-block;
             box-shadow: 0 4px 10px rgba(0, 74, 153, 0.2);
-            /* Uzun başlıkların mobilde taşmasını engeller */
             max-width: 100%; 
             box-sizing: border-box;
             word-wrap: break-word;
@@ -112,7 +109,6 @@
         .vurgu { font-weight: bold; color: var(--migros-turuncu); }
         .kirmizi-vurgu { font-weight: bold; color: #e53e3e; }
 
-        /* TABLO AYARLARI GÜNCELLENDİ (Sağa sola kaymayı engellemek için) */
         .table-responsive {
             width: 100%;
             margin-top: 10px;
@@ -120,22 +116,21 @@
             border-radius: 10px;
             border: 1px solid var(--border-renk);
             box-sizing: border-box;
+            overflow: hidden; /* Scroll yerine sığdırmaya zorluyoruz */
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
-            /* Önceki white-space: nowrap kuralı EKRAN TAŞMASINI önlemek için kaldırıldı */
-            word-break: break-word; 
             table-layout: auto;
         }
 
         th, td {
-            padding: 10px 6px; /* Boşluklar daraltıldı */
+            padding: 8px 4px; 
             text-align: center;
             border-bottom: 1px solid var(--border-renk);
-            line-height: 1.3;
+            line-height: 1.25;
         }
 
         th {
@@ -146,6 +141,14 @@
 
         tr:nth-child(even) { background-color: #fcfdfd; }
         tr:hover { background-color: #fff9f5; }
+        
+        /* Tablo içindeki parantez içi detay yazıları için sınıf */
+        .alt-metin {
+            font-size: 10.5px;
+            color: #718096;
+            display: block;
+            margin-top: 2px;
+        }
 
         .dikkat-kutusu {
             background-color: #fff5f5;
@@ -164,22 +167,29 @@
             gap: 20px;
         }
 
-        /* MOBİL UYUM (Küçük Ekranlarda Tabloların Sığması İçin Ekstra Küçültme) */
+        /* MOBİL UYUM */
         @media (max-width: 768px) {
             .grid-2 { grid-template-columns: 1fr; }
             .container { padding: 20px 15px; }
             .header-title { font-size: 20px; }
-            .info-card { padding: 15px; }
             
             table { font-size: 11px; }
             th, td { padding: 6px 3px; }
+            .alt-metin { font-size: 9px; }
         }
 
         @media (max-width: 480px) {
-            table { font-size: 10.5px; }
-            th, td { padding: 5px 2px; }
-            .info-desc { margin-left: 0; } /* Mobilde yazılar tam genişlikte olsun */
+            body { padding: 10px 5px; }
+            .container { padding: 15px 10px; }
+            .info-card { padding: 12px; }
+            .info-desc { margin-left: 0; } 
             .info-title { margin-bottom: 8px; }
+
+            /* En küçük ekranlarda tabloların taşmaması için minimum değerler */
+            table { font-size: 9.5px; }
+            th, td { padding: 4px 1px; }
+            .alt-metin { font-size: 8px; margin-top: 1px; }
+            .vurgu { font-size: 9.5px; }
         }
     </style>
 </head>
@@ -204,9 +214,9 @@
                 <div class="table-responsive" style="max-width: 400px;">
                     <table>
                         <tr><th>Dönem</th><th>Tutar</th></tr>
-                        <tr><td>2026 Ocak</td><td class="vurgu">2.758 ₺</td></tr>
-                        <tr><td>Şubat – Temmuz</td><td class="vurgu">3.298 ₺</td></tr>
-                        <tr><td>Ağustos ve Sonrası</td><td class="vurgu">3.628 ₺</td></tr>
+                        <tr><td>2026 Ocak</td><td class="vurgu">2.758&nbsp;₺</td></tr>
+                        <tr><td>Şubat – Temmuz</td><td class="vurgu">3.298&nbsp;₺</td></tr>
+                        <tr><td>Ağustos ve Sonrası</td><td class="vurgu">3.628&nbsp;₺</td></tr>
                     </table>
                 </div>
             </div>
@@ -215,8 +225,8 @@
         <div class="info-item">
             <div class="info-title">📦 Money (Bono) (4’lü paket) (Vergiden Muaf)</div>
             <div class="info-desc">
-                Migros Sanal ve Migros mağaza alışverişlerinizi tekel ürünleri ve alkol hariç, %5 indirimli alışveriş hakkı verilir. (Aylık 10.000 ₺’ye kadar)<br>
-                2 Yılı doldurma şartı ile "Elektronik" ve “Gıda Dışı” kategorilerinde Migros mağazalarından yıllık <span class="vurgu">33.030 ₺</span>’ye kadar taksitli alışveriş hakkı verilir.
+                Migros Sanal ve Migros mağaza alışverişlerinizi tekel ürünleri ve alkol hariç, %5 indirimli alışveriş hakkı verilir. (Aylık 10.000&nbsp;₺’ye kadar)<br>
+                2 Yılı doldurma şartı ile "Elektronik" ve “Gıda Dışı” kategorilerinde Migros mağazalarından yıllık <span class="vurgu">33.030&nbsp;₺</span>’ye kadar taksitli alışveriş hakkı verilir.
                 <div style="margin-top: 5px; font-size: 12px; color: #e53e3e; font-weight: bold;">Not: Hakkında icra veya yasal takip bulunan personel bu uygulamadan yararlanamaz.</div>
             </div>
         </div>
@@ -239,8 +249,8 @@
                 <li><b style="color: #333;">Ek İzin:</b> +2 gün ek yıllık izin verilir.</li>
                 <li><b style="color: #333;">Pazar (Hafta Tatili):</b> Çalıştıkları takdirde brüt <span class="vurgu">3 yevmiye</span> ödenir.</li>
                 <li><b style="color: #333;">Fazla Çalışma:</b> Saat ücretinin brüt <span class="vurgu">%50 fazlasıdır</span>.</li>
-                <li><b style="color: #333;">Gece Çalışması:</b> 23.30-06.30 arasındaki 6.5 saat için geçerli, saatlik brüt 25 ₺, günlük brüt <span class="vurgu">162.5 ₺</span> ödenir.</li>
-                <li><b style="color: #333;">Soğuk Hava Vardiyası:</b> Çalışanlarına günlük brüt <span class="vurgu">80 ₺</span> ödenir.</li>
+                <li><b style="color: #333;">Gece Çalışması:</b> 23.30-06.30 arasındaki 6.5 saat için geçerli, saatlik brüt 25&nbsp;₺, günlük brüt <span class="vurgu">162.5&nbsp;₺</span> ödenir.</li>
+                <li><b style="color: #333;">Soğuk Hava Vardiyası:</b> Çalışanlarına günlük brüt <span class="vurgu">80&nbsp;₺</span> ödenir.</li>
             </ul>
         </div>
 
@@ -251,35 +261,32 @@
                 <div class="table-responsive">
                     <table>
                         <tr><th>2026 Yılı</th><th>0-6 Yaş</th><th>6 Yaş Üstü</th></tr>
-                        <tr><td>Ocak - Haziran</td><td>693,94 ₺</td><td>346,97 ₺</td></tr>
-                        <tr><td>Temmuz - Aralık</td><td>787,76 ₺</td><td>393,88 ₺</td></tr>
+                        <tr><td>Ocak - Haziran</td><td>693,94&nbsp;₺</td><td>346,97&nbsp;₺</td></tr>
+                        <tr><td>Temmuz - Aralık</td><td>787,76&nbsp;₺</td><td>393,88&nbsp;₺</td></tr>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- EĞİTİM VE DİĞER YARDIMLAR (DÜZELTİLDİ: BRÜT VE NET AYRILDI) -->
+    <!-- EĞİTİM VE DİĞER YARDIMLAR -->
     <div class="info-card" style="margin-top: 5px;">
-        <!-- BRÜT OLAN KISIM -->
         <div class="info-title">🎓 Tahsil Yardımı (Brüt)</div>
         <div class="info-desc" style="margin-left: 0;">
             Çalışmayan 25 yaşını doldurmamış çocukları ile engelli çocukları için yılda 1 defa ve okulların açılmasıyla en geç 1 ay içerisinde brüt tahsil yardımı yapılır.
             <div class="table-responsive">
                 <table>
                     <tr><th>İlköğretim</th><th>Lise</th><th>Yüksekokul</th></tr>
-                    <tr><td class="vurgu">1.850 ₺</td><td class="vurgu">2.750 ₺</td><td class="vurgu">3.700 ₺</td></tr>
+                    <tr><td class="vurgu">1.850&nbsp;₺</td><td class="vurgu">2.750&nbsp;₺</td><td class="vurgu">3.700&nbsp;₺</td></tr>
                 </table>
             </div>
         </div>
         
-        <!-- NET OLAN KISIM -->
         <div class="info-title" style="margin-top: 25px; border-top: 1px dashed #cbd5e0; padding-top: 20px;">🤝 Diğer Sosyal Yardımlar (Net)</div>
         <div class="info-desc" style="margin-left: 0;">
             <div class="table-responsive">
                 <table>
                     <tr>
-                        <!-- Başlıklar mobilde sığsın diye alt alta kırıldı -->
                         <th>Evlenme</th>
                         <th>Askerlik</th>
                         <th>Doğum</th>
@@ -288,12 +295,12 @@
                         <th>Ölüm<br>(İş Kazası)</th>
                     </tr>
                     <tr>
-                        <td class="vurgu">3.300 ₺</td>
-                        <td class="vurgu">3.200 ₺</td>
-                        <td class="vurgu">3.200 ₺</td>
-                        <td class="vurgu">3.200 ₺</td>
-                        <td class="kirmizi-vurgu">35.000 ₺</td>
-                        <td class="kirmizi-vurgu">40.000 ₺</td>
+                        <td class="vurgu">3.300&nbsp;₺</td>
+                        <td class="vurgu">3.200&nbsp;₺</td>
+                        <td class="vurgu">3.200&nbsp;₺</td>
+                        <td class="vurgu">3.200&nbsp;₺</td>
+                        <td class="kirmizi-vurgu">35.000&nbsp;₺</td>
+                        <td class="kirmizi-vurgu">40.000&nbsp;₺</td>
                     </tr>
                 </table>
             </div>
@@ -305,11 +312,11 @@
     <div class="info-card" style="border-left: 5px solid var(--migros-turuncu);">
         <ul style="margin: 0; padding-left: 20px; color: var(--yazi-acik); font-size: 14px; line-height: 1.8; margin-bottom: 15px;">
             <li>Yılını dolduran devrolan depo personeline <b style="color:#333;">MAYIS</b> ayında kademe artışı yapıldı ve <b style="color:#333;">KASIM</b> ayında tekrar kademe artışı yapılacaktır.</li>
-            <li>İkramiye minimum <span class="vurgu">%50</span> uygulanacak ayrıca 4.Yıl ve %80’e varıncaya kadar aylık ilave <span class="vurgu">2500 ₺ brüt</span> ek ikramiye ödenecektir.</li>
+            <li>İkramiye minimum <span class="vurgu">%50</span> uygulanacak ayrıca 4.Yıl ve %80’e varıncaya kadar aylık ilave <span class="vurgu">2500&nbsp;₺ brüt</span> ek ikramiye ödenecektir.</li>
             <li>Resmî tatilde çalıştıkları takdirde brüt <span class="vurgu">3 yevmiye</span> ödenecektir.</li>
             <li><b style="color:#333;">Sendika Aidatı:</b> Günlük ücretin %70 alınarak hesaplanır. (Vergiden Muaf)<br>
-                <i>Örn: (198,17 * 7.5) * 0.70 = 1.040,40 ₺</i><br>
-                3 aylık (Şubat, Mart, Nisan) toplam 3.121,20 ₺ aidat borcu, Ekim ayına kadar her ay eşit şekilde 520,20 ₺ olarak kesilip ücret bordrosundan tahsil edilecektir. (Örn: 1040,40 ₺ + 520,20 ₺ = 1560,60 ₺)
+                <i>Örn: (198,17 * 7.5) * 0.70 = 1.040,40&nbsp;₺</i><br>
+                3 aylık (Şubat, Mart, Nisan) toplam 3.121,20&nbsp;₺ aidat borcu, Ekim ayına kadar her ay eşit şekilde 520,20&nbsp;₺ olarak kesilip ücret bordrosundan tahsil edilecektir. (Örn: 1040,40&nbsp;₺ + 520,20&nbsp;₺ = 1560,60&nbsp;₺)
             </li>
         </ul>
 
@@ -324,20 +331,20 @@
                     <th>5. Yıl</th>
                 </tr>
                 <tr>
-                    <td style="font-weight: bold; background-color: #f8fafc;">İkramiye<br>Oranı</td>
-                    <td>%50<br><span style="font-size:10px;color:#718096;">(2 Maaş/12)</span><br><span class="vurgu">+2500 ₺</span></td>
-                    <td>%50<br><span style="font-size:10px;color:#718096;">(2 Maaş/12)</span><br><span class="vurgu">+2500 ₺</span></td>
-                    <td>%50<br><span style="font-size:10px;color:#718096;">(2 Maaş/12)</span><br><span class="vurgu">+2500 ₺</span></td>
-                    <td>%80<br><span style="font-size:10px;color:#718096;">(3.2 Maaş/12)</span></td>
-                    <td>%100<br><span style="font-size:10px;color:#718096;">(4 Maaş/12)</span></td>
+                    <td style="font-weight: bold; background-color: #f8fafc; vertical-align: middle;">İkramiye<br>Oranı</td>
+                    <td style="vertical-align: top;">%50<span class="alt-metin">(2&nbsp;Maaş/12)</span><span class="vurgu" style="display:block; margin-top:3px;">+2500&nbsp;₺</span></td>
+                    <td style="vertical-align: top;">%50<span class="alt-metin">(2&nbsp;Maaş/12)</span><span class="vurgu" style="display:block; margin-top:3px;">+2500&nbsp;₺</span></td>
+                    <td style="vertical-align: top;">%50<span class="alt-metin">(2&nbsp;Maaş/12)</span><span class="vurgu" style="display:block; margin-top:3px;">+2500&nbsp;₺</span></td>
+                    <td style="vertical-align: top;">%80<span class="alt-metin">(3.2&nbsp;Maaş/12)</span></td>
+                    <td style="vertical-align: top;">%100<span class="alt-metin">(4&nbsp;Maaş/12)</span></td>
                 </tr>
                 <tr>
                     <td style="font-weight: bold; background-color: #f8fafc;">Bono<br>(Money)</td>
-                    <td>2.250 ₺</td>
-                    <td>2.250 ₺</td>
-                    <td>2.758 ₺</td>
-                    <td>4.413 ₺</td>
-                    <td>5.516 ₺</td>
+                    <td>2.250&nbsp;₺</td>
+                    <td>2.250&nbsp;₺</td>
+                    <td>2.758&nbsp;₺</td>
+                    <td>4.413&nbsp;₺</td>
+                    <td>5.516&nbsp;₺</td>
                 </tr>
             </table>
         </div>
@@ -350,7 +357,7 @@
             <li>1 Mayıs ile 30 Ekim arası işe giren personele <b style="color:#333;">KASIM</b> ayında kademe artışı yapılır.</li>
             <li>Resmî tatilde çalıştıkları takdirde brüt <span class="vurgu">2,5 yevmiye</span> ödenecektir.</li>
             <li><b style="color:#333;">Sendika Aidatı:</b> Günlük ücretin %70'i alınarak hesaplanıp ödenecektir. (Vergiden Muaf)<br>
-                <i>Örn: (186,51 * 7.5) * 0.70 = 979,20 ₺</i>
+                <i>Örn: (186,51 * 7.5) * 0.70 = 979,20&nbsp;₺</i>
             </li>
         </ul>
 
@@ -365,20 +372,20 @@
                     <th>5. Yıl</th>
                 </tr>
                 <tr>
-                    <td style="font-weight: bold; background-color: #f8fafc;">İkramiye<br>Oranı</td>
-                    <td>%40<br><span style="font-size:10px;color:#718096;">(1.6 Maaş)</span></td>
-                    <td>%40<br><span style="font-size:10px;color:#718096;">(1.6 Maaş)</span></td>
-                    <td>%50<br><span style="font-size:10px;color:#718096;">(2 Maaş)</span></td>
-                    <td>%80<br><span style="font-size:10px;color:#718096;">(3.2 Maaş)</span></td>
-                    <td>%100<br><span style="font-size:10px;color:#718096;">(4 Maaş)</span></td>
+                    <td style="font-weight: bold; background-color: #f8fafc; vertical-align: middle;">İkramiye<br>Oranı</td>
+                    <td style="vertical-align: top;">%40<span class="alt-metin">(1.6&nbsp;Maaş)</span></td>
+                    <td style="vertical-align: top;">%40<span class="alt-metin">(1.6&nbsp;Maaş)</span></td>
+                    <td style="vertical-align: top;">%50<span class="alt-metin">(2&nbsp;Maaş)</span></td>
+                    <td style="vertical-align: top;">%80<span class="alt-metin">(3.2&nbsp;Maaş)</span></td>
+                    <td style="vertical-align: top;">%100<span class="alt-metin">(4&nbsp;Maaş)</span></td>
                 </tr>
                 <tr>
                     <td style="font-weight: bold; background-color: #f8fafc;">Bono<br>(Money)</td>
-                    <td>2.060 ₺</td>
-                    <td>2.206 ₺</td>
-                    <td>2.758 ₺</td>
-                    <td>4.413 ₺</td>
-                    <td>5.516 ₺</td>
+                    <td>2.060&nbsp;₺</td>
+                    <td>2.206&nbsp;₺</td>
+                    <td>2.758&nbsp;₺</td>
+                    <td>4.413&nbsp;₺</td>
+                    <td>5.516&nbsp;₺</td>
                 </tr>
             </table>
         </div>
@@ -395,9 +402,9 @@
         <div class="table-responsive">
             <table>
                 <tr><th>Vergi Dilimi (Oran)</th><th>Gelir Vergisi Matrahı Tutarı</th></tr>
-                <tr><td class="kirmizi-vurgu">%15</td><td>190.000 ₺'ye kadar</td></tr>
-                <tr><td class="kirmizi-vurgu">%20</td><td>190.000 ₺ - 400.000 ₺ arası</td></tr>
-                <tr><td class="kirmizi-vurgu">%27</td><td>400.000 ₺ - 1.500.000 ₺ arası</td></tr>
+                <tr><td class="kirmizi-vurgu">%15</td><td>190.000&nbsp;₺'ye kadar</td></tr>
+                <tr><td class="kirmizi-vurgu">%20</td><td>190.000&nbsp;₺ - 400.000&nbsp;₺ arası</td></tr>
+                <tr><td class="kirmizi-vurgu">%27</td><td>400.000&nbsp;₺ - 1.500.000&nbsp;₺ arası</td></tr>
             </table>
         </div>
     </div>
@@ -409,7 +416,6 @@
         <div class="info-title">📅 Hafta Tatili (Pazar) 2 Katı Net Ücretleri</div>
         <div style="font-size: 12px; color: var(--yazi-acik); margin-bottom: 10px;">Normal yevmiyeniz zaten çalışmasanız da hesaplandığı için sadece hakettiğiniz ekstra 2 katı listelenmiştir.</div>
         <div class="table-responsive">
-            <!-- Mobilde taşmaması için başlıklar kısaltıldı -->
             <table>
                 <tr>
                     <th>Saatlik / Günlük</th>
@@ -419,25 +425,25 @@
                     <th>%27 Net</th>
                 </tr>
                 <tr>
-                    <td>186,51 ₺<br><span style="font-size:10.5px;color:#718096;">1.398,82 ₺</span></td>
-                    <td class="vurgu">2.797,65 ₺</td>
-                    <td>2.000,10 ₺</td>
-                    <td>1.881,20 ₺</td>
-                    <td>1.714,74 ₺</td>
+                    <td>186,51&nbsp;₺<span class="alt-metin">1.398,82&nbsp;₺</span></td>
+                    <td class="vurgu">2.797,65&nbsp;₺</td>
+                    <td>2.000,10&nbsp;₺</td>
+                    <td>1.881,20&nbsp;₺</td>
+                    <td>1.714,74&nbsp;₺</td>
                 </tr>
                 <tr>
-                    <td>198,17 ₺<br><span style="font-size:10.5px;color:#718096;">1.486,27 ₺</span></td>
-                    <td class="vurgu">2.972,55 ₺</td>
-                    <td>2.125,11 ₺</td>
-                    <td>1.998,78 ₺</td>
-                    <td>1.821,91 ₺</td>
+                    <td>198,17&nbsp;₺<span class="alt-metin">1.486,27&nbsp;₺</span></td>
+                    <td class="vurgu">2.972,55&nbsp;₺</td>
+                    <td>2.125,11&nbsp;₺</td>
+                    <td>1.998,78&nbsp;₺</td>
+                    <td>1.821,91&nbsp;₺</td>
                 </tr>
                 <tr>
-                    <td>202,59 ₺<br><span style="font-size:10.5px;color:#718096;">1.519,52 ₺</span></td>
-                    <td class="vurgu">3.039,05 ₺</td>
-                    <td>2.172,64 ₺</td>
-                    <td>2.043,48 ₺</td>
-                    <td>1.862,66 ₺</td>
+                    <td>202,59&nbsp;₺<span class="alt-metin">1.519,52&nbsp;₺</span></td>
+                    <td class="vurgu">3.039,05&nbsp;₺</td>
+                    <td>2.172,64&nbsp;₺</td>
+                    <td>2.043,48&nbsp;₺</td>
+                    <td>1.862,66&nbsp;₺</td>
                 </tr>
             </table>
         </div>
@@ -454,28 +460,28 @@
                     <th>%27 Net</th>
                 </tr>
                 <tr>
-                    <td>186,51 ₺</td>
-                    <td>279,19 ₺</td>
-                    <td class="vurgu">979,19 ₺</td>
-                    <td>700,08 ₺</td>
-                    <td>658,48 ₺</td>
-                    <td>600,24 ₺</td>
+                    <td>186,51&nbsp;₺</td>
+                    <td>279,19&nbsp;₺</td>
+                    <td class="vurgu">979,19&nbsp;₺</td>
+                    <td>700,08&nbsp;₺</td>
+                    <td>658,48&nbsp;₺</td>
+                    <td>600,24&nbsp;₺</td>
                 </tr>
                 <tr>
-                    <td>198,17 ₺</td>
-                    <td>297,26 ₺</td>
-                    <td class="vurgu">1.040,40 ₺</td>
-                    <td>743,79 ₺</td>
-                    <td>699,57 ₺</td>
-                    <td>637,67 ₺</td>
+                    <td>198,17&nbsp;₺</td>
+                    <td>297,26&nbsp;₺</td>
+                    <td class="vurgu">1.040,40&nbsp;₺</td>
+                    <td>743,79&nbsp;₺</td>
+                    <td>699,57&nbsp;₺</td>
+                    <td>637,67&nbsp;₺</td>
                 </tr>
                 <tr>
-                    <td>202,59 ₺</td>
-                    <td>303,89 ₺</td>
-                    <td class="vurgu">1.063,60 ₺</td>
-                    <td>760,38 ₺</td>
-                    <td>715,18 ₺</td>
-                    <td>651,90 ₺</td>
+                    <td>202,59&nbsp;₺</td>
+                    <td>303,89&nbsp;₺</td>
+                    <td class="vurgu">1.063,60&nbsp;₺</td>
+                    <td>760,38&nbsp;₺</td>
+                    <td>715,18&nbsp;₺</td>
+                    <td>651,90&nbsp;₺</td>
                 </tr>
             </table>
         </div>
