@@ -51,7 +51,7 @@
             .card { padding: 20px 12px; }
             .logo-area { font-size: 16px; }
             .group { gap: 6px !important; }
-            input, select { font-size: 13px !important; padding: 10px 4px !important; } /* Girdi fontları ve iç boşlukları daraltıldı */
+            input, select { font-size: 13px !important; padding: 10px 4px !important; } 
             .input-icon-wrapper input { padding-right: 24px !important; }
             .input-icon-wrapper .unit-text { right: 6px !important; font-size: 11px !important; }
             label { font-size: 11.5px !important; margin-bottom: 4px !important; }
@@ -84,16 +84,28 @@
         .dinamik-gunluk { background: #fff7f2; border: 2px dashed #fddbc7; padding: 12px; border-radius: 12px; text-align: center; margin-bottom: 15px; font-size: 14px; color: #333; }
         .dinamik-gunluk span { font-weight: bold; color: var(--migros-turuncu); font-size: 16px; display: inline-block; }
 
-        input.error, select.error { border-color: #e74c3c; background: #fff5f5; }
+        /* HATA VE TİTREME (SHAKE) ANİMASYONLARI */
+        input.error, select.error { border-color: #e53e3e !important; background: #fff5f5 !important; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            50% { transform: translateX(4px); }
+            75% { transform: translateX(-4px); }
+        }
+        .shake { animation: shake 0.4s ease-in-out; }
         .error-text { color: #e74c3c; font-size: 12px; margin-top: 4px; display: none; font-weight: bold; line-height: 1.4; text-align: center; background: #fff5f5; padding: 10px; border-radius: 10px; border: 1px dashed #fc8181; }
+
+        /* BİLDİRİM (TOAST) EFEKTİ */
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #38a169; color: white; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; text-align: center; }
+        .toast.show { opacity: 1; visibility: visible; top: 30px; }
 
         /* ALT SABİT AKSİYON BARI */
         .fixed-bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px); box-shadow: 0 -4px 15px rgba(0,0,0,0.08); padding: 15px 20px; box-sizing: border-box; display: flex; justify-content: center; z-index: 1000; border-top: 1px solid #edf2f7; }
         .fixed-bottom-bar::before { content: ''; position: absolute; bottom: 100%; left: 0; width: 100%; height: 40px; background: linear-gradient(to top, var(--arkaplan), transparent); pointer-events: none; }
         .fixed-bottom-bar-container { display: flex; gap: 8px; width: 100%; max-width: 440px; justify-content: space-between; }
-        .sifirla-btn { flex: 1; padding: 12px 6px; background-color: #edf2f7; color: #4a5568; border: 2px solid #cbd5e0; border-radius: 14px; cursor: pointer; font-size: 13px; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; transition: 0.3s; }
+        .sifirla-btn { flex: 1; padding: 12px 4px; background-color: #edf2f7; color: #4a5568; border: 2px solid #cbd5e0; border-radius: 14px; cursor: pointer; font-size: 12px; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; transition: 0.3s; text-align: center; }
         .sifirla-btn:hover { background-color: #e2e8f0; border-color: #a0aec0; color: #2d3748; }
-        .indir-btn { flex: 1; padding: 12px 6px; color: white; border-radius: 14px; cursor: pointer; font-size: 13px; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; transition: 0.3s; }
+        .indir-btn { flex: 1; padding: 12px 4px; color: white; border-radius: 14px; cursor: pointer; font-size: 12px; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; transition: 0.3s; text-align: center; }
         .tam-indir { background-color: var(--migros-turuncu); border: 2px solid var(--migros-turuncu); box-shadow: 0 4px 10px rgba(243, 112, 33, 0.2); }
         .tam-indir:hover { background-color: #d96017; border-color: #d96017; }
         .sonuc-indir { background-color: var(--migros-lacivert); border: 2px solid var(--migros-lacivert); box-shadow: 0 4px 10px rgba(0, 74, 153, 0.2); }
@@ -105,15 +117,11 @@
         
         .bolum-baslik { font-weight: bold; color: var(--migros-lacivert); margin-top: 12px; margin-bottom: 6px; border-bottom: 1px solid #edf2f7; padding-bottom: 2px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
         
-        /* BORDRO SATIR DÜZENİ (Rakamları sağa sabitleyen esnek yapı) */
+        /* BORDRO SATIR DÜZENİ */
         .satir { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; font-size: 14px; color: #4a5568; border-bottom: 1px solid #f1f1f1; padding-bottom: 5px; gap: 10px; }
-        .satir > div:first-child { flex: 1; padding-right: 5px; line-height: 1.3; }
+        .satir > div:first-child { flex: 1; padding-right: 5px; line-height: 1.3; white-space: pre-wrap; }
         .satir > b, .satir > div:last-child { white-space: nowrap; text-align: right; flex-shrink: 0; } 
         
-        .satir-ikramiye { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 10px; font-size: 14px; color: #4a5568; border-bottom: 1px solid #f1f1f1; padding-bottom: 5px; gap: 10px; line-height: 1.4; }
-        .satir-ikramiye > div:first-child { flex: 1 1 auto; padding-right: 5px; }
-        .satir-ikramiye > b { white-space: nowrap; flex: 0 0 auto; text-align: right; }
-
         .yasal-kesintiler-kutu { border: 2px dashed #e53e3e; padding: 14px 16px; border-radius: 14px; background-color: #fffaf9; margin-top: 15px; margin-bottom: 15px; transition: all 0.3s ease; }
         .yasal-kesintiler-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding-bottom: 5px; user-select: none; }
         .yasal-kesintiler-header .bolum-baslik { margin: 0; padding: 0; border: none; }
@@ -193,26 +201,27 @@
     <!-- İÇ KUTU 1: Personel Tipi, Maaş Sırası, Vergi ve Özel Kesintiler -->
     <div style="background-color: #fffcf9; border: 2px dashed var(--migros-turuncu); padding: 15px; border-radius: 18px; margin-bottom: 18px; box-shadow: 0 4px 15px rgba(243, 112, 33, 0.1); border-left: 6px solid var(--migros-turuncu);">
         
-        <div style="display: flex; gap: 10px; margin-bottom: 14px;">
-            <div style="flex: 1;">
-                <label style="margin-bottom: 6px; font-size: 12px; color: var(--migros-lacivert); font-weight: 800; display: flex; align-items: center; gap: 6px;">👤 Personel Tipi</label>
-                <select id="personelTipi" style="padding: 12px; font-size: 14px; font-weight: bold; border: 2px solid #cbd5e0; border-radius: 10px; width: 100%; color: var(--migros-lacivert); background-color: white;">
+                        <div style="display: flex; gap: 8px; margin-bottom: 14px; align-items: flex-end;">
+            <div style="flex: 1.35;">
+                <label style="margin-bottom: 6px; font-size: 11.5px; color: var(--migros-lacivert); font-weight: 800; display: flex; align-items: center; gap: 4px; white-space: nowrap; letter-spacing: -0.5px;">👤 Personel Tipi</label>
+                <select id="personelTipi" style="padding: 10px 2px; font-size: 12.5px; letter-spacing: -0.5px; font-weight: bold; border: 2px solid #cbd5e0; border-radius: 10px; width: 100%; color: var(--migros-lacivert); background-color: white;">
                     <option value="" selected disabled hidden>Seçiniz</option>
                     <option value="devir">DEVROLAN PERSONEL</option>
                     <option value="yeni">YENİ PERSONEL</option>
                 </select>
             </div>
             <div style="flex: 1;">
-                <label style="margin-bottom: 6px; font-size: 12px; color: var(--migros-lacivert); font-weight: 800; display: flex; align-items: center; gap: 6px;">🗓️ Kaçıncı Ay Ücreti?
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                    <label style="margin-bottom: 0; font-size: 11.5px; color: var(--migros-lacivert); font-weight: 800; display: flex; align-items: center; gap: 4px; white-space: nowrap; letter-spacing: -0.5px;">🗓️ Ay Ücreti?</label>
                     <div class="tooltip-container tooltip-left">
                         <span class="info-icon" style="width: 14px; height: 14px; font-size: 10px;">i</span>
-                        <div class="tooltip-text" style="width: 250px;">
-                            <strong style="color: #333; font-size: 12px; border-bottom: 2px solid var(--migros-turuncu); padding-bottom: 5px; display: block; margin-bottom: 5px;">Kümülatif AÜVM Takibi</strong>
-                            Asgari Ücret Vergi Muafiyetinizin (AÜVM) aydan aya eksiksiz hesaplanabilmesi için, bulunduğumuz yılda bu iş yerinden aldığınız kaçıncı ay ücreti olduğunu seçiniz.
+                        <div class="tooltip-text" style="width: 250px; font-weight: normal; text-transform: none; line-height: 1.4;">
+                            <strong style="color: #333; font-size: 13px; border-bottom: 2px solid var(--migros-turuncu); padding-bottom: 5px; display: block; margin-bottom: 5px;">Kaçıncı Ay Ücreti?</strong>
+                            Kümülatif gelir vergisi matrahınızın aylar bazında doğru toplanabilmesi ve muafiyetlerin hesaplanabilmesi için ilgili ücret ayını seçiniz.
                         </div>
                     </div>
-                </label>
-                <select id="kacinciMaas" style="padding: 12px; font-size: 14px; font-weight: bold; border: 2px solid #cbd5e0; border-radius: 10px; width: 100%; color: var(--migros-lacivert); background-color: white;">
+                </div>
+                <select id="kacinciMaas" style="padding: 10px 2px; font-size: 12.5px; letter-spacing: -0.5px; font-weight: bold; border: 2px solid #cbd5e0; border-radius: 10px; width: 100%; color: var(--migros-lacivert); background-color: white;">
                     <option value="" selected disabled hidden>Seçiniz</option>
                     <option value="1">1. Ay</option>
                     <option value="2">2. Ay</option>
@@ -238,11 +247,6 @@
                     <div class="tooltip-text" style="width: 320px;">
                         <strong style="color: #333; font-size: 13px; border-bottom: 2px solid var(--migros-turuncu); padding-bottom: 5px; display: block; margin-bottom: 5px;">Kümülatif Matrah Nedir?</strong>
                         Geçen ayki ücret bordronuzda yazan <b>"Kümülatif GV Matrahı"</b> tutarını buraya girebilirsiniz. Dilerseniz kutucuğun yanındaki <b>📷 kamera simgesine</b> tıklayarak bordronuzun fotoğrafını seçip tutarın otomatik okunmasını sağlayabilirsiniz.
-                        <div style="margin-top: 8px; margin-bottom: 8px; padding: 8px; background-color: #f0f4f8; border-radius: 8px; font-size: 11.5px; color: #4a5568; border: 1px dashed #cbd5e0;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;"><span><b>%15:</b></span> <span>0 - 190.000 TL</span></div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;"><span><b>%20:</b></span> <span>190.000 TL - 400.000 TL</span></div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 3px;"><span><b>%27:</b></span> <span>400.000 TL - 1.500.000 TL</span></div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -253,7 +257,7 @@
             </div>
             
             <div id="alanMatrah" class="ocr-input-group">
-                <input type="text" inputmode="decimal" id="kumulatifMatrah" placeholder="Örn: 370.310,60" oninput="formatlaMil(this)" style="padding: 10px 12px; font-size: 14px; font-weight: bold; color: #e53e3e; background-color: white; flex: 1;">
+                <input type="text" inputmode="decimal" id="kumulatifMatrah" placeholder="Örn: 370.310,60" oninput="formatlaMil(this)" onfocus="this.select()" style="padding: 10px 12px; font-size: 14px; font-weight: bold; color: #e53e3e; background-color: white; flex: 1;">
                 <button type="button" id="ocrBtn" class="ocr-btn" title="Bordrodan Oku">📷</button>
                 <input type="file" id="ocrInput" accept="image/*" style="display: none;">
                 <div id="ocrProgressBar"></div>
@@ -286,7 +290,7 @@
                         </label>
                         <div id="avansAlani" style="display: none; margin-top: 6px;">
                             <div class="input-icon-wrapper">
-                                <input type="text" inputmode="decimal" id="avansTutari" placeholder="17.191" oninput="formatlaMil(this); if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();" style="padding: 8px; font-size: 13px; font-weight: bold; color: #e53e3e; background-color: white; border: 2px solid #cbd5e0; border-radius: 8px; width: 100%; box-sizing: border-box;">
+                                <input type="text" inputmode="decimal" id="avansTutari" placeholder="17.191" oninput="formatlaMil(this); if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();" onfocus="this.select()" style="padding: 8px; font-size: 13px; font-weight: bold; color: #e53e3e; background-color: white; border: 2px solid #cbd5e0; border-radius: 8px; width: 100%; box-sizing: border-box;">
                                 <span class="unit-text" style="right: 8px; z-index: 5;">TL</span>
                             </div>
                         </div>
@@ -299,7 +303,7 @@
                         </label>
                         <div id="digerKesintiAlani" style="display: none; margin-top: 6px;">
                             <div class="input-icon-wrapper">
-                                <input type="text" inputmode="decimal" id="digerKesinti" placeholder="İcra/Taksit vb." oninput="formatlaMil(this); if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();" style="padding: 8px; font-size: 13px; font-weight: bold; color: #e53e3e; background-color: white; border: 2px solid #cbd5e0; border-radius: 8px; width: 100%; box-sizing: border-box;">
+                                <input type="text" inputmode="decimal" id="digerKesinti" placeholder="İcra/Taksit vb." oninput="formatlaMil(this); if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();" onfocus="this.select()" style="padding: 8px; font-size: 13px; font-weight: bold; color: #e53e3e; background-color: white; border: 2px solid #cbd5e0; border-radius: 8px; width: 100%; box-sizing: border-box;">
                                 <span class="unit-text" style="right: 8px; z-index: 5;">TL</span>
                             </div>
                         </div>
@@ -316,10 +320,10 @@
     </div>
 
     <!-- İÇ KUTU 2: Kıdem, Saatlik Ücret ve Ay Seçimi -->
-    <div class="group" style="display: flex; gap: 10px; align-items: flex-end;">
-        <div style="flex: 1;">
-            <label>Kıdem Yılı:</label>
-            <select id="yil" style="padding: 10px;">
+    <div class="group" style="display: flex; gap: 4px; align-items: flex-end;">
+        <div style="flex: 0.95;">
+            <label style="font-size: 11px; white-space: nowrap; letter-spacing: -0.5px; margin-bottom: 4px;">Kıdem Yılı:</label>
+            <select id="yil" style="padding: 10px 2px; font-size: 12px; letter-spacing: -0.5px;">
                 <option value="" selected disabled hidden>Kıdem Seç</option>
                 <option value="1">Yeni / 1. Yıl</option>
                 <option value="2">2. Yıl</option>
@@ -328,162 +332,163 @@
                 <option value="5">5+. Yıl</option>
             </select>
         </div>
-        <div style="flex: 1.2;">
-            <label style="color: var(--migros-turuncu); font-weight: 800;">Saatlik Brüt:</label>
+        <div style="flex: 1.15;">
+            <label style="color: var(--migros-turuncu); font-weight: 800; font-size: 11px; white-space: nowrap; letter-spacing: -0.5px; margin-bottom: 4px;">Saatlik Brüt:</label>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="saatlik" placeholder="Örn: 198.17" style="padding: 10px; border: 2px solid var(--migros-turuncu); background-color: #fff9f5; font-weight: bold; color: var(--migros-lacivert); font-size: 15px; box-shadow: 0 4px 10px rgba(243, 112, 33, 0.1); text-align: left;">
-                <span class="unit-text" style="color: var(--migros-turuncu);">TL</span>
+                <input type="text" inputmode="decimal" id="saatlik" placeholder="Örn: 198.17" onfocus="this.select()" style="padding: 10px 4px; border: 2px solid var(--migros-turuncu); background-color: #fff9f5; font-weight: bold; color: var(--migros-lacivert); font-size: 12.5px; letter-spacing: -0.5px; box-shadow: 0 4px 10px rgba(243, 112, 33, 0.1); text-align: left;">
+                <span class="unit-text" style="color: var(--migros-turuncu); right: 6px;">TL</span>
             </div>
         </div>
-        <div style="flex: 1.3; position: relative;">
-            <div style="display: flex; justify-content: flex-start; align-items: center; gap: 6px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0;">Ay Seçimi:</label>
+        <div style="flex: 1.4; position: relative;">
+            <div style="display: flex; justify-content: flex-start; align-items: center; gap: 2px; margin-bottom: 4px;">
+                <label style="margin-bottom: 0; font-size: 11px; white-space: nowrap; letter-spacing: -0.5px;">Ay Seçimi:</label>
                 <div class="tooltip-container tooltip-left">
-                    <span class="info-icon">i</span>
+                    <span class="info-icon" style="width: 14px; height: 14px; font-size: 10px;">i</span>
                     <div class="tooltip-text" style="width: 250px; font-size: 12px; line-height: 1.45;">
                         <strong style="color: var(--migros-lacivert); display: block; margin-bottom: 4px;">📊 Dönem & Ödeme Mantığı</strong>
-                        Memurlar peşin maaş alır, özel sektör ise çalıştıktan sonra ücret alır. Bir önceki aya ait çalışmanız, takip eden ayda ödenir.
+                        Memurlar peşin ücret alır, özel sektör ise çalıştıktan sonra ücret alır. Bir önceki aya ait çalışmanız, takip eden ayda ödenir.
                     </div>
                 </div>
             </div>
-            <select id="secilenAy" style="padding: 10px; font-size: 14px;"></select>
+            <select id="secilenAy" style="padding: 10px 2px; font-size: 12px; letter-spacing: -0.5px;"></select>
         </div>
     </div>
 
-    <!-- İÇ KUTU 3: İzinler ve Devamsızlıklar (Geliştirilmiş Macerat/Eksik Gün Sıralaması) -->
-    <div class="group" style="display: flex; gap: 10px; background-color: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 15px;">
+    <!-- İÇ KUTU 3: İzinler ve Devamsızlıklar (Pastel Kırmızı Tonu) -->
+    <div class="group" style="display: flex; gap: 10px; background-color: #fff5f5; padding: 12px; border-radius: 12px; border: 1px dashed #fc8181; margin-bottom: 15px;">
         <div style="flex: 1;">
             <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0; font-size: 11.5px; color: var(--migros-lacivert);">Ücretli İzin:</label>
+                <label style="margin-bottom: 0; font-size: 11.5px; color: #c53030;">Ücretli İzin:</label>
                 <div class="tooltip-container tooltip-right">
-                    <span class="info-icon" style="width: 14px; height: 14px; font-size: 10px;">i</span>
+                    <span class="info-icon" style="width: 14px; height: 14px; font-size: 10px; background-color: #e53e3e;">i</span>
                     <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
                         <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">🏖️ Ücretli İzin (Doğum/Yıllık)</strong>
-                        Maaştan kesinti <b>yapılmaz</b>. Ancak bu günlerde depoda fiilen çalışmadığınız için devletin yasal yemek SGK muafiyeti düşer ve maaşınızdan kesilen SGK primi bir miktar artar.
+                        Ücretten kesinti <b>yapılmaz</b>. Ancak bu günlerde depoda fiilen çalışmadığınız için devletin yasal yemek SGK muafiyeti düşer ve ücretinizden kesilen SGK primi bir miktar artar.
                     </div>
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="ucretliIzin" placeholder="0" style="padding: 10px; text-align: center; border-color: #cbd5e0; background-color: #f0f4f8;">
-                <span class="unit-text">Gün</span>
+                <input type="text" inputmode="decimal" id="ucretliIzin" placeholder="0" onfocus="this.select()" style="padding: 10px; text-align: center; border-color: #feb2b2; background-color: white;">
+                <span class="unit-text" style="color: #e53e3e;">Gün</span>
             </div>
         </div>
         
         <div style="flex: 1;">
             <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0; font-size: 11.5px;">Eksik Gün:</label>
+                <label style="margin-bottom: 0; font-size: 11.5px; color: #c53030;">Eksik Gün:</label>
                 <div class="tooltip-container">
-                    <span class="info-icon" style="width: 14px; height: 14px; font-size: 10px;">i</span>
+                    <span class="info-icon" style="width: 14px; height: 14px; font-size: 10px; background-color: #e53e3e;">i</span>
                     <div class="tooltip-text" style="width: 240px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
                         <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">📅 Eksik Gün</strong>
-                        Rapor, ücretsiz izin veya devamsızlık nedeniyle çalışılmayan gün sayısını giriniz. Maaşınızdan doğrudan kesilir.
+                        Rapor, ücretsiz izin veya devamsızlık nedeniyle çalışılmayan gün sayısını giriniz. Ücretinizden doğrudan kesilir.
                     </div>
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="eksikGun" placeholder="0" style="padding: 10px; text-align: center; border-color: #cbd5e0;">
-                <span class="unit-text">Gün</span>
+                <input type="text" inputmode="decimal" id="eksikGun" placeholder="0" onfocus="this.select()" style="padding: 10px; text-align: center; border-color: #feb2b2; background-color: white;">
+                <span class="unit-text" style="color: #e53e3e;">Gün</span>
             </div>
         </div>
         
         <div style="flex: 1;">
             <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0; font-size: 11.5px;">Saatlik İzin:</label>
+                <label style="margin-bottom: 0; font-size: 11.5px; color: #c53030;">Saatlik İzin:</label>
                 <div class="tooltip-container tooltip-left">
-                    <span class="info-icon" style="width: 14px; height: 14px; font-size: 10px;">i</span>
+                    <span class="info-icon" style="width: 14px; height: 14px; font-size: 10px; background-color: #e53e3e;">i</span>
                     <div class="tooltip-text" style="width: 240px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
                         <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">⏳ Saatlik İzin</strong>
-                        7.5 saat üzerinden hesaplanarak maaşınızdan kesinti yapılır.
+                        7.5 saat üzerinden hesaplanarak ücretinizden kesinti yapılır.
                     </div>
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="saatlikIzin" placeholder="0" style="padding: 10px; text-align: center; border-color: #cbd5e0;">
-                <span class="unit-text">Saat</span>
+                <input type="text" inputmode="decimal" id="saatlikIzin" placeholder="0" onfocus="this.select()" style="padding: 10px; text-align: center; border-color: #feb2b2; background-color: white;">
+                <span class="unit-text" style="color: #e53e3e;">Saat</span>
             </div>
         </div>
     </div>
 
-    <!-- İÇ KUTU 4: Fazla Mesai ve Pazar Çalışması -->
-    <div class="group" style="display: flex; gap: 10px; margin-bottom: 15px; background-color: #fff9f5; padding: 12px; border-radius: 12px; border: 1px dashed var(--migros-turuncu);">
-        <div style="flex: 1.2;">
-            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0; color: var(--migros-turuncu); font-size: 12px;">Fazla Çalışma (Mesai):</label>
+    <!-- İÇ KUTU 4: Fazla Mesai, Pazar ve Resmi Tatil Çalışması (Pastel Yeşil Tonu) -->
+    <div class="group" style="display: flex; gap: 10px; margin-bottom: 15px; background-color: #f0fdf4; padding: 12px; border-radius: 12px; border: 1px dashed #68d391;">
+        
+        <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 2px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0; color: #2f855a; font-size: 11px; white-space: nowrap;">F. Mesai:</label>
                 <div class="tooltip-container tooltip-right">
-                    <span class="info-icon">i</span>
+                    <span class="info-icon" style="width:14px; height:14px; font-size:10px; background-color: #38a169;">i</span>
                     <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
                         <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">⏱️ Fazla Çalışma (Mesai)</strong>
-                        Girdiğiniz çalışma saatleri, normal saatlik brüt ücretinizin <b style="color:var(--migros-turuncu);">%50 zamlı (1.5 katı)</b> olarak hesaplanır ve brüt ek kazanç olarak yansıtılır.
+                        Girdiğiniz çalışma saatleri, normal saatlik brüt ücretinizin <b style="color:#2f855a;">%50 zamlı (1.5 katı)</b> olarak hesaplanır ve brüt ek kazanç olarak yansıtılır.
                     </div>
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="fazlaMesaiSaat" placeholder="0" style="border-color: #fddbc7; text-align: center;">
-                <span class="unit-text" style="color: var(--migros-turuncu);">Saat</span>
+                <input type="text" inputmode="decimal" id="fazlaMesaiSaat" placeholder="0" onfocus="this.select()" style="border-color: #9ae6b4; text-align: center; background-color: white;">
+                <span class="unit-text" style="color: #2f855a; right: 6px; font-size: 10px;">Sa</span>
             </div>
         </div>
 
         <div style="flex: 1;">
-            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0; color: var(--migros-turuncu); font-size: 12px;">Pazar Çalışması:</label>
-                <div class="tooltip-container tooltip-left">
-                    <span class="info-icon">i</span>
+            <div style="display: flex; align-items: center; gap: 2px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0; color: #2f855a; font-size: 11px; white-space: nowrap;">Pazar:</label>
+                <div class="tooltip-container">
+                    <span class="info-icon" style="width:14px; height:14px; font-size:10px; background-color: #38a169;">i</span>
                     <div class="tooltip-text" style="width: 260px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
                         <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">💡 Pazar Mesaisi (Hafta Tatili)</strong>
-                        Çalışmasanız dahi o günün normal 1 yevmiyesi aylık ana ücretinizin içindedir. Bu kutuya girdiğiniz Pazar mesaisi için <b>+2 yevmiye</b> daha hesaplanarak brüt ek kazanç olarak yansıtılır. Böylece o gün için toplamda <b style="color:var(--migros-turuncu);">3 yevmiye</b> brüt ek kazanç olarak yansıtılır.
+                        Çalışmasanız dahi o günün normal 1 yevmiyesi aylık ana ücretinizin içindedir. Bu kutuya girdiğiniz Pazar mesaisi için <b>+2 yevmiye</b> daha hesaplanarak brüt ek kazanç olarak yansıtılır.<div style="margin-top:6px; padding-top:6px; border-top:1px dashed #cbd5e0; color:#e53e3e; font-size:11px; line-height:1.3;"><b>⚠️ Çakışma Notu:</b> Resmi Tatil ile Pazar aynı güne denk gelirse, çift hesaplamayı önlemek için çalışmanızı sadece bu kutuya 1 gün olarak giriniz.</div>
                     </div>
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="pazarGun" placeholder="0" style="border-color: #fddbc7; text-align: center;">
-                <span class="unit-text" style="color: var(--migros-turuncu);">Gün</span>
+                <input type="text" inputmode="decimal" id="pazarGun" placeholder="0" onfocus="this.select()" style="border-color: #9ae6b4; text-align: center; background-color: white;">
+                <span class="unit-text" style="color: #2f855a; right: 6px; font-size: 10px;">Gün</span>
             </div>
         </div>
-    </div>
 
-    <!-- İÇ KUTU 5: Resmi Tatil ve Gece Vardiyası -->
-    <div class="group" style="display: flex; gap: 10px;">
         <div style="flex: 1;">
-            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0;">Resmi Tatil Vardiyası:</label>
-                <div class="tooltip-container tooltip-right">
-                    <span class="info-icon">i</span>
+            <div style="display: flex; align-items: center; gap: 2px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0; color: #2f855a; font-size: 11px; white-space: nowrap;">R. Tatil:</label>
+                <div class="tooltip-container tooltip-left">
+                    <span class="info-icon" style="width:14px; height:14px; font-size:10px; background-color: #38a169;">i</span>
                     <div class="tooltip-text" style="width: 260px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
                         <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">💡 Resmi Tatil Ödemesi</strong>
-                        <span id="rtAciklama">Normal yevmiyeniz zaten ana maaşın içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b>ekstra mesai (personele göre 1.5 veya 2 katı)</b> brüt ek kazanç olarak yansıtılır.</span>
+                        <span id="rtAciklama">Normal yevmiyeniz zaten ana ücretin içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b>ekstra mesai (personele göre 1.5 veya 2 katı)</b> brüt ek kazanç olarak yansıtılır.</span><div style="margin-top:6px; padding-top:6px; border-top:1px dashed #cbd5e0; color:#e53e3e; font-size:11px; line-height:1.3;"><b>⚠️ Çakışma Notu:</b> Resmi Tatil pazara denk gelirse, burayı boş bırakıp mesaiyi sadece "Pazar" kutusuna yazınız.</div>
                     </div>
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="bayramGun" placeholder="0" style="text-align: center;">
-                <span class="unit-text">Gün</span>
+                <input type="text" inputmode="decimal" id="bayramGun" placeholder="0" onfocus="this.select()" style="border-color: #9ae6b4; text-align: center; background-color: white;">
+                <span class="unit-text" style="color: #2f855a; right: 6px; font-size: 10px;">Gün</span>
             </div>
         </div>
-        <div style="flex: 1;">
-            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0;">Gece Vardiyası:</label>
-                <div class="tooltip-container tooltip-left">
-                    <span class="info-icon">i</span>
-                    <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
-                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">🌙 Gece Vardiyası</strong>
-                        Girdiğiniz her normal gece vardiyası için saatlik <b>25 TL</b> yani mola düşülmüş haliyle günlük (6.5 saat) <b>162,50 TL</b> brüt ek kazanç olarak yansıtılır.
-                    </div>
-                </div>
-            </div>
-            <div class="input-icon-wrapper">
-                <input type="text" inputmode="numeric" pattern="[0-9]*" id="geceGun" placeholder="0" style="text-align: center;">
-                <span class="unit-text">Gün</span>
-            </div>
-        </div>
+
     </div>
 
-    <!-- İÇ KUTU 6: Soğuk Vardiyası (İsimlendirmeler Güncellendi) -->
-    <div class="group" style="display: flex; gap: 10px;">
-        <div style="flex: 1;">
-            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0;">Soğuk Vardiyası:</label>
+    <!-- İÇ KUTU 5: Özel Vardiyalar (Gece ve Soğuk) (3'lü Grup) -->
+    <div class="group" style="display: flex; gap: 10px; margin-bottom: 15px;">
+        
+        <div style="flex: 1; background-color: #f0f4f8; padding: 10px 8px; border-radius: 12px; border: 1px dashed #a0aec0;">
+            <div style="display: flex; align-items: center; gap: 2px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0; color: #4a5568; font-size: 11px; white-space: nowrap;">🌙 Gece:</label>
                 <div class="tooltip-container tooltip-right">
-                    <span class="info-icon">i</span>
+                    <span class="info-icon" style="background-color: #718096; width:14px; height:14px; font-size:10px;">i</span>
+                    <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
+                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">🌙 Gece Vardiyası</strong>
+                        Girdiğiniz her normal gece vardiyası için saatlik <b>25 TL</b> günlük ( 23:30 - 06:30 arası 6.5 saat) <b>162,50 TL</b> brüt ek kazanç olarak yansıtılır.
+                    </div>
+                </div>
+            </div>
+            <div class="input-icon-wrapper">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="geceGun" placeholder="0" onfocus="this.select()" style="border-color: #cbd5e0; text-align: center; background-color: white;">
+                <span class="unit-text" style="color: #4a5568; right: 6px; font-size: 10px;">Gün</span>
+            </div>
+        </div>
+
+        <div style="flex: 1; background-color: #f0f8ff; padding: 10px 8px; border-radius: 12px; border: 1px dashed #90cdf4;">
+            <div style="display: flex; align-items: center; gap: 2px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0; color: #2b6cb0; font-size: 11px; white-space: nowrap;">❄️ Soğuk:</label>
+                <div class="tooltip-container">
+                    <span class="info-icon" style="background-color: #3182ce; width:14px; height:14px; font-size:10px;">i</span>
                     <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
                         <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">📦 Soğuk Vardiyası</strong>
                         Girdiğiniz her normal soğuk (taze gıda) vardiyası için brüt <b>80,00 TL</b> brüt ek kazanç olarak yansıtılır.
@@ -491,15 +496,16 @@
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="numeric" pattern="[0-9]*" id="sogukGun" placeholder="0" style="text-align: center;">
-                <span class="unit-text">Gün</span>
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="sogukGun" placeholder="0" onfocus="this.select()" style="border-color: #bee3f8; text-align: center; background-color: white;">
+                <span class="unit-text" style="color: #2b6cb0; right: 6px; font-size: 10px;">Gün</span>
             </div>
         </div>
-        <div style="flex: 1;">
-            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0;">Resmi Soğuk Vardiyası:</label>
+
+        <div style="flex: 1; background-color: #f0f8ff; padding: 10px 8px; border-radius: 12px; border: 1px dashed #90cdf4;">
+            <div style="display: flex; align-items: center; gap: 2px; margin-bottom: 6px;">
+                <label style="margin-bottom: 0; color: #2b6cb0; font-size: 11px; white-space: nowrap;">❄️ R. Soğuk:</label>
                 <div class="tooltip-container tooltip-left">
-                    <span class="info-icon">i</span>
+                    <span class="info-icon" style="background-color: #3182ce; width:14px; height:14px; font-size:10px;">i</span>
                     <div class="tooltip-text" style="width: 250px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
                         <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">📦 Resmi Soğuk Vardiyası</strong>
                         <span id="rtSogukAciklama">Resmi tatilde çalışılan soğuk vardiyası için personele göre normal yevmiyenin <b>2.5 veya 3 katı</b> brüt ek kazanç olarak yansıtılır.</span>
@@ -507,41 +513,78 @@
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="numeric" pattern="[0-9]*" id="sogukBayramGun" placeholder="0" style="text-align: center;">
-                <span class="unit-text">Gün</span>
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="sogukBayramGun" placeholder="0" onfocus="this.select()" style="border-color: #bee3f8; text-align: center; background-color: white;">
+                <span class="unit-text" style="color: #2b6cb0; right: 6px; font-size: 10px;">Gün</span>
             </div>
         </div>
+
     </div>
     
-    <div class="bolum-baslik" style="margin-bottom: 10px; margin-top: 25px;">Aylık Değişken Primler (Brüt TL)</div>
+    <div class="bolum-baslik" style="margin-bottom: 10px; margin-top: 25px;">PRİMLER VE SOSYAL YARDIMLAR</div>
     
-    <!-- İÇ KUTU 7: Ek Primler ve Çocuk Yardımı -->
-    <div class="group" style="display: flex; gap: 6px;">
+    <!-- İÇ KUTU 7: Ek Primler ve Tahsil Yardımı -->
+    <div class="group" style="display: flex; gap: 10px; align-items: flex-end; margin-bottom: 15px;">
         <div style="flex: 1.2;">
-            <label style="font-size: 12px;">Ek Primler:<br><span style="font-size: 9.5px; color: #718096; font-weight: normal;">(Perf+Dvam+Kıdem)</span></label>
+            <div style="margin-bottom: 6px;">
+                <div style="display: flex; align-items: center; gap: 2px;">
+                    <label style="margin-bottom: 0; font-size: 11px; white-space: nowrap; letter-spacing: -0.5px;">Ek Primler Toplamı:</label>
+                </div>
+                <span style="font-size: 9px; color: #718096; font-weight: normal; display:block; margin-top:2px; white-space: nowrap; letter-spacing: -0.5px;">(Perf+Dvam+Kıdem)</span>
+            </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="ekPrimler" placeholder="Örn: 15.500" oninput="formatlaMil(this)" style="padding: 10px; font-size: 14px; text-align: left;">
+                <input type="text" inputmode="decimal" id="ekPrimler" placeholder="Örn: 15.500" oninput="formatlaMil(this)" onfocus="this.select()" style="padding: 10px; font-size: 14px; text-align: left;">
                 <span class="unit-text">TL</span>
             </div>
         </div>
         
         <div style="flex: 1;">
             <div style="margin-bottom: 6px;">
-                <div style="display: flex; align-items: center; gap: 4px;">
-                    <label style="margin-bottom: 0; font-size: 12px;">0-6 Yaş</label>
-                    <div class="tooltip-container">
+                <div style="display: flex; align-items: center; gap: 2px;">
+                    <label style="margin-bottom: 0; font-size: 11px; white-space: nowrap; letter-spacing: -0.5px;">🎓 Tahsil Yardımı:</label>
+                    <div class="tooltip-container tooltip-left">
                         <span class="info-icon" style="width:14px; height:14px; font-size:10px;">i</span>
-                        <div class="tooltip-text" style="width: 210px; font-size: 11.5px; z-index: 110; padding: 10px;">
-                            <strong style="color: var(--migros-lacivert); display: block; margin-bottom: 6px; border-bottom: 1px solid #edf2f7; padding-bottom: 4px;">👶 0-6 Yaş</strong>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Ocak - Haziran:</span><b style="color:#4a5568;">693,94 TL</b></div>
-                            <div style="display: flex; justify-content: space-between;"><span>Temmuz - Aralık:</span><b style="color:#4a5568;">787,76 TL</b></div>
-                            <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed #cbd5e0; color: #e53e3e; font-size: 11px; font-weight: bold; line-height: 1.3;">⚠️ TİS gereği maksimum 2 çocuk için ödeme yapılır.</div>
+                        <div class="tooltip-text" style="width: 260px; font-size: 11.5px; line-height: 1.4; padding: 12px; z-index: 110;">
+                            <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">🎓 Tahsil Yardımı</strong>
+                            Çalışmayan 25 yaşını doldurmamış veya engelli çocuklar için yılda 1 defa okulların açılmasıyla brüt ödeme yapılır.
+                            <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed #cbd5e0; font-size: 11px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 2px;"><span>🎒 İlköğretim:</span><b>1.850 TL Brüt</b></div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 2px;"><span>📚 Lise:</span><b>2.750 TL Brüt</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span>🎓 Yüksekokul:</span><b>3.700 TL Brüt</b></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <span style="font-size: 9.5px; color: #718096; font-weight: normal; display:block; margin-top:1px;">(Vergiden Muaf)</span>
+                <span style="font-size: 9px; color: #718096; font-weight: normal; display:block; margin-top:2px; white-space: nowrap; letter-spacing: -0.5px;">Yılda 1 Kez (Brüt)</span>
             </div>
-            <select id="cocukKucuk" style="padding: 10px; font-size: 14px;">
+            <select id="tahsilYardimi" style="padding: 10px; font-size: 14px; width: 100%;">
+                <option value="0" selected>Yok</option>
+                <option value="1850">🎒 İlköğretim</option>
+                <option value="2750">📚 Lise</option>
+                <option value="3700">🎓 Yüksekokul</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- İÇ KUTU 8: Çocuk ve Özel Yardımlar -->
+    <div class="group" style="display: flex; gap: 6px; align-items: flex-end; margin-bottom: 15px;">
+        <div style="flex: 1;">
+            <div style="margin-bottom: 6px;">
+                <div style="display: flex; align-items: center; gap: 2px;">
+                    <label style="margin-bottom: 0; font-size: 11px; white-space: nowrap; letter-spacing: -0.5px;">👶 0-6 Yaş</label>
+                    <div class="tooltip-container">
+                        <span class="info-icon" style="width:14px; height:14px; font-size:10px;">i</span>
+                        <div class="tooltip-text" style="width: 240px; font-size: 11.5px; z-index: 110; padding: 12px; line-height: 1.4;">
+                            <strong style="color: var(--migros-lacivert); display: block; margin-bottom: 6px; border-bottom: 1px solid #edf2f7; padding-bottom: 4px;">👶 0-6 Yaş Çocuk Yardımı</strong>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Ocak - Haziran:</span><b style="color:#4a5568;">693,94 TL</b></div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Temmuz - Aralık:</span><b style="color:#4a5568;">787,76 TL</b></div>
+                            <span style="color: #4a5568; display: block; margin-bottom: 6px;">SGK ve Gelir Vergisinden <b>tamamen muaftır</b>. Üzerinden sadece Damga Vergisi (%0.759) kesilir.</span>
+                            <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed #cbd5e0; color: #e53e3e; font-size: 11px; font-weight: bold;">⚠️ TİS gereği maksimum 2 çocuk için ödenir.</div>
+                        </div>
+                    </div>
+                </div>
+                <span style="font-size: 9px; color: #718096; font-weight: normal; display:block; margin-top:2px; white-space: nowrap; letter-spacing: -0.5px;">Çocuk Yard. (Muaf)</span>
+            </div>
+            <select id="cocukKucuk" style="padding: 10px 4px; font-size: 13px;">
                 <option value="0" selected>Yok</option>
                 <option value="1">1 Çocuk</option>
                 <option value="2">2 Çocuk</option>
@@ -550,63 +593,50 @@
 
         <div style="flex: 1;">
             <div style="margin-bottom: 6px;">
-                <div style="display: flex; align-items: center; gap: 4px;">
-                    <label style="margin-bottom: 0; font-size: 12px;">6 Yaş Üstü</label>
-                    <div class="tooltip-container tooltip-left">
+                <div style="display: flex; align-items: center; gap: 2px;">
+                    <label style="margin-bottom: 0; font-size: 11px; white-space: nowrap; letter-spacing: -0.5px;">👦 6 Yaş Üstü</label>
+                    <div class="tooltip-container">
                         <span class="info-icon" style="width:14px; height:14px; font-size:10px;">i</span>
-                        <div class="tooltip-text" style="width: 210px; font-size: 11.5px; z-index: 110; padding: 10px;">
-                            <strong style="color: var(--migros-lacivert); display: block; margin-bottom: 6px; border-bottom: 1px solid #edf2f7; padding-bottom: 4px;">👦 6 Yaş Üstü</strong>
+                        <div class="tooltip-text" style="width: 240px; font-size: 11.5px; z-index: 110; padding: 12px; line-height: 1.4;">
+                            <strong style="color: var(--migros-lacivert); display: block; margin-bottom: 6px; border-bottom: 1px solid #edf2f7; padding-bottom: 4px;">👦 6 Yaş Üstü Çocuk Yardımı</strong>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Ocak - Haziran:</span><b style="color:#4a5568;">346,97 TL</b></div>
-                            <div style="display: flex; justify-content: space-between;"><span>Temmuz - Aralık:</span><b style="color:#4a5568;">393,88 TL</b></div>
-                            <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed #cbd5e0; color: #e53e3e; font-size: 11px; font-weight: bold; line-height: 1.3;">⚠️ TİS gereği maksimum 2 çocuk için ödeme yapılır.</div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Temmuz - Aralık:</span><b style="color:#4a5568;">393,88 TL</b></div>
+                            <span style="color: #4a5568; display: block; margin-bottom: 6px;">SGK ve Gelir Vergisinden <b>tamamen muaftır</b>. Üzerinden sadece Damga Vergisi (%0.759) kesilir.</span>
+                            <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed #cbd5e0; color: #e53e3e; font-size: 11px; font-weight: bold;">⚠️ TİS gereği maksimum 2 çocuk için ödenir.</div>
                         </div>
                     </div>
                 </div>
-                <span style="font-size: 9.5px; color: #718096; font-weight: normal; display:block; margin-top:1px;">(Vergiden Muaf)</span>
+                <span style="font-size: 9px; color: #718096; font-weight: normal; display:block; margin-top:2px; white-space: nowrap; letter-spacing: -0.5px;">Çocuk Yard. (Muaf)</span>
             </div>
-            <select id="cocukBuyuk" style="padding: 10px; font-size: 14px;">
+            <select id="cocukBuyuk" style="padding: 10px 4px; font-size: 13px;">
                 <option value="0" selected>Yok</option>
                 <option value="1">1 Çocuk</option>
                 <option value="2">2 Çocuk</option>
             </select>
         </div>
-    </div>
 
-    <!-- İÇ KUTU 8: Özel Yardım ve Tahsil Yardım Alanı -->
-    <div class="group" style="display: flex; gap: 10px; margin-top: 5px;">
         <div style="flex: 1;">
-            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0; font-size: 12px;">Özel Yardım:</label>
-                <div class="tooltip-container tooltip-right">
-                    <span class="info-icon">i</span>
-                    <div class="tooltip-text" style="width: 260px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
-                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">💍 Özel Yardımlar</strong>
-                        Evlilik veya Doğum yardımı SGK ve Gelir Vergisinden tamamen muaftır. Sadece <b>Damga Vergisi (%0.759)</b> hesaplanarak <i>netten brüte</i> brütleştirilir ve maaşınıza net olarak yansır.
+            <div style="margin-bottom: 6px;">
+                <div style="display: flex; align-items: center; gap: 2px;">
+                    <label style="margin-bottom: 0; font-size: 11px; white-space: nowrap; letter-spacing: -0.5px;">💍 Özel Yrd.</label>
+                    <div class="tooltip-container tooltip-left">
+                        <span class="info-icon" style="width:14px; height:14px; font-size:10px;">i</span>
+                        <div class="tooltip-text" style="width: 260px; font-size: 11.5px; line-height: 1.4; padding: 12px; z-index: 110;">
+                            <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">💍 Özel Yardımlar</strong>
+                            Evlilik veya Doğum yardımı SGK ve Gelir Vergisinden tamamen muaftır. Üzerinden sadece Damga Vergisi (%0.759) kesilerek brütleştirilir.
+                            <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed #cbd5e0; font-size: 11px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 2px;"><span>💍 Evlilik Yardımı:</span><b>+3.300 TL Net</b></div>
+                                <div style="display: flex; justify-content: space-between;"><span>🍼 Doğum Yardımı:</span><b>+3.200 TL Net</b></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <span style="font-size: 9px; color: #718096; font-weight: normal; display:block; margin-top:2px; white-space: nowrap; letter-spacing: -0.5px;">Özel Yard. (Muaf)</span>
             </div>
-            <select id="ozelYardim" style="padding: 10px; font-size: 14px; width: 100%;">
+            <select id="ozelYardim" style="padding: 10px 4px; font-size: 13px; width: 100%;">
                 <option value="0" selected>Yok</option>
-                <option value="evlilik">Evlilik Yardımı (+3.300 TL Net)</option>
-                <option value="dogum">Doğum Yardımı (+3.200 TL Net)</option>
-            </select>
-        </div>
-        <div style="flex: 1;">
-            <div style="display: flex; align-items: center; gap: 4px; margin-bottom: 6px;">
-                <label style="margin-bottom: 0; font-size: 12px;">Tahsil Yardımı:</label>
-                <div class="tooltip-container tooltip-left">
-                    <span class="info-icon">i</span>
-                    <div class="tooltip-text" style="width: 260px; font-size: 11.5px; line-height: 1.4; padding: 12px;">
-                        <strong style="color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;">🎓 Tahsil Yardımı</strong>
-                        Çalışmayan 25 yaşını doldurmamış çocukları ile engelli çocukları için yılda 1 defa ve okulların açılmasıyla en geç 1 ay içerisinde brüt tahsil yardımı yapılır.
-                    </div>
-                </div>
-            </div>
-            <select id="tahsilYardimi" style="padding: 10px; font-size: 14px; width: 100%;">
-                <option value="0" selected>Yok</option>
-                <option value="1850">İlköğretim (1.850 TL Brüt)</option>
-                <option value="2750">Lise (2.750 TL Brüt)</option>
-                <option value="3700">Yüksekokul (3.700 TL Brüt)</option>
+                <option value="evlilik">💍 Evlilik</option>
+                <option value="dogum">🍼 Doğum</option>
             </select>
         </div>
     </div>
@@ -619,6 +649,9 @@
         © <span id="guncelYil"></span> Muhammed Öz &bull; Sendika Temsilcisi &bull; Serik DM
     </div>
 </div>
+
+<!-- BİLDİRİM TOAST MESAJI -->
+<div id="toastMesaj" class="toast"></div>
 
 <!-- ALT SABİT AKSİYON BARI -->
 <div class="fixed-bottom-bar">
@@ -656,6 +689,15 @@ window.toggleKesinti = function() {
         kutu.classList.remove('acik');
     }
 };
+
+// TOAST BİLDİRİM FONKSİYONU
+function showToast(mesaj, sure = 2500, bgRenk = '#38a169') {
+    const toast = document.getElementById('toastMesaj');
+    toast.innerText = mesaj;
+    toast.style.background = bgRenk;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), sure);
+}
 
 // 3. MOBIL CİHAZLARDA BALONCUKLARI (TOOLTIP) DÜZGÜN TETİKLEME YÖNETİCİSİ
 document.addEventListener('click', function(e) {
@@ -738,17 +780,17 @@ document.getElementById('personelTipi').addEventListener('change', function(e) {
         headerKirmiziSpan.style.display = 'inline-block';
         headerKirmiziSpan.innerText = 'DEVROLAN PERSONEL';
         headerTuruncuSpan.innerText = 'ÜCRET HESAPLAMA';
-        if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana maaşın içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b style="color:var(--migros-turuncu);">ekstra mesai (2 katı, yani toplamda 3 katı)</b> brüt ek kazanç olarak yansıtılır.';
+        if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana ücretin içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b style="color:var(--migros-turuncu);">ekstra mesai (2 katı, yani toplamda 3 katı)</b> brüt ek kazanç olarak yansıtılır.';
         if (rtSogukAciklama) rtSogukAciklama.innerHTML = 'Resmi tatilde çalışılan soğuk vardiyası için personele göre normal yevmiyenin <b style="color:var(--migros-turuncu);">3 katı</b> brüt ek kazanç olarak yansıtılır.';
     } else if (e.target.value === 'yeni') {
         headerKirmiziSpan.style.display = 'none';
         headerTuruncuSpan.innerText = 'PERSONEL ÜCRET HESAPLAMA';
-        if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana maaşın içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b style="color:var(--migros-turuncu);">ekstra mesai (1.5 katı, yani toplamda 2.5 katı)</b> brüt ek kazanç olarak yansıtılır.';
+        if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana ücretin içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b style="color:var(--migros-turuncu);">ekstra mesai (1.5 katı, yani toplamda 2.5 katı)</b> brüt ek kazanç olarak yansıtılır.';
         if (rtSogukAciklama) rtSogukAciklama.innerHTML = 'Resmi tatilde çalışılan soğuk vardiyası için personele göre normal yevmiyenin <b style="color:var(--migros-turuncu);">2.5 katı</b> brüt ek kazanç olarak yansıtılır.';
     } else {
         headerKirmiziSpan.style.display = 'none';
         headerTuruncuSpan.innerText = 'PERSONEL ÜCRET HESAPLAMA';
-        if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana maaşın içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b>ekstra mesai (personele göre 1.5 veya 2 katı)</b> brüt ek kazanç olarak yansıtılır.';
+        if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana ücretin içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b>ekstra mesai (personele göre 1.5 veya 2 katı)</b> brüt ek kazanç olarak yansıtılır.';
         if (rtSogukAciklama) rtSogukAciklama.innerHTML = 'Resmi tatilde çalışılan soğuk vardiyası için personele göre normal yevmiyenin <b>2.5 veya 3 katı</b> brüt ek kazanç olarak yansıtılır.';
     }
     if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();
@@ -802,6 +844,16 @@ function guvenliSayiAl(id) {
     return parseFloat(val) || 0;
 }
 
+// HATA (SHAKE) UYARICISI
+function setError(id) {
+    let el = document.getElementById(id);
+    if(el && !el.classList.contains('error')) {
+        el.classList.add('error');
+        el.classList.add('shake');
+        setTimeout(() => el.classList.remove('shake'), 400);
+    }
+}
+
 // 11. 2026 YILI DÖNEM TAKVİMİ
 const aylar2026 = [
     { ad: "Ocak", tatil: 1 }, { ad: "Şubat", tatil: 0 }, { ad: "Mart", tatil: 3.5 }, 
@@ -844,7 +896,7 @@ const vergiDilimleri2026 = [
     { sinir: Infinity, oran: 0.40 }
 ];
 
-// 13. DİNAMİK GELİR VERGİSİ HESAPLAMA MOTORU (Dilim geçişlerini hassas olarak ayırır)
+// 13. DİNAMİK GELİR VERGİSİ HESAPLAMA MOTORU
 function dinamikGelirVergisiHesapla(gecenAyKumulatif, buAykiMatrah) {
     let kalanMatrah = buAykiMatrah;
     let toplamKesilecekVergi = 0;
@@ -866,7 +918,7 @@ function dinamikGelirVergisiHesapla(gecenAyKumulatif, buAykiMatrah) {
     return yuv(toplamKesilecekVergi);
 }
 
-// 14. ANA BORDRO HESAPLAMA VE SİMÜLASYON MOTORU (Tüm girdiler buraya akar)
+// 14. ANA BORDRO HESAPLAMA VE SİMÜLASYON MOTORU
 function tumHesaplamalariCalistir() {
     gunlukHesapla();
     
@@ -883,22 +935,33 @@ function tumHesaplamalariCalistir() {
     var seciliVergi = document.querySelector('input[name="vergiGirisTipi"]:checked');
     if (!seciliVergi) return;
     var vergiGirisTipi = seciliVergi.value;
+
+    // Önce tüm hata classlarını temizle
+    ['personelTipi', 'kacinciMaas', 'yil', 'secilenAy', 'saatlik', 'kumulatifMatrah', 'kolayVergiDilimi'].forEach(id => {
+        let el = document.getElementById(id);
+        if(el) el.classList.remove('error');
+    });
+
+    let eksikVar = false;
     
-    // Doğrulama Kontrolleri
-    if (personelTipiSelect.value === "" || kacinciMaasSelect.value === "" || aySelect.value === "" || isNaN(girdi_yil) || s_ucret <= 0) {
-        sonucDiv.style.display = 'none';
-        indirTamBtn.style.display = 'none';
-        indirSonucBtn.style.display = 'none';
-        hataMesaji.innerHTML = "💡 Hesaplamayı görmek için <b>Personel Tipi, Kaçıncı Maaş, Kıdem, Saatlik Ücret ve Ay Seçimi</b> alanlarını doldurun.";
-        hataMesaji.style.display = 'block';
-        return;
-    }
+    // Doğrulama Kontrolleri (Titreme ve Kırmızı Çerçeve)
+    if (personelTipiSelect.value === "") { setError('personelTipi'); eksikVar = true; }
+    if (kacinciMaasSelect.value === "") { setError('kacinciMaas'); eksikVar = true; }
+    if (aySelect.value === "") { setError('secilenAy'); eksikVar = true; }
+    if (isNaN(girdi_yil)) { setError('yil'); eksikVar = true; }
+    if (s_ucret <= 0) { setError('saatlik'); eksikVar = true; }
     
     if (vergiGirisTipi === 'matrah' && document.getElementById('kumulatifMatrah').value.trim() === "") {
+        setError('kumulatifMatrah'); eksikVar = true;
+    } else if (vergiGirisTipi === 'dilim' && document.getElementById('kolayVergiDilimi').value === "") {
+        setError('kolayVergiDilimi'); eksikVar = true;
+    }
+
+    if (eksikVar) {
         sonucDiv.style.display = 'none';
         indirTamBtn.style.display = 'none';
         indirSonucBtn.style.display = 'none';
-        hataMesaji.innerHTML = "💡 Lütfen vergi hesabı için <b>Kümülatif Matrah</b> giriniz.";
+        hataMesaji.innerHTML = "💡 Hesaplamayı görmek için kırmızıyla işaretlenmiş <b>zorunlu alanları</b> doldurun.";
         hataMesaji.style.display = 'block';
         return;
     }
@@ -938,7 +1001,6 @@ function tumHesaplamalariCalistir() {
 
     var p_gun = metniSayiyaCevir('pazarGun');
     var g_saat = 7.5; 
-    var brutPazarMesaisi = yuv(p_gun * yuv(yuv3(s_ucret * g_saat) * 2.0));
     
     var secilenOptionIndex = aySelect.options[aySelect.selectedIndex].dataset.ayIndex;
     var ayIndex = parseInt(secilenOptionIndex);
@@ -964,22 +1026,46 @@ function tumHesaplamalariCalistir() {
     var tahsilYardimiSecim = parseInt(document.getElementById('tahsilYardimi').value) || 0;
     var tahsilYardimiBrut = tahsilYardimiSecim;
 
-    // Saatlik ve Günlük Temel Ücret Hesabı (Mükemmel Saat Hassasiyeti)
+    // --- KURUŞ BAZLI KESİN HESAPLAMA MOTORU BAŞLANGICI ---
+    
+    // 0. Temel Çarpanları Tam Sayıya (Kuruşa) Çevirme
+    var s_ucret_kurus = Math.round(s_ucret * 100); 
+    var gunluk_ucret_kurus = Math.round(g_saat * s_ucret_kurus);
+
+    // 1. Temel Ücret ve İkramiye Bazı
     var toplamEksikSaat = yuv((eksik_gun * g_saat) + saatlik_izin);
     var calisilanSaat = yuv((ay_gun * g_saat) - toplamEksikSaat);
-    var brutAnaUcret = Math.round(calisilanSaat * Math.round(s_ucret * 100)) / 100;
-    
-    var ikramiyeIcinAnaUcret = Math.round((ay_gun * g_saat) * Math.round(s_ucret * 100)) / 100;
-    
-    var brutGeceZami = yuv(g_gun * 162.5); 
-    var sogukCarpani = isYeniPersonel ? 2.5 : 3.0;
-    var brutSogukZami = yuv((soguk_gun * 80) + (soguk_bayram_gun * yuv(80 * sogukCarpani))); 
-    
+    var calisilanGun = yuv(calisilanSaat / g_saat);
+    var brutAnaUcret = Math.round(calisilanSaat * s_ucret_kurus) / 100;
+    var ikramiyeIcinAnaUcret = Math.round((ay_gun * g_saat) * s_ucret_kurus) / 100;
+
+    // 2. Normal Fazla Mesai (SAP Ayrıştırılmış Zam Mantığı - %50)
+    var mesaiAnaTutarKurus = Math.round(fm_saat * s_ucret_kurus);
+    var mesaiZamFarkiKurus = Math.round(s_ucret_kurus * 0.5);
+    var mesaiZamToplamiKurus = Math.round(fm_saat * mesaiZamFarkiKurus);
+    var brutFazlaMesai = (mesaiAnaTutarKurus + mesaiZamToplamiKurus) / 100;
+
+    // 3. Pazar Mesaisi (Hafta Tatili: +2 Yevmiye Ekstra)
+    var brutPazarMesaisiKurus = Math.round(p_gun * (gunluk_ucret_kurus * 2));
+    var brutPazarMesaisi = brutPazarMesaisiKurus / 100;
+
+    // 4. Resmi Tatil Mesaisi (Yeni: 1.5 Katı / Eski: 2.0 Katı)
     var bayramCarpani = isYeniPersonel ? 1.5 : 2.0;
-    var brutTatilMesaisiEkran = yuv(b_gun * yuv(yuv3(s_ucret * g_saat) * bayramCarpani));
+    var bayramAnaTutarKurus = Math.round(b_gun * gunluk_ucret_kurus); // 1.0 Tam yevmiye kısmı
+    var bayramZamFarkiKurus = Math.round(gunluk_ucret_kurus * (bayramCarpani - 1)); // Zam kısmı (0.5 veya 1.0)
+    var bayramZamToplamiKurus = Math.round(b_gun * bayramZamFarkiKurus);
+    var brutTatilMesaisiEkran = (bayramAnaTutarKurus + bayramZamToplamiKurus) / 100;
+
+    // 5. Gece Zammı (Sabit 162.50 TL -> 16250 Kuruş)
+    var brutGeceZami = Math.round(g_gun * 16250) / 100; 
     
-    var saatlikMesaiUcreti = Math.round(Math.round(s_ucret * 100) * 1.5) / 100;
-    var brutFazlaMesai = yuv(fm_saat * saatlikMesaiUcreti);
+    // 6. Soğuk Vardiyası (Sabit 80 TL -> 8000 Kuruş)
+    var sogukCarpani = isYeniPersonel ? 2.5 : 3.0;
+    var sogukNormalKurus = Math.round(soguk_gun * 8000); 
+    var sogukBayramKurus = Math.round(soguk_bayram_gun * Math.round(8000 * sogukCarpani)); 
+    var brutSogukZami = (sogukNormalKurus + sogukBayramKurus) / 100;
+
+    // --- KURUŞ BAZLI HESAPLAMA MOTORU BİTİŞİ ---
 
     // Kıdeme Göre İkramiye ve DM Ek Ödemeleri
     var carpanYazi = "";
@@ -987,12 +1073,12 @@ function tumHesaplamalariCalistir() {
     var dmIkramiyeEkOdeme = 0;
 
     if (girdi_yil === 1 || girdi_yil === 2) {
-        if (isYeniPersonel) { carpanSayi = 1.6; carpanYazi = "1.6 Maaş / 12"; dmIkramiyeEkOdeme = 0; } 
-        else { carpanSayi = 2.0; carpanYazi = "2 Maaş / 12"; dmIkramiyeEkOdeme = 2500; }
+        if (isYeniPersonel) { carpanSayi = 1.6; carpanYazi = "1.6 Ücret / 12"; dmIkramiyeEkOdeme = 0; } 
+        else { carpanSayi = 2.0; carpanYazi = "2 Ücret / 12"; dmIkramiyeEkOdeme = 2500; }
     } else if (girdi_yil === 3) {
-        carpanSayi = 2.0; carpanYazi = "2 Maaş / 12"; dmIkramiyeEkOdeme = isYeniPersonel ? 0 : 2500;
-    } else if (girdi_yil === 4) { carpanSayi = 3.2; carpanYazi = "3.2 Maaş / 12"; dmIkramiyeEkOdeme = 0;
-    } else if (girdi_yil >= 5) { carpanSayi = 4.0; carpanYazi = "4 Maaş / 12"; dmIkramiyeEkOdeme = 0; }
+        carpanSayi = 2.0; carpanYazi = "2 Ücret / 12"; dmIkramiyeEkOdeme = isYeniPersonel ? 0 : 2500;
+    } else if (girdi_yil === 4) { carpanSayi = 3.2; carpanYazi = "3.2 Ücret / 12"; dmIkramiyeEkOdeme = 0;
+    } else if (girdi_yil >= 5) { carpanSayi = 4.0; carpanYazi = "4 Ücret / 12"; dmIkramiyeEkOdeme = 0; }
 
     var brutAylikIkramiye = yuv((ikramiyeIcinAnaUcret * carpanSayi) / 12);
 
@@ -1007,7 +1093,7 @@ function tumHesaplamalariCalistir() {
 
     var sendikaYevmiyeCarpani = (isYeniPersonel || ayIndex >= 10) ? 0.70 : 1.05;
     
-    var targetYolNet = 3298.00; 
+    var targetYolNet = 3628.00; 
     var targetDeterjanNet = 119.95;
     
     // DİNAMİK DETERJAN BRÜTLEŞTİRİLMESİ
@@ -1024,7 +1110,6 @@ function tumHesaplamalariCalistir() {
     var dinamikDeterjanBrut = yuv(targetDeterjanNet / (1 - marginalVergiOrani - 0.00759)); 
 
     // DOĞRU SGK MUAFİYET MANTIĞI: (Devrolan için Limitsiz %100, Yeni Personel İçin Limitli)
-    var calisilanGun = calisilanSaat / g_saat;
     var fiiliGun = Math.max(0, calisilanGun - ucretli_izin);
     var toplamYanHak = yuv(toplamGidaBono + dinamikDeterjanBrut);
     var sgkOrtakIstisna = 0;
@@ -1062,7 +1147,7 @@ function tumHesaplamalariCalistir() {
 
     var baseNetSifirYolVeDeterjan = netMiktariHesapla(0);
     var targetToplamNet = yuv(baseNetSifirYolVeDeterjan + targetYolNet);
-    var minBrut = 3298.00, maxBrut = 15000.00, dinamikYolBrut = 0; 
+    var minBrut = 3628.00, maxBrut = 15000.00, dinamikYolBrut = 0; 
     
     for(var iter = 0; iter < 60; iter++) {
         dinamikYolBrut = (minBrut + maxBrut) / 2;
@@ -1138,7 +1223,7 @@ function tumHesaplamalariCalistir() {
     if (isYeniPersonel) {
         var ekstraUyari = "";
         if (kayipMiktar > 0) {
-            ekstraUyari = "<div style='margin-top:8px; padding:6px; background-color:#fff5f5; border:1px dashed #fc8181; border-radius:6px; color:#c53030; font-weight:bold; font-size:10.5px;'>⚠️ İzin/Rapor nedeniyle yasal SGK limiti aşıldı! Maaşınızdan ekstra " + kayipMiktar.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL kesinti (Net SGK Kaybı) yansıdı.</div>";
+            ekstraUyari = "<div style='margin-top:8px; padding:6px; background-color:#fff5f5; border:1px dashed #fc8181; border-radius:6px; color:#c53030; font-weight:bold; font-size:10.5px;'>⚠️ İzin/Rapor nedeniyle yasal SGK limiti aşıldı! Ücretinizden ekstra " + kayipMiktar.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL kesinti (Net SGK Kaybı) yansıdı.</div>";
         }
         moneyAciklamaHTML = "<span>( " + moneyYilText + ". Yıl Kıdem )</span> " +
                             "<div class='tooltip-container'>" +
@@ -1161,8 +1246,8 @@ function tumHesaplamalariCalistir() {
                 "<div class='bolum-baslik' style='font-size:14px; font-weight:900; color:var(--migros-lacivert); margin-top:0; text-align:center; border-bottom:2px solid var(--migros-lacivert); padding-bottom:8px; margin-bottom:10px;'>📊 HAK EDİLEN NET TUTARLAR</div>" +
                 
                 "<div class='money-satir' style='font-size:14.5px; color:#4a5568;'>" +
-                    "<div style='flex:1; padding-right:5px; line-height:1.3;'>" +
-                        "<div style='font-weight:bold;'>💵 YASAL NET:</div>" +
+                    "<div style='flex:1; padding-right:5px; line-height:1.3; white-space: pre-wrap;'>" +
+                        "<div style='font-weight:bold;'>💵 YASAL NET :</div>" +
                         "<div style='font-size:10px; color:#627d98; margin-top:4px; line-height:1.3;'>( Kazançlar Top. - Kesintiler Top. )</div>" +
                     "</div>" +
                     "<div style='font-weight:bold; font-size:15px; white-space:nowrap; text-align:right;'><span id='anim_net_ucret'>" + yasalNetUcret.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "</span> TL</div>" +
@@ -1170,8 +1255,8 @@ function tumHesaplamalariCalistir() {
                 
                 (avansTutari > 0 ? 
                 "<div class='money-satir' style='font-size:14.5px; color:#e53e3e;'>" +
-                    "<div style='flex:1; padding-right:5px; line-height:1.3;'>" +
-                        "<div style='font-weight:bold;'>🔻 KESİLEN AVANS:</div>" +
+                    "<div style='flex:1; padding-right:5px; line-height:1.3; white-space: pre-wrap;'>" +
+                        "<div style='font-weight:bold;'>🔻 KESİLEN AVANS :</div>" +
                         "<div style='font-size:11px; color:#c53030; margin-top:4px;'>( Peşin Ödenen )</div>" +
                     "</div>" +
                     "<div style='font-weight:bold; font-size:15px; white-space:nowrap; text-align:right;'>-<span id='anim_avans'>" + avansTutari.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "</span> TL</div>" +
@@ -1179,44 +1264,44 @@ function tumHesaplamalariCalistir() {
 
                 (digerKesintiler > 0 ? 
                 "<div class='money-satir' style='font-size:14.5px; color:#e53e3e;'>" +
-                    "<div style='flex:1; padding-right:5px; line-height:1.3;'>" +
-                        "<div style='font-weight:bold;'>🔻 DİĞER KESİNTİ:</div>" +
+                    "<div style='flex:1; padding-right:5px; line-height:1.3; white-space: pre-wrap;'>" +
+                        "<div style='font-weight:bold;'>🔻 DİĞER KESİNTİ :</div>" +
                         "<div style='font-size:11px; color:#c53030; margin-top:4px;'>( İcra / Taksit vb. )</div>" +
                     "</div>" +
                     "<div style='font-weight:bold; font-size:15px; white-space:nowrap; text-align:right;'>-<span id='anim_diger_kesinti'>" + digerKesintiler.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "</span> TL</div>" +
                 "</div>" : "") +
                 
                 "<div class='money-satir' style='font-size:14.5px; color:#4a5568; border-bottom: 2px solid #cbd5e0; padding-bottom: 10px; margin-bottom: 10px;'>" +
-                    "<div style='flex:1; padding-right:5px; line-height:1.3;'>" +
-                        "<div style='font-weight:bold;'>🚌 YOL PARASI:</div>" +
+                    "<div style='flex:1; padding-right:5px; line-height:1.3; white-space: pre-wrap;'>" +
+                        "<div style='font-weight:bold;'>🚌 YOL PARASI :</div>" +
                         "<div style='font-size:11px; color:#627d98; margin-top:4px;'>( Vergiden Muaf )</div>" +
                     "</div>" +
                     "<div style='font-weight:bold; font-size:15px; white-space:nowrap; text-align:right;'>+<span id='anim_yol_parasi'>" + targetYolNet.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "</span> TL</div>" +
                 "</div>" +
                 
                 "<div class='money-satir' style='font-size:16px; font-weight:900; color:var(--migros-lacivert); align-items:center;'>" +
-                    "<div style='flex:1; padding-right:5px; line-height:1.3;'>" +
-                        "<div>💰 TOPLAM ÖDENEN:</div>" +
+                    "<div style='flex:1; padding-right:5px; line-height:1.3; white-space: pre-wrap;'>" +
+                        "<div>💰 TOPLAM ÖDENEN :</div>" +
                         "<div style='font-size:10px; color:#627d98; font-weight:600; margin-top:4px; line-height:1.3;'>( Bankaya Havale Edilen Ücretler )</div>" +
                     "</div>" +
                     "<div style='font-weight:900; white-space:nowrap; text-align:right;'><span id='anim_toplam_odenen'>" + netEleGecenMaas.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "</span> TL</div>" +
                 "</div>" +
                 
                 "<div style='margin-top:10px; margin-bottom: 8px; padding:8px; background-color:#fff5f5; border:1px dashed #feb2b2; border-radius:8px; font-size:11.5px; color:#c53030; text-align:center; font-weight:500;'>" +
-                    "💡 Bu ay maaşınız <b>" + dilimMetni + "</b> üzerinden vergilendirilmiştir." +
+                    "💡 Bu ay ücretiniz <b>" + dilimMetni + "</b> üzerinden vergilendirilmiştir." +
                 "</div>" +
                 
                 "<div class='money-satir' style='margin-top:5px; font-size:14px; border-bottom: 1px dashed #c4d2dc; padding-bottom:8px; margin-bottom:8px;'>" +
-                    "<div style='flex:1; padding-right:5px; line-height:1.3;'>" +
-                        "<div style='font-weight:bold;'>💳 Money Kart:</div>" +
+                    "<div style='flex:1; padding-right:5px; line-height:1.3; white-space: pre-wrap;'>" +
+                        "<div style='font-weight:bold;'>💳 Money Kart :</div>" +
                         "<div style='font-size:11px; color:#627d98; margin-top:4px; display:flex; align-items:center; gap:4px; flex-wrap:wrap;'>" + moneyAciklamaHTML + "</div>" +
                     "</div>" +
                     "<div class='vurgu-mor' style='font-weight:bold; font-size:15px; white-space:nowrap; text-align:right;'>+<span id='anim_money'>" + toplamGidaBono.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "</span> TL</div>" +
                 "</div>" +
                 
                 "<div class='money-satir' style='font-size:14px; border-bottom:none;'>" +
-                    "<div style='flex:1; padding-right:5px; line-height:1.3;'>" +
-                        "<div style='font-weight:bold;'>🧼 Deterjan Yardımı:</div>" +
+                    "<div style='flex:1; padding-right:5px; line-height:1.3; white-space: pre-wrap;'>" +
+                        "<div style='font-weight:bold;'>🧼 Deterjan Yardımı :</div>" +
                         "<div style='font-size:11px; color:#627d98; margin-top:4px;'>( Vergiden Muaf )</div>" +
                     "</div>" +
                     "<div class='vurgu-mor' style='font-weight:bold; font-size:15px; white-space:nowrap; text-align:right;'>+<span>" + targetDeterjanNet.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "</span> TL</div>" +
@@ -1224,27 +1309,74 @@ function tumHesaplamalariCalistir() {
             "</div>";
     }
 
+    // AYLIK ÇALIŞMA ÖZETİ KUTUSU
+    var calismaOzetiHTML = 
+        "<div class='money-kutucuk' style='background: #fffcf9; border: 1px solid #fddbc7; margin-top: 15px;'>" +
+            "<div class='bolum-baslik' style='font-size:14px; font-weight:900; color:var(--migros-turuncu); margin-top:0; text-align:center; border-bottom:2px solid #fddbc7; padding-bottom:8px; margin-bottom:10px;'>📋 AYLIK ÇALIŞMA ÖZETİ</div>" +
+            
+            "<div class='money-satir'>" +
+                "<div style='font-weight:bold; color:#4a5568; white-space: pre-wrap;'>✅ Fiili Çalışılan Süre :</div>" +
+                "<div style='font-weight:bold; color:var(--migros-lacivert);'>" + calisilanGun.toLocaleString('tr-TR', {maximumFractionDigits: 1}) + " Gün</div>" +
+            "</div>" +
+            
+            (fm_saat > 0 ? 
+            "<div class='money-satir'>" +
+                "<div style='font-weight:bold; color:#4a5568; white-space: pre-wrap;'>⏱️ Fazla Mesai :</div>" +
+                "<div style='font-weight:bold; color:var(--migros-turuncu);'>" + fm_saat + " Saat</div>" +
+            "</div>" : "") +
+            
+            (b_gun > 0 ? 
+            "<div class='money-satir'>" +
+                "<div style='font-weight:bold; color:#4a5568; white-space: pre-wrap;'>🎉 Resmi Tatil Mesaisi :</div>" +
+                "<div style='font-weight:bold; color:var(--migros-turuncu);'>" + b_gun + " Gün</div>" +
+            "</div>" : "") +
+            
+            (p_gun > 0 ? 
+            "<div class='money-satir'>" +
+                "<div style='font-weight:bold; color:#4a5568; white-space: pre-wrap;'>☀️ Pazar Mesaisi :</div>" +
+                "<div style='font-weight:bold; color:var(--migros-turuncu);'>" + p_gun + " Gün</div>" +
+            "</div>" : "") +
+            
+            (g_gun > 0 ? 
+            "<div class='money-satir'>" +
+                "<div style='font-weight:bold; color:#4a5568; white-space: pre-wrap;'>🌙 Gece Vardiyası :</div>" +
+                "<div style='font-weight:bold; color:var(--migros-turuncu);'>" + g_gun + " Gün</div>" +
+            "</div>" : "") +
+
+            ((soguk_gun + soguk_bayram_gun) > 0 ? 
+            "<div class='money-satir'>" +
+                "<div style='font-weight:bold; color:#4a5568; white-space: pre-wrap;'>📦 Soğuk Vardiyası :</div>" +
+                "<div style='font-weight:bold; color:var(--migros-turuncu);'>" + (soguk_gun + soguk_bayram_gun) + " Gün</div>" +
+            "</div>" : "") +
+            
+            (toplamEksikSaat > 0 ? 
+            "<div class='money-satir' style='border-top: 1px dashed #fc8181; margin-top: 5px; padding-top: 8px;'>" +
+                "<div style='font-weight:bold; color:#e53e3e; white-space: pre-wrap;'>🔻 Eksik Süreler (İzin/Rapor) :</div>" +
+                "<div style='font-weight:bold; color:#e53e3e;'>" + eksik_gun + " Gün / " + saatlik_izin + " Saat</div>" +
+            "</div>" : "") +
+        "</div>";
+
     sonucDiv.style.display = 'block';
     indirTamBtn.style.display = 'flex';
     indirSonucBtn.style.display = 'flex';
     
     sonucDiv.innerHTML = 
         "<div class='bolum-baslik'>BRÜT KAZANÇ DETAYLARI</div>" +
-        "<div class='satir'><div>Temel Ücret:</div> <b>" + brutAnaUcret.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" +
-        (b_gun > 0 ? "<div class='satir'><div>Bayram Fazla Mesai ( " + bayramEkstraMetin + " ):</div> <b>" + brutTatilMesaisiEkran.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
-        (p_gun > 0 ? "<div class='satir'><div>Hafta Tatili Mesaisi ( 2 Katı ):</div> <b>" + brutPazarMesaisi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
-        (brutFazlaMesai > 0 ? "<div class='satir'><div>Normal Fazla Mesai ( %50 Fazla ):</div> <b>" + brutFazlaMesai.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
-        (brutGeceZami > 0 ? "<div class='satir'><div>Vardiya Fazla Mesai ( Gece ):</div> <b>" + brutGeceZami.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
-        (dmIkramiyeEkOdeme > 0 ? "<div class='satir'><div style='display: flex; align-items: center; gap: 4px;'><span>DM İkramiye Ek Ödeme:</span><div class='tooltip-container tooltip-right'><span class='info-icon' style='width:14px; height:14px; font-size:10px;'>i</span><div class='tooltip-text' style='width: 250px; font-size: 11.5px; z-index: 110; padding: 12px; font-weight: normal; text-transform: none; line-height: 1.4;'><strong style='color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;'>💰 Ek İkramiye</strong>Devrolan personele 4. Yıla girene ve %80’e varıncaya kadar aylık <b>2.500 TL</b> brüt ek kazanç olarak yansıtılır.</div></div></div> <b class='vurgu-turuncu'>" + dmIkramiyeEkOdeme.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
-        (brutSogukZami > 0 ? "<div class='satir'><div>Soğuk Vard. Primi:</div> <b>" + brutSogukZami.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
-        (ek_prim > 0 ? "<div class='satir'><div>Ek Primler Toplamı:</div> <b>" + ek_prim.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
-        (cocuk_parasi_brut > 0 ? "<div class='satir'><div>Çocuk Yardımı ( " + cocuk_sayisi + " Çocuk ):</div> <b>" + cocuk_parasi_brut.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
-        (ozelYardimBrut > 0 ? "<div class='satir'><div>Özel Yardım ( " + (ozelYardimSecim === 'evlilik' ? "Evlilik" : "Doğum") + " ):</div> <b class='vurgu-mavi'>" + ozelYardimBrut.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
-        (tahsilYardimiBrut > 0 ? "<div class='satir'><div>Tahsil Yardımı:</div> <b>" + tahsilYardimiBrut.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        "<div class='satir'><div>Temel Ücret :</div> <b>" + brutAnaUcret.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" +
+        (b_gun > 0 ? "<div class='satir'><div>Bayram Fazla Mesai ( " + bayramEkstraMetin + " ) :</div> <b>" + brutTatilMesaisiEkran.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (p_gun > 0 ? "<div class='satir'><div>Hafta Tatili Mesaisi ( 2 Katı ) :</div> <b>" + brutPazarMesaisi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (brutFazlaMesai > 0 ? "<div class='satir'><div>Normal Fazla Mesai ( %50 Fazla ) :</div> <b>" + brutFazlaMesai.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (brutGeceZami > 0 ? "<div class='satir'><div>Vardiya Fazla Mesai ( Gece ) :</div> <b>" + brutGeceZami.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (dmIkramiyeEkOdeme > 0 ? "<div class='satir'><div style='display: flex; align-items: center; gap: 4px;'><span>DM İkramiye Ek Ödeme :</span><div class='tooltip-container tooltip-right'><span class='info-icon' style='width:14px; height:14px; font-size:10px;'>i</span><div class='tooltip-text' style='width: 250px; font-size: 11.5px; z-index: 110; padding: 12px; font-weight: normal; text-transform: none; line-height: 1.4;'><strong style='color: var(--migros-lacivert); display: block; border-bottom: 1px solid #edf2f7; padding-bottom: 4px; margin-bottom: 6px;'>💰 Ek İkramiye</strong>Devrolan personele 4. Yıla girene ve %80’e varıncaya kadar aylık <b>2.500 TL</b> brüt ek kazanç olarak yansıtılır.</div></div></div> <b class='vurgu-turuncu'>" + dmIkramiyeEkOdeme.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (brutSogukZami > 0 ? "<div class='satir'><div>Soğuk Vard. Primi :</div> <b>" + brutSogukZami.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (ek_prim > 0 ? "<div class='satir'><div>Ek Primler Toplamı :</div> <b>" + ek_prim.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (cocuk_parasi_brut > 0 ? "<div class='satir'><div>Çocuk Yardımı ( " + cocuk_sayisi + " Çocuk ) :</div> <b>" + cocuk_parasi_brut.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (ozelYardimBrut > 0 ? "<div class='satir'><div>Özel Yardım ( " + (ozelYardimSecim === 'evlilik' ? "Evlilik" : "Doğum") + " ) :</div> <b class='vurgu-mavi'>" + ozelYardimBrut.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
+        (tahsilYardimiBrut > 0 ? "<div class='satir'><div>Tahsil Yardımı :</div> <b>" + tahsilYardimiBrut.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
         
         "<div class='satir' style='align-items: center;'>" + 
             "<div style='display: flex; align-items: center; gap: 4px;'>" +
-                "<div>İkramiye Payı:<br><span style='font-size:11px; color:#718096;'>( " + carpanYazi + " )</span></div>" +
+                "<div>İkramiye Payı :<br><span style='font-size:11px; color:#718096;'>( " + carpanYazi + " )</span></div>" +
                 "<div class='tooltip-container'>" +
                     "<span class='info-icon' style='width:14px; height:14px; font-size:10px;'>i</span>" +
                     "<div class='tooltip-text' style='width: 280px; font-size: 11.5px; z-index: 110; padding: 12px; margin-left: -20px; line-height: 1.4;'>" +
@@ -1257,7 +1389,7 @@ function tumHesaplamalariCalistir() {
             "<b class='vurgu-turuncu'>" + brutAylikIkramiye.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b>" +
         "</div>" +
         "<div class='satir' style='font-weight:bold; background:#edf2f7; padding:10px; border-radius:8px; align-items:center;'>" +
-            "<div>Toplam Brüt Kazanç:</div>" +
+            "<div>Toplam Brüt Kazanç :</div>" +
             "<div>" + toplamBrutKazanc.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div>" +
         "</div>" +
         
@@ -1267,19 +1399,20 @@ function tumHesaplamalariCalistir() {
                 "<div class='toggle-icon'>▼</div>" +
             "</div>" +
             "<div id='kesintiIcerik' class='yasal-kesintiler-icerik' style='display: block;'>" +
-                "<div class='satir' style='align-items: center; margin-bottom: 6px;'><div>Gelir Vergisi:<br><span style='font-size:11px; font-weight:normal; color:#718096;'>( " + dilimMetni + " )</span></div> <div style='color:#e53e3e; font-weight:bold;'>" + netGelirVergisi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
+                "<div class='satir' style='align-items: center; margin-bottom: 6px;'><div>Gelir Vergisi :<br><span style='font-size:11px; font-weight:normal; color:#718096;'>( " + dilimMetni + " )</span></div> <div style='color:#e53e3e; font-weight:bold;'>" + netGelirVergisi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
                 "<div class='satir' style='margin-top: 0; padding-top: 0; border-bottom: 1px solid #fbd5d5; padding-bottom: 8px;'><div>↳ <i style='font-size:11.5px; color:#38a169;'>AÜ Gelir Vergisi Muafiyeti</i></div> <div style='color:#38a169; font-size:12px; font-weight:bold;'>-" + gelirVergisiMuafiyeti.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
-                "<div class='satir'><div>SGK İşsizlik Payı ( %1 ):</div> <div style='color:#e53e3e; font-weight:bold;'>" + sgkIssizlikPayi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
-                "<div class='satir'><div>SGK İşçi Payı ( %14 ):</div> <div style='color:#e53e3e; font-weight:bold;'>" + sgkIsciPayi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
-                "<div class='satir' style='margin-bottom: 2px;'><div>Damga Vergisi:</div> <div style='color:#e53e3e; font-weight:bold;'>" + netDamgaVergisi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
+                "<div class='satir'><div>SGK İşsizlik Payı ( %1 ) :</div> <div style='color:#e53e3e; font-weight:bold;'>" + sgkIssizlikPayi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
+                "<div class='satir'><div>SGK İşçi Payı ( %14 ) :</div> <div style='color:#e53e3e; font-weight:bold;'>" + sgkIsciPayi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
+                "<div class='satir' style='margin-bottom: 2px;'><div>Damga Vergisi :</div> <div style='color:#e53e3e; font-weight:bold;'>" + netDamgaVergisi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
                 "<div class='satir' style='margin-top: 0; padding-top: 0; border-bottom: 1px solid #fbd5d5; padding-bottom: 8px;'><div>↳ <i style='font-size:11.5px; color:#38a169;'>AÜ Damga Vergisi Muafiyeti</i></div> <div style='color:#38a169; font-size:12px; font-weight:bold;'>-250,70 TL</div></div>" +
-                "<div class='satir'" + (besKesintisi === 0 && avansTutari === 0 && digerKesintiler === 0 ? " style='border-bottom: none; margin-bottom: 0; padding-bottom: 0;'" : "") + "><div>Sendika Aidatı:</div> <div style='color:#e53e3e; font-weight:bold;'>" + sendikaAidati.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
-                (besKesintisi > 0 ? "<div class='satir'" + (avansTutari === 0 && digerKesintiler === 0 ? " style='border-bottom: none; margin-bottom: 0; padding-bottom: 0;'" : "") + "><div>Otomatik BES ( %3 ):</div> <div style='color:#e53e3e; font-weight:bold;'>" + besKesintisi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" : "") +
-                (avansTutari > 0 ? "<div class='satir'" + (digerKesintiler === 0 ? " style='border-bottom: none; margin-bottom: 0; padding-bottom: 0;'" : "") + "><div>Avans Kesintisi:</div> <div style='color:#e53e3e; font-weight:bold;'>" + avansTutari.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" : "") +
-                (digerKesintiler > 0 ? "<div class='satir' style='border-bottom: none; margin-bottom: 0; padding-bottom: 0;'><div>Diğer Kesinti:</div> <div style='color:#e53e3e; font-weight:bold;'>" + digerKesintiler.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" : "") +
+                "<div class='satir'" + (besKesintisi === 0 && avansTutari === 0 && digerKesintiler === 0 ? " style='border-bottom: none; margin-bottom: 0; padding-bottom: 0;'" : "") + "><div>Sendika Aidatı :</div> <div style='color:#e53e3e; font-weight:bold;'>" + sendikaAidati.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
+                (besKesintisi > 0 ? "<div class='satir'" + (avansTutari === 0 && digerKesintiler === 0 ? " style='border-bottom: none; margin-bottom: 0; padding-bottom: 0;'" : "") + "><div>Otomatik BES ( %3 ) :</div> <div style='color:#e53e3e; font-weight:bold;'>" + besKesintisi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" : "") +
+                (avansTutari > 0 ? "<div class='satir'" + (digerKesintiler === 0 ? " style='border-bottom: none; margin-bottom: 0; padding-bottom: 0;'" : "") + "><div>Avans Kesintisi :</div> <div style='color:#e53e3e; font-weight:bold;'>" + avansTutari.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" : "") +
+                (digerKesintiler > 0 ? "<div class='satir' style='border-bottom: none; margin-bottom: 0; padding-bottom: 0;'><div>Diğer Kesinti :</div> <div style='color:#e53e3e; font-weight:bold;'>" + digerKesintiler.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" : "") +
             "</div>" +
         "</div>" +
-        moneyKutucukHTML;
+        moneyKutucukHTML +
+        calismaOzetiHTML;
         
     startValueAnimation('anim_net', document.getElementById('anim_net_ucret'), yasalNetUcret);
     if(avansTutari > 0 && document.getElementById('anim_avans')) {
@@ -1295,14 +1428,46 @@ function tumHesaplamalariCalistir() {
     }
 }
 
-// 15. DINLEYICILER (Tüm kutucukları anlık hesaplamaya bağlar)
+// 15. DINLEYICILER VE OTOMATİK KAYIT MOTORU
+function bilgileriOtomatikKaydet() {
+    const profil = {
+        personelTipi: document.getElementById('personelTipi').value,
+        yil: document.getElementById('yil').value,
+        saatlik: document.getElementById('saatlik').value,
+        cocukKucuk: document.getElementById('cocukKucuk').value,
+        cocukBuyuk: document.getElementById('cocukBuyuk').value
+    };
+    localStorage.setItem('migrosProfil', JSON.stringify(profil));
+}
+
 const tumGirdiler = document.querySelectorAll('input, select');
 tumGirdiler.forEach(girdi => {
-    girdi.addEventListener('input', tumHesaplamalariCalistir);
-    girdi.addEventListener('change', tumHesaplamalariCalistir);
+    girdi.addEventListener('input', function() {
+        if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();
+        bilgileriOtomatikKaydet();
+    });
+    girdi.addEventListener('change', function() {
+        if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();
+        bilgileriOtomatikKaydet();
+    });
 });
 
-// 16. EKRAN RESMİ ÇEKİLİRKEN SELECT MENÜLERİNİ YAZIYA ÇEVİREN HİLELİ DÜZENLEYİCİ
+// 16. LOCAL STORAGE BİLGİ YÜKLEME MOTORU
+window.addEventListener('DOMContentLoaded', () => {
+    const kayitliProfil = localStorage.getItem('migrosProfil');
+    if(kayitliProfil) {
+        const p = JSON.parse(kayitliProfil);
+        if(p.personelTipi) document.getElementById('personelTipi').value = p.personelTipi;
+        if(p.yil) document.getElementById('yil').value = p.yil;
+        if(p.saatlik) document.getElementById('saatlik').value = p.saatlik;
+        if(p.cocukKucuk) document.getElementById('cocukKucuk').value = p.cocukKucuk;
+        if(p.cocukBuyuk) document.getElementById('cocukBuyuk').value = p.cocukBuyuk;
+        
+        document.getElementById('personelTipi').dispatchEvent(new Event('change'));
+    }
+});
+
+// 17. EKRAN RESMİ ÇEKİLİRKEN SELECT MENÜLERİNİ YAZIYA ÇEVİREN HİLELİ DÜZENLEYİCİ
 function prepareSelectsForCapture(captureTarget) {
     const selectsToReplace = [];
     captureTarget.querySelectorAll('select').forEach(sel => {
@@ -1329,10 +1494,13 @@ function restoreSelectsAfterCapture(selectsToReplace) {
     });
 }
 
-// 17. TAM EKRAN İNDİRME MOTORU
+// 18. TAM EKRAN İNDİRME MOTORU
 document.getElementById('indirTamBtn').addEventListener('click', function() {
     const btn = this;
     if (btn.disabled) return; 
+    
+    // Fotoğraf hazırlanıyor bildirimi (mavi)
+    showToast("Fotoğraf hazırlanıyor... 📸", 3000, "#3182ce");
     
     const oldHtml = btn.innerHTML;
     btn.innerHTML = '⏳';
@@ -1377,6 +1545,8 @@ document.getElementById('indirTamBtn').addEventListener('click', function() {
             link.download = 'Migros_Tum_Hesap.jpeg';
             link.href = canvas.toDataURL('image/jpeg', 0.95);
             link.click();
+            // Başarı bildirimi (yeşil)
+            setTimeout(() => showToast("Cihaza başarıyla indirildi ✅", 2500, "#38a169"), 500);
         }).catch(err => {
             console.error("Hata:", err);
             alert("Fotoğraf kaydedilirken bir hata oluştu.");
@@ -1403,17 +1573,11 @@ document.getElementById('indirTamBtn').addEventListener('click', function() {
     }, 150);
 });
 
-// 18. SADECE SONUÇ (BORDRO) İNDİRME MOTORU
+// 19. SADECE SONUÇ (BORDRO) İNDİRME MOTORU
 document.getElementById('indirSonucBtn').addEventListener('click', function() {
     const btn = this;
     if (btn.disabled) return; 
     
-    const oldHtml = btn.innerHTML;
-    btn.innerHTML = '⏳';
-    btn.disabled = true;
-    
-    document.querySelectorAll('.tooltip-container').forEach(c => c.classList.remove('active'));
-
     const captureTarget = document.getElementById('captureCard'); 
     const sonucAlani = document.getElementById('sonuc');
     const netAlani = document.querySelector('.money-kutucuk'); 
@@ -1421,10 +1585,17 @@ document.getElementById('indirSonucBtn').addEventListener('click', function() {
     
     if (!sonucAlani || !netAlani || sonucAlani.style.display === 'none') {
         alert("Lütfen önce hesaplama yapın.");
-        btn.innerHTML = oldHtml;
-        btn.disabled = false;
         return;
     }
+    
+    // Fotoğraf hazırlanıyor bildirimi (mavi)
+    showToast("Fotoğraf hazırlanıyor... 📸", 3000, "#3182ce");
+
+    const oldHtml = btn.innerHTML;
+    btn.innerHTML = '⏳';
+    btn.disabled = true;
+    
+    document.querySelectorAll('.tooltip-container').forEach(c => c.classList.remove('active'));
     
     const selectsToReplace = prepareSelectsForCapture(captureTarget);
 
@@ -1489,6 +1660,8 @@ document.getElementById('indirSonucBtn').addEventListener('click', function() {
             link.download = 'Migros_Sonuc_ve_Imza.jpeg';
             link.href = yeniCanvas.toDataURL('image/jpeg', 0.95);
             link.click();
+            // Başarı bildirimi (yeşil)
+            setTimeout(() => showToast("Cihaza başarıyla indirildi ✅", 2500, "#38a169"), 500);
 
         }).catch(err => {
             console.error("Hata:", err);
@@ -1508,7 +1681,7 @@ document.getElementById('indirSonucBtn').addEventListener('click', function() {
     }, 150);
 });
 
-// 19. OCR İLE KAMERADAN/GÖRSELDEN KUMULATİF MATRAH OKUMA MOTORU
+// 20. OCR İLE KAMERADAN/GÖRSELDEN KUMULATİF MATRAH OKUMA MOTORU
 document.getElementById('ocrBtn').addEventListener('click', function() {
     document.getElementById('ocrInput').click(); 
 });
@@ -1574,15 +1747,17 @@ document.getElementById('ocrInput').addEventListener('change', function(e) {
     });
 });
 
-// 20. TEMİZLE / SIFIRLA BUTONU MOTORU
+// 21. TEMİZLE / SIFIRLA VE HAFIZAYI TEMİZLEME MOTORU
 document.getElementById('sifirlaBtn').addEventListener('click', function() {
+    // Tarayıcı hafızasındaki kayıtlı profili sil
+    localStorage.removeItem('migrosProfil');
+
+    // Tümü için sadece içini boşaltıyoruz, sıfır yazmıyoruz.
     document.querySelectorAll('input[type="text"]').forEach(el => {
-        if (el.id === 'fazlaMesaiSaat' || el.id === 'pazarGun') {
-            el.value = '0';
-        } else {
-            el.value = '';
-        }
+        el.value = '';
+        el.classList.remove('error', 'shake');
     });
+    
     document.getElementById('personelTipi').selectedIndex = 0;
     document.getElementById('kacinciMaas').selectedIndex = 0;
     document.getElementById('yil').selectedIndex = 0;
@@ -1593,6 +1768,11 @@ document.getElementById('sifirlaBtn').addEventListener('click', function() {
     document.getElementById('ozelYardim').selectedIndex = 0;
     document.getElementById('tahsilYardimi').selectedIndex = 0;
     
+    ['personelTipi', 'kacinciMaas', 'yil', 'secilenAy', 'kolayVergiDilimi'].forEach(id => {
+        let el = document.getElementById(id);
+        if(el) el.classList.remove('error', 'shake');
+    });
+
     document.getElementById('besKesintisiVar').checked = false; 
     document.getElementById('avansVar').checked = false; 
     document.getElementById('digerKesintiVar').checked = false;
@@ -1607,7 +1787,7 @@ document.getElementById('sifirlaBtn').addEventListener('click', function() {
     document.getElementById('headerTuruncuSpan').innerText = 'PERSONEL ÜCRET HESAPLAMA';
     
     var rtAciklama = document.getElementById('rtAciklama');
-    if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana maaşın içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b>ekstra mesai (personele göre 1.5 veya 2 katı)</b> brüt ek kazanç olarak yansıtılır.';
+    if (rtAciklama) rtAciklama.innerHTML = 'Normal yevmiyeniz zaten ana ücretin içinde hesaplandığı için, buraya girdiğiniz gün sayısı karşılığında sadece hak ettiğiniz <b>ekstra mesai (personele göre 1.5 veya 2 katı)</b> brüt ek kazanç olarak yansıtılır.';
     
     var rtSogukAciklama = document.getElementById('rtSogukAciklama');
     if (rtSogukAciklama) rtSogukAciklama.innerHTML = 'Resmi tatilde çalışılan soğuk vardiyası için personele göre normal yevmiyenin <b>2.5 veya 3 katı</b> brüt ek kazanç olarak yansıtılır.';
@@ -1621,7 +1801,11 @@ document.getElementById('sifirlaBtn').addEventListener('click', function() {
     for (let key in animState) delete animState[key];
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Form temizlendi bildirimi (kırmızı tonlarında)
+    showToast("Hafıza ve form temizlendi 🧹", 2000, "#e53e3e");
 });
+
 </script>
 </body>
 </html>
