@@ -201,7 +201,13 @@
     <!-- İÇ KUTU 1: Personel Tipi, Maaş Sırası, Vergi ve Özel Kesintiler -->
     <div style="background-color: #fffcf9; border: 2px dashed var(--migros-turuncu); padding: 15px; border-radius: 18px; margin-bottom: 18px; box-shadow: 0 4px 15px rgba(243, 112, 33, 0.1); border-left: 6px solid var(--migros-turuncu);">
         
-                        <div style="display: flex; gap: 8px; margin-bottom: 14px; align-items: flex-end;">
+        <!-- AD SOYAD GİRİŞ ALANI (Hafızasız / Sadece Ekrana Basar) -->
+        <div style="margin-bottom: 14px;">
+            <label style="margin-bottom: 6px; font-size: 11.5px; color: var(--migros-lacivert); font-weight: 800; display: flex; align-items: center; gap: 4px; letter-spacing: -0.5px;">👤 Ad Soyad</label>
+            <input type="text" id="adSoyad" placeholder="Bordroda görünecek isminiz..." oninput="this.value = this.value.toLocaleUpperCase('tr-TR'); if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();" style="padding: 10px 12px; font-size: 13px; font-weight: bold; border: 2px solid #cbd5e0; border-radius: 10px; width: 100%; color: var(--migros-lacivert); background-color: white;">
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 14px; align-items: flex-end;">
             <div style="flex: 1.35;">
                 <label style="margin-bottom: 6px; font-size: 11.5px; color: var(--migros-lacivert); font-weight: 800; display: flex; align-items: center; gap: 4px; white-space: nowrap; letter-spacing: -0.5px;">👤 Personel Tipi</label>
                 <select id="personelTipi" style="padding: 10px 2px; font-size: 12.5px; letter-spacing: -0.5px; font-weight: bold; border: 2px solid #cbd5e0; border-radius: 10px; width: 100%; color: var(--migros-lacivert); background-color: white;">
@@ -257,7 +263,7 @@
             </div>
             
             <div id="alanMatrah" class="ocr-input-group">
-                <input type="text" inputmode="decimal" id="kumulatifMatrah" placeholder="Örn: 370.310,60" oninput="formatlaMil(this)" onfocus="this.select()" style="padding: 10px 12px; font-size: 14px; font-weight: bold; color: #e53e3e; background-color: white; flex: 1;">
+                <input type="text" inputmode="decimal" id="kumulatifMatrah" placeholder="Örn: 370.310,60" oninput="formatlaMil(this)" style="padding: 10px 12px; font-size: 14px; font-weight: bold; color: #e53e3e; background-color: white; flex: 1;">
                 <button type="button" id="ocrBtn" class="ocr-btn" title="Bordrodan Oku">📷</button>
                 <input type="file" id="ocrInput" accept="image/*" style="display: none;">
                 <div id="ocrProgressBar"></div>
@@ -282,28 +288,28 @@
                 
                 <div style="height: 1px; background-color: #cbd5e0; margin: 10px 0;"></div>
                 
-                <div style="display: flex; gap: 10px;">
-                    <div style="flex: 1;">
-                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 12px; color: var(--migros-lacivert); font-weight: 700; margin-bottom: 4px;">
-                            <input type="checkbox" id="avansVar" style="width: 16px; height: 16px; accent-color: var(--migros-turuncu);" onchange="document.getElementById('avansAlani').style.display = this.checked ? 'block' : 'none'; if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();">
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 40%;">
+                        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 11.5px; color: var(--migros-lacivert); font-weight: 700; margin-bottom: 4px; white-space: nowrap;">
+                            <input type="checkbox" id="avansVar" style="width: 15px; height: 15px; accent-color: var(--migros-turuncu);" onchange="document.getElementById('manuelAvansAlani').style.display = this.checked ? 'block' : 'none'; if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();">
                             Avans
                         </label>
-                        <div id="avansAlani" style="display: none; margin-top: 6px;">
+                        <div id="manuelAvansAlani" style="display: none; margin-top: 6px;">
                             <div class="input-icon-wrapper">
-                                <input type="text" inputmode="decimal" id="avansTutari" placeholder="17.191" oninput="formatlaMil(this); if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();" onfocus="this.select()" style="padding: 8px; font-size: 13px; font-weight: bold; color: #e53e3e; background-color: white; border: 2px solid #cbd5e0; border-radius: 8px; width: 100%; box-sizing: border-box;">
+                                <input type="text" inputmode="decimal" id="manuelAvans" placeholder="Oto/Gir" oninput="formatlaMil(this); if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();" style="padding: 8px; font-size: 12px; font-weight: bold; color: #e53e3e; background-color: white; border: 2px solid #cbd5e0; border-radius: 8px; width: 100%; box-sizing: border-box;">
                                 <span class="unit-text" style="right: 8px; z-index: 5;">TL</span>
                             </div>
                         </div>
                     </div>
 
-                    <div style="flex: 1;">
-                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 12px; color: var(--migros-lacivert); font-weight: 700; margin-bottom: 4px;">
-                            <input type="checkbox" id="digerKesintiVar" style="width: 16px; height: 16px; accent-color: var(--migros-turuncu);" onchange="document.getElementById('digerKesintiAlani').style.display = this.checked ? 'block' : 'none'; if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();">
-                            Diğer Kesinti
+                    <div style="flex: 1; min-width: 40%;">
+                        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 11.5px; color: var(--migros-lacivert); font-weight: 700; margin-bottom: 4px; white-space: nowrap;">
+                            <input type="checkbox" id="digerKesintiVar" style="width: 15px; height: 15px; accent-color: var(--migros-turuncu);" onchange="document.getElementById('digerKesintiAlani').style.display = this.checked ? 'block' : 'none'; if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();">
+                            Ek Kesinti
                         </label>
                         <div id="digerKesintiAlani" style="display: none; margin-top: 6px;">
                             <div class="input-icon-wrapper">
-                                <input type="text" inputmode="decimal" id="digerKesinti" placeholder="İcra/Taksit vb." oninput="formatlaMil(this); if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();" onfocus="this.select()" style="padding: 8px; font-size: 13px; font-weight: bold; color: #e53e3e; background-color: white; border: 2px solid #cbd5e0; border-radius: 8px; width: 100%; box-sizing: border-box;">
+                                <input type="text" inputmode="decimal" id="digerKesinti" placeholder="İcra vb." oninput="formatlaMil(this); if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();" style="padding: 8px; font-size: 12px; font-weight: bold; color: #e53e3e; background-color: white; border: 2px solid #cbd5e0; border-radius: 8px; width: 100%; box-sizing: border-box;">
                                 <span class="unit-text" style="right: 8px; z-index: 5;">TL</span>
                             </div>
                         </div>
@@ -335,7 +341,7 @@
         <div style="flex: 1.15;">
             <label style="color: var(--migros-turuncu); font-weight: 800; font-size: 11px; white-space: nowrap; letter-spacing: -0.5px; margin-bottom: 4px;">Saatlik Brüt:</label>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="saatlik" placeholder="Örn: 198.17" onfocus="this.select()" style="padding: 10px 4px; border: 2px solid var(--migros-turuncu); background-color: #fff9f5; font-weight: bold; color: var(--migros-lacivert); font-size: 12.5px; letter-spacing: -0.5px; box-shadow: 0 4px 10px rgba(243, 112, 33, 0.1); text-align: left;">
+                <input type="text" inputmode="decimal" id="saatlik" placeholder="Örn: 198.17" style="padding: 10px 4px; border: 2px solid var(--migros-turuncu); background-color: #fff9f5; font-weight: bold; color: var(--migros-lacivert); font-size: 12.5px; letter-spacing: -0.5px; box-shadow: 0 4px 10px rgba(243, 112, 33, 0.1); text-align: left;">
                 <span class="unit-text" style="color: var(--migros-turuncu); right: 6px;">TL</span>
             </div>
         </div>
@@ -368,7 +374,7 @@
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="ucretliIzin" placeholder="0" onfocus="this.select()" style="padding: 10px; text-align: center; border-color: #feb2b2; background-color: white;">
+                <input type="text" inputmode="decimal" id="ucretliIzin" placeholder="0" style="padding: 10px; text-align: center; border-color: #feb2b2; background-color: white;">
                 <span class="unit-text" style="color: #e53e3e;">Gün</span>
             </div>
         </div>
@@ -385,7 +391,7 @@
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="eksikGun" placeholder="0" onfocus="this.select()" style="padding: 10px; text-align: center; border-color: #feb2b2; background-color: white;">
+                <input type="text" inputmode="decimal" id="eksikGun" placeholder="0" style="padding: 10px; text-align: center; border-color: #feb2b2; background-color: white;">
                 <span class="unit-text" style="color: #e53e3e;">Gün</span>
             </div>
         </div>
@@ -402,7 +408,7 @@
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="saatlikIzin" placeholder="0" onfocus="this.select()" style="padding: 10px; text-align: center; border-color: #feb2b2; background-color: white;">
+                <input type="text" inputmode="decimal" id="saatlikIzin" placeholder="0" style="padding: 10px; text-align: center; border-color: #feb2b2; background-color: white;">
                 <span class="unit-text" style="color: #e53e3e;">Saat</span>
             </div>
         </div>
@@ -423,7 +429,7 @@
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="fazlaMesaiSaat" placeholder="0" onfocus="this.select()" style="border-color: #9ae6b4; text-align: center; background-color: white;">
+                <input type="text" inputmode="decimal" id="fazlaMesaiSaat" placeholder="0" style="border-color: #9ae6b4; text-align: center; background-color: white;">
                 <span class="unit-text" style="color: #2f855a; right: 6px; font-size: 10px;">Sa</span>
             </div>
         </div>
@@ -440,7 +446,7 @@
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="pazarGun" placeholder="0" onfocus="this.select()" style="border-color: #9ae6b4; text-align: center; background-color: white;">
+                <input type="text" inputmode="decimal" id="pazarGun" placeholder="0" style="border-color: #9ae6b4; text-align: center; background-color: white;">
                 <span class="unit-text" style="color: #2f855a; right: 6px; font-size: 10px;">Gün</span>
             </div>
         </div>
@@ -457,7 +463,7 @@
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="bayramGun" placeholder="0" onfocus="this.select()" style="border-color: #9ae6b4; text-align: center; background-color: white;">
+                <input type="text" inputmode="decimal" id="bayramGun" placeholder="0" style="border-color: #9ae6b4; text-align: center; background-color: white;">
                 <span class="unit-text" style="color: #2f855a; right: 6px; font-size: 10px;">Gün</span>
             </div>
         </div>
@@ -479,7 +485,7 @@
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="numeric" pattern="[0-9]*" id="geceGun" placeholder="0" onfocus="this.select()" style="border-color: #cbd5e0; text-align: center; background-color: white;">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="geceGun" placeholder="0" style="border-color: #cbd5e0; text-align: center; background-color: white;">
                 <span class="unit-text" style="color: #4a5568; right: 6px; font-size: 10px;">Gün</span>
             </div>
         </div>
@@ -496,7 +502,7 @@
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="numeric" pattern="[0-9]*" id="sogukGun" placeholder="0" onfocus="this.select()" style="border-color: #bee3f8; text-align: center; background-color: white;">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="sogukGun" placeholder="0" style="border-color: #bee3f8; text-align: center; background-color: white;">
                 <span class="unit-text" style="color: #2b6cb0; right: 6px; font-size: 10px;">Gün</span>
             </div>
         </div>
@@ -513,7 +519,7 @@
                 </div>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="numeric" pattern="[0-9]*" id="sogukBayramGun" placeholder="0" onfocus="this.select()" style="border-color: #bee3f8; text-align: center; background-color: white;">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" id="sogukBayramGun" placeholder="0" style="border-color: #bee3f8; text-align: center; background-color: white;">
                 <span class="unit-text" style="color: #2b6cb0; right: 6px; font-size: 10px;">Gün</span>
             </div>
         </div>
@@ -532,7 +538,7 @@
                 <span style="font-size: 9px; color: #718096; font-weight: normal; display:block; margin-top:2px; white-space: nowrap; letter-spacing: -0.5px;">(Perf+Dvam+Kıdem)</span>
             </div>
             <div class="input-icon-wrapper">
-                <input type="text" inputmode="decimal" id="ekPrimler" placeholder="Örn: 15.500" oninput="formatlaMil(this)" onfocus="this.select()" style="padding: 10px; font-size: 14px; text-align: left;">
+                <input type="text" inputmode="decimal" id="ekPrimler" placeholder="Örn: 15.500" oninput="formatlaMil(this)" style="padding: 10px; font-size: 14px; text-align: left;">
                 <span class="unit-text">TL</span>
             </div>
         </div>
@@ -690,7 +696,7 @@ window.toggleKesinti = function() {
     }
 };
 
-// TOAST BİLDİRİM FONKSİYONU
+// 3. TOAST BİLDİRİM FONKSİYONU
 function showToast(mesaj, sure = 2500, bgRenk = '#38a169') {
     const toast = document.getElementById('toastMesaj');
     toast.innerText = mesaj;
@@ -699,7 +705,7 @@ function showToast(mesaj, sure = 2500, bgRenk = '#38a169') {
     setTimeout(() => toast.classList.remove('show'), sure);
 }
 
-// 3. MOBIL CİHAZLARDA BALONCUKLARI (TOOLTIP) DÜZGÜN TETİKLEME YÖNETİCİSİ
+// 4. MOBIL CİHAZLARDA BALONCUKLARI (TOOLTIP) DÜZGÜN TETİKLEME YÖNETİCİSİ
 document.addEventListener('click', function(e) {
     const icon = e.target.closest('.info-icon');
     if (icon) {
@@ -717,7 +723,7 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// 4. SAYI ANİMASYON MOTORU (Sonuç ekranındaki sayaç efekti)
+// 5. SAYI ANİMASYON MOTORU (Sonuç ekranındaki sayaç efekti)
 const animState = {};
 function startValueAnimation(id, element, target, decimals = 2) {
     if (!element) return;
@@ -748,11 +754,73 @@ function startValueAnimation(id, element, target, decimals = 2) {
     requestAnimationFrame(update);
 }
 
-// 5. BORDRO HASSAS YUVARLAMA FONKSİYONLARI (Kuruş kaymasını önler)
-function yuv(deger) { return parseFloat((deger + Number.EPSILON).toFixed(2)); }
-function yuv3(deger) { return parseFloat((deger + Number.EPSILON).toFixed(3)); }
+// 6. BORDRO HASSAS YUVARLAMA FONKSİYONLARI (SAP Kuruş Dengeleyici)
+function yuv(deger) { return parseFloat((deger + 0.000001).toFixed(2)); }
+function yuv3(deger) { return parseFloat((deger + 0.000001).toFixed(3)); }
 
-// 6. VERGİ SEÇİM TİPİ YÖNETİCİSİ (Tam Matrah mi Dilim mi?)
+// 7. VERGİ DİLİMLERİ MATRİSİ (2026 Yasal Sınırları)
+const vergiDilimleri2026 = [
+    { sinir: 190000, oran: 0.15 },
+    { sinir: 400000, oran: 0.20 },
+    { sinir: 1500000, oran: 0.27 },
+    { sinir: 5300000, oran: 0.35 },
+    { sinir: Infinity, oran: 0.40 }
+];
+
+// 8. DİNAMİK GELİR VERGİSİ HESAPLAMA MOTORU
+function dinamikGelirVergisiHesapla(gecenAyKumulatif, buAykiMatrah) {
+    let kalanMatrah = buAykiMatrah;
+    let toplamKesilecekVergi = 0;
+    let anlikKumulatif = gecenAyKumulatif;
+
+    for (let i = 0; i < vergiDilimleri2026.length; i++) {
+        if (kalanMatrah <= 0) break;
+        let dilimSiniri = vergiDilimleri2026[i].sinir;
+        let dilimOrani = vergiDilimleri2026[i].oran;
+        if (anlikKumulatif >= dilimSiniri) continue;
+
+        let buDilimdekiKapasite = dilimSiniri - anlikKumulatif;
+        let buDilimdenGiden = Math.min(kalanMatrah, buDilimdekiKapasite);
+
+        toplamKesilecekVergi += buDilimdenGiden * dilimOrani;
+        kalanMatrah -= buDilimdenGiden;
+        anlikKumulatif += buDilimdenGiden;
+    }
+    return yuv(toplamKesilecekVergi);
+}
+
+// 9. TAHMİNİ AVANS HESAPLAMA FONKSİYONU (Dürüst Matematik: Dinamik Borç Damga Vergisi Kalibrasyonlu)
+function hesaplaTahminiAvans(saatlikUcret, gecenAyKumulatif, aylikGVMuafiyeti, aylikDVMuafiyeti, sendikaAidati, deterjanNet, ayIndex, isYeniPersonel) {
+    let otuzGunlukBrut = 30 * 7.5 * saatlikUcret;
+    let avansBrutTabani = otuzGunlukBrut / 2; 
+
+    let sgkKesintisiYarisi = (avansBrutTabani * 0.15);
+    let gvMuafiyetYarisi = aylikGVMuafiyeti / 2;
+    let dvMuafiyetYarisi = aylikDVMuafiyeti / 2;
+    let sendikaYarisi = sendikaAidati / 2;
+
+    let avansVergiMatrahi = avansBrutTabani - sgkKesintisiYarisi;
+    
+    let hamVergiYarisi = dinamikGelirVergisiHesapla(gecenAyKumulatif, avansVergiMatrahi);
+    let netVergiYarisi = hamVergiYarisi - gvMuafiyetYarisi;
+
+    let damgaVergisiYarisi = (avansBrutTabani * 0.00759) - dvMuafiyetYarisi;
+
+        // SAP SENDİKA BORÇ DAMGA VERGİSİ DÜZELTMESİ
+    var avansGunlukBrut = yuv(saatlikUcret * 7.5);
+    let gecmisBorc = (!isYeniPersonel && ayIndex >= 4 && ayIndex <= 9) ? yuv(avansGunlukBrut * 0.35) : 0;
+
+    
+    let borcDamgaSapmasi = 0;
+    if (gecmisBorc > 0) {
+        borcDamgaSapmasi = gecmisBorc * 0.00759; 
+    }
+
+    let netAvans = avansBrutTabani - sgkKesintisiYarisi - Math.max(0, netVergiYarisi) - Math.max(0, damgaVergisiYarisi) - sendikaYarisi + deterjanNet + borcDamgaSapmasi;
+    return netAvans;
+}
+
+// 10. VERGİ SEÇİM TİPİ YÖNETİCİSİ
 const radioButtons = document.querySelectorAll('input[name="vergiGirisTipi"]');
 const alanMatrah = document.getElementById('alanMatrah');
 const alanDilim = document.getElementById('alanDilim');
@@ -769,7 +837,7 @@ radioButtons.forEach(radio => {
     });
 });
 
-// 7. PERSONEL TİPİ DEĞİŞİMİNE GÖRE DİNAMİK AÇIKLAMA DEĞİŞTİRİCİ
+// 11. PERSONEL TİPİ DEĞİŞİMİ
 document.getElementById('personelTipi').addEventListener('change', function(e) {
     var headerKirmiziSpan = document.getElementById('headerKirmiziSpan');
     var headerTuruncuSpan = document.getElementById('headerTuruncuSpan');
@@ -796,10 +864,10 @@ document.getElementById('personelTipi').addEventListener('change', function(e) {
     if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();
 });
 
-// 8. TARIH VE AYLIK TAKVIM HESAPLAMA MOTORU
+// 12. TARIH VE AYLIK TAKVIM HESAPLAMA MOTORU
 function ayGunleriniBul(yil, ay) { return new Date(yil, ay, 0).getDate(); }
 
-// 9. METIN FORMATLAMA (1000'lik ayırıcı nokta ve virgül yönetimi)
+// 13. METIN FORMATLAMA
 function formatlaMil(input) {
     let deger = input.value.replace(/[^0-9,]/g, "");
     let parcalar = deger.split(',');
@@ -822,13 +890,15 @@ function formatlaMil(input) {
     }
 }
 
-// 10. SAAT/GUN DONUŞTÜRUÇU
+// 14. SAAT/GUN DONUŞTÜRUÇU (SAP Hassas Küsurat Korumalı)
 function metniSayiyaCevir(id) {
     let val = document.getElementById(id).value.trim();
     if (!val) return 0;
     val = val.replace(',', '.');
     let sonuc = parseFloat(val) || 0;
-    if (!id.toLowerCase().includes('saat')) {
+    
+    // Sadece Gece ve Soğuk vardiyalarında o hassas SAP küsuratlarını ezmemek için yuvarlamayı devre dışı bırakıyoruz!
+    if (!id.toLowerCase().includes('saat') && id !== 'geceGun' && id !== 'sogukGun' && id !== 'sogukBayramGun') {
         let tahminEdilenSaat = sonuc * 7.5;
         let gercekSaat = Math.round(tahminEdilenSaat * 2) / 2;
         sonuc = gercekSaat / 7.5;
@@ -854,7 +924,7 @@ function setError(id) {
     }
 }
 
-// 11. 2026 YILI DÖNEM TAKVİMİ
+// 15. 2026 YILI DÖNEM TAKVİMİ
 const aylar2026 = [
     { ad: "Ocak", tatil: 1 }, { ad: "Şubat", tatil: 0 }, { ad: "Mart", tatil: 3.5 }, 
     { ad: "Nisan", tatil: 1 }, { ad: "Mayıs", tatil: 6.5 }, { ad: "Haziran", tatil: 0 }, 
@@ -887,38 +957,25 @@ function gunlukHesapla() {
     startValueAnimation('anim_gunluk', document.getElementById('gunlukGosterim'), gunluk, 3);
 }
 
-// 12. VERGİ DİLİMLERİ MATRİSİ (2026 Yasal Sınırları)
-const vergiDilimleri2026 = [
-    { sinir: 190000, oran: 0.15 },
-    { sinir: 400000, oran: 0.20 },
-    { sinir: 1500000, oran: 0.27 },
-    { sinir: 5300000, oran: 0.35 },
-    { sinir: Infinity, oran: 0.40 }
+// 16. AYLARA GÖRE ASGARİ ÜCRET VERGİ İSTİSNALARI
+const asgariUcretGVIstisnalari = [
+    4211.33, // Ocak
+    4211.33, // Şubat
+    4211.33, // Mart
+    4211.33, // Nisan
+    4211.33, // Mayıs
+    4211.33, // Haziran
+    4537.75, // Temmuz
+    5615.10, // Ağustos
+    5615.10, // Eylül
+    5615.10, // Ekim
+    5615.10, // Kasım
+    5615.10  // Aralık
 ];
+const asgariUcretDVIstisnasi = 250.70;
 
-// 13. DİNAMİK GELİR VERGİSİ HESAPLAMA MOTORU
-function dinamikGelirVergisiHesapla(gecenAyKumulatif, buAykiMatrah) {
-    let kalanMatrah = buAykiMatrah;
-    let toplamKesilecekVergi = 0;
-    let anlikKumulatif = gecenAyKumulatif;
 
-    for (let i = 0; i < vergiDilimleri2026.length; i++) {
-        if (kalanMatrah <= 0) break;
-        let dilimSiniri = vergiDilimleri2026[i].sinir;
-        let dilimOrani = vergiDilimleri2026[i].oran;
-        if (anlikKumulatif >= dilimSiniri) continue;
-
-        let buDilimdekiKapasite = dilimSiniri - anlikKumulatif;
-        let buDilimdenGiden = Math.min(kalanMatrah, buDilimdekiKapasite);
-
-        toplamKesilecekVergi += buDilimdenGiden * dilimOrani;
-        kalanMatrah -= buDilimdenGiden;
-        anlikKumulatif += buDilimdenGiden;
-    }
-    return yuv(toplamKesilecekVergi);
-}
-
-// 14. ANA BORDRO HESAPLAMA VE SİMÜLASYON MOTORU
+// 17. ANA BORDRO HESAPLAMA VE SİMÜLASYON MOTORU
 function tumHesaplamalariCalistir() {
     gunlukHesapla();
     
@@ -936,7 +993,6 @@ function tumHesaplamalariCalistir() {
     if (!seciliVergi) return;
     var vergiGirisTipi = seciliVergi.value;
 
-    // Önce tüm hata classlarını temizle
     ['personelTipi', 'kacinciMaas', 'yil', 'secilenAy', 'saatlik', 'kumulatifMatrah', 'kolayVergiDilimi'].forEach(id => {
         let el = document.getElementById(id);
         if(el) el.classList.remove('error');
@@ -944,7 +1000,6 @@ function tumHesaplamalariCalistir() {
 
     let eksikVar = false;
     
-    // Doğrulama Kontrolleri (Titreme ve Kırmızı Çerçeve)
     if (personelTipiSelect.value === "") { setError('personelTipi'); eksikVar = true; }
     if (kacinciMaasSelect.value === "") { setError('kacinciMaas'); eksikVar = true; }
     if (aySelect.value === "") { setError('secilenAy'); eksikVar = true; }
@@ -996,7 +1051,6 @@ function tumHesaplamalariCalistir() {
     var soguk_bayram_gun = metniSayiyaCevir('sogukBayramGun');
     var ek_prim = yuv(guvenliSayiAl('ekPrimler'));
     
-    var avansTutari = document.getElementById('avansVar').checked ? guvenliSayiAl('avansTutari') : 0;
     var digerKesintiler = document.getElementById('digerKesintiVar').checked ? guvenliSayiAl('digerKesinti') : 0;
 
     var p_gun = metniSayiyaCevir('pazarGun');
@@ -1005,7 +1059,6 @@ function tumHesaplamalariCalistir() {
     var secilenOptionIndex = aySelect.options[aySelect.selectedIndex].dataset.ayIndex;
     var ayIndex = parseInt(secilenOptionIndex);
 
-    // Çocuk Yardımı Tarifeleri
     var cocukTutarKucuk = (ayIndex <= 5) ? 693.94 : 787.76;
     var cocukTutarBuyuk = (ayIndex <= 5) ? 346.97 : 393.88;
 
@@ -1026,48 +1079,36 @@ function tumHesaplamalariCalistir() {
     var tahsilYardimiSecim = parseInt(document.getElementById('tahsilYardimi').value) || 0;
     var tahsilYardimiBrut = tahsilYardimiSecim;
 
-    // --- KURUŞ BAZLI KESİN HESAPLAMA MOTORU BAŞLANGICI ---
-    
-    // 0. Temel Çarpanları Tam Sayıya (Kuruşa) Çevirme
     var s_ucret_kurus = Math.round(s_ucret * 100); 
     var gunluk_ucret_kurus = Math.round(g_saat * s_ucret_kurus);
 
-    // 1. Temel Ücret ve İkramiye Bazı
     var toplamEksikSaat = yuv((eksik_gun * g_saat) + saatlik_izin);
     var calisilanSaat = yuv((ay_gun * g_saat) - toplamEksikSaat);
     var calisilanGun = yuv(calisilanSaat / g_saat);
     var brutAnaUcret = Math.round(calisilanSaat * s_ucret_kurus) / 100;
     var ikramiyeIcinAnaUcret = Math.round((ay_gun * g_saat) * s_ucret_kurus) / 100;
 
-    // 2. Normal Fazla Mesai (SAP Ayrıştırılmış Zam Mantığı - %50)
     var mesaiAnaTutarKurus = Math.round(fm_saat * s_ucret_kurus);
     var mesaiZamFarkiKurus = Math.round(s_ucret_kurus * 0.5);
     var mesaiZamToplamiKurus = Math.round(fm_saat * mesaiZamFarkiKurus);
     var brutFazlaMesai = (mesaiAnaTutarKurus + mesaiZamToplamiKurus) / 100;
 
-    // 3. Pazar Mesaisi (Hafta Tatili: +2 Yevmiye Ekstra)
     var brutPazarMesaisiKurus = Math.round(p_gun * (gunluk_ucret_kurus * 2));
     var brutPazarMesaisi = brutPazarMesaisiKurus / 100;
 
-    // 4. Resmi Tatil Mesaisi (Yeni: 1.5 Katı / Eski: 2.0 Katı)
     var bayramCarpani = isYeniPersonel ? 1.5 : 2.0;
-    var bayramAnaTutarKurus = Math.round(b_gun * gunluk_ucret_kurus); // 1.0 Tam yevmiye kısmı
-    var bayramZamFarkiKurus = Math.round(gunluk_ucret_kurus * (bayramCarpani - 1)); // Zam kısmı (0.5 veya 1.0)
+    var bayramAnaTutarKurus = Math.round(b_gun * gunluk_ucret_kurus); 
+    var bayramZamFarkiKurus = Math.round(gunluk_ucret_kurus * (bayramCarpani - 1)); 
     var bayramZamToplamiKurus = Math.round(b_gun * bayramZamFarkiKurus);
     var brutTatilMesaisiEkran = (bayramAnaTutarKurus + bayramZamToplamiKurus) / 100;
 
-    // 5. Gece Zammı (Sabit 162.50 TL -> 16250 Kuruş)
     var brutGeceZami = Math.round(g_gun * 16250) / 100; 
     
-    // 6. Soğuk Vardiyası (Sabit 80 TL -> 8000 Kuruş)
     var sogukCarpani = isYeniPersonel ? 2.5 : 3.0;
     var sogukNormalKurus = Math.round(soguk_gun * 8000); 
     var sogukBayramKurus = Math.round(soguk_bayram_gun * Math.round(8000 * sogukCarpani)); 
     var brutSogukZami = (sogukNormalKurus + sogukBayramKurus) / 100;
 
-    // --- KURUŞ BAZLI HESAPLAMA MOTORU BİTİŞİ ---
-
-    // Kıdeme Göre İkramiye ve DM Ek Ödemeleri
     var carpanYazi = "";
     var carpanSayi = 0;
     var dmIkramiyeEkOdeme = 0;
@@ -1082,7 +1123,6 @@ function tumHesaplamalariCalistir() {
 
     var brutAylikIkramiye = yuv((ikramiyeIcinAnaUcret * carpanSayi) / 12);
 
-    // Money Kart (Gıda Bonosu) Tarifeleri
     var toplamGidaBono = 0;
     var moneyYilText = girdi_yil;
     if (girdi_yil === 1) toplamGidaBono = isYeniPersonel ? 2060.00 : 2250.00;
@@ -1091,12 +1131,9 @@ function tumHesaplamalariCalistir() {
     else if (girdi_yil === 4) toplamGidaBono = 4413.34; 
     else if (girdi_yil >= 5) { toplamGidaBono = 5516.66; moneyYilText = "5+"; }
 
-    var sendikaYevmiyeCarpani = (isYeniPersonel || ayIndex >= 10) ? 0.70 : 1.05;
-    
-    var targetYolNet = 3628.00; 
+    var targetYolNet = (ayIndex <= 6) ? 3298.00 : 3628.00; // Temmuz (6) dahil 3298 TL, sonrası 3628 TL 
     var targetDeterjanNet = 119.95;
     
-    // DİNAMİK DETERJAN BRÜTLEŞTİRİLMESİ
     var tahminiSgkMatrah = yuv(brutAnaUcret + brutTatilMesaisiEkran + brutPazarMesaisi + brutFazlaMesai + brutGeceZami + dmIkramiyeEkOdeme + brutSogukZami + brutAylikIkramiye + ek_prim + tahsilYardimiBrut);
     var tahminiVergiMatrah = yuv(tahminiSgkMatrah * 0.85); 
     var tahminiKumulatif = yuv(gecenAyKumulatif + tahminiVergiMatrah);
@@ -1109,7 +1146,6 @@ function tumHesaplamalariCalistir() {
     }
     var dinamikDeterjanBrut = yuv(targetDeterjanNet / (1 - marginalVergiOrani - 0.00759)); 
 
-    // DOĞRU SGK MUAFİYET MANTIĞI: (Devrolan için Limitsiz %100, Yeni Personel İçin Limitli)
     var fiiliGun = Math.max(0, calisilanGun - ucretli_izin);
     var toplamYanHak = yuv(toplamGidaBono + dinamikDeterjanBrut);
     var sgkOrtakIstisna = 0;
@@ -1121,7 +1157,6 @@ function tumHesaplamalariCalistir() {
         sgkOrtakIstisna = toplamYanHak; 
     }
 
-    // Yol Parası İçin Tersi Mühendislik Döngüsü
     function netMiktariHesapla(yolBrutDeneme) {
         var s_brut = yuv(brutAnaUcret + brutTatilMesaisiEkran + brutPazarMesaisi + brutFazlaMesai + brutGeceZami + dmIkramiyeEkOdeme + brutSogukZami + brutAylikIkramiye + toplamGidaBono + yolBrutDeneme + dinamikDeterjanBrut + ek_prim + cocuk_parasi_brut + ozelYardimBrut + tahsilYardimiBrut);
         
@@ -1129,8 +1164,13 @@ function tumHesaplamalariCalistir() {
         var s_sgkMatrah = yuv(Math.max(0, s_brut - s_istisna));
         var s_sgkIsci = yuv(s_sgkMatrah * 0.14);
         var s_sgkIssizlik = yuv(s_sgkMatrah * 0.01);
-        var saatlikSendika = yuv(s_ucret * sendikaYevmiyeCarpani);
-        var sendikaAidati = Number(Math.ceil((saatlikSendika * 7.5) + 'e2') + 'e-2'); 
+        
+                // SAP Sendika Hesaplaması (Birebir Migros Kuruş Mantığı)
+        var s_normalAidat = yuv(yuv(s_ucret * 0.70) * 7.5);
+        var s_gunlukBrut = yuv(s_ucret * 7.5);
+        var s_gecmisBorc = (!isYeniPersonel && ayIndex >= 4 && ayIndex <= 9) ? yuv(s_gunlukBrut * 0.35) : 0;
+        var sendikaAidati = s_normalAidat + s_gecmisBorc; 
+ 
         
         var s_vMatrah = yuv(Math.max(0, s_brut - s_sgkIsci - s_sgkIssizlik - sendikaAidati - cocuk_parasi_istisna - ozelYardimBrut)); 
         var s_gercekVergi = dinamikGelirVergisiHesapla(gecenAyKumulatif, s_vMatrah);
@@ -1161,17 +1201,19 @@ function tumHesaplamalariCalistir() {
 
     var sabitYanHaklarBrut = yuv(dinamikYolBrut + toplamGidaBono + dinamikDeterjanBrut);
     
-    // NİHAİ TOPLAM BRÜT
     var toplamBrutKazanc = yuv(brutAnaUcret + brutTatilMesaisiEkran + brutPazarMesaisi + brutFazlaMesai + brutGeceZami + dmIkramiyeEkOdeme + brutSogukZami + brutAylikIkramiye + sabitYanHaklarBrut + ek_prim + cocuk_parasi_brut + ozelYardimBrut + tahsilYardimiBrut);
 
-    // Kesinleşmiş Kesintiler
     var sgkIstisnaTutari = yuv(sgkOrtakIstisna + cocuk_parasi_istisna + ozelYardimBrut); 
     var sgkMatrahi = Math.max(0, yuv(toplamBrutKazanc - sgkIstisnaTutari));
     var sgkIsciPayi = yuv(sgkMatrahi * 0.14);
     var sgkIssizlikPayi = yuv(sgkMatrahi * 0.01);
     
-    var saatlikSendikaGosterim = yuv(s_ucret * sendikaYevmiyeCarpani);
-    var sendikaAidati = Number(Math.ceil((saatlikSendikaGosterim * 7.5) + 'e2') + 'e-2'); 
+        // YENİ SENDİKA HESAPLAMA SİSTEMİ (SAP Birebir Uyumlu)
+    var normalSendika = yuv(yuv(s_ucret * 0.70) * 7.5); 
+    var anaGunlukBrut = yuv(s_ucret * 7.5);
+    var taksitliBorc = (!isYeniPersonel && ayIndex >= 4 && ayIndex <= 9) ? yuv(anaGunlukBrut * 0.35) : 0;
+    var sendikaAidati = normalSendika + taksitliBorc; 
+
     
     var vergiMatrahi = Math.max(0, yuv(toplamBrutKazanc - sgkIsciPayi - sgkIssizlikPayi - sendikaAidati - cocuk_parasi_istisna - ozelYardimBrut)); 
     
@@ -1203,7 +1245,21 @@ function tumHesaplamalariCalistir() {
     var sirketIciKesintiler = yuv(toplamGidaBono + targetDeterjanNet);
     var besKesintisi = document.getElementById('besKesintisiVar').checked ? Math.floor(sgkMatrahi * 0.03) : 0;
     
-    // NET ELE GEÇEN MAAŞ (Şirket Tarafından Bankaya Yatırılacak Toplam Para)
+    // TAHMİNİ AVANS HESAPLAMASI
+    var gvMuafiyetAylik = asgariUcretGVIstisnalari[ayIndex] || 4211.33; 
+    var tahminiAvansTutar = yuv(hesaplaTahminiAvans(s_ucret, gecenAyKumulatif, gvMuafiyetAylik, asgariUcretDVIstisnasi, sendikaAidati, targetDeterjanNet, ayIndex, isYeniPersonel));
+    
+    var manuelAvansDegeri = guvenliSayiAl('manuelAvans');
+    var avansTutari = 0;
+    
+    if (document.getElementById('avansVar').checked) {
+        if (manuelAvansDegeri > 0) {
+            avansTutari = manuelAvansDegeri; 
+        } else {
+            avansTutari = tahminiAvansTutar; 
+        }
+    }
+    
     var netEleGecenMaas = yuv(toplamBrutKazanc - toplamYasalKesinti - sendikaAidati - sirketIciKesintiler - besKesintisi - digerKesintiler);
 
     var bayramEkstraMetin = isYeniPersonel ? "1.5x" : "2x";
@@ -1211,14 +1267,12 @@ function tumHesaplamalariCalistir() {
     var netMaasYolHaric = yuv(netEleGecenMaas - targetYolNet);
     var yasalNetUcret = yuv(netMaasYolHaric - avansTutari - digerKesintiler);
     
-    // YENİ PERSONEL İÇİN ZARAR/KAYIP HESABI (SGK Limit Aşımı Farki)
     var kayipMiktar = 0;
     if (isYeniPersonel) {
         var tasma = Math.max(0, yuv(toplamYanHak - sgkOrtakIstisna));
         kayipMiktar = yuv(tasma * 0.15 * (1 - marginalVergiOrani));
     }
     
-    // Dinamik Money Kart Açıklaması (Yeni personele SGK uyarı ikonu ve Kayıp Hesabı)
     var moneyAciklamaHTML = "";
     if (isYeniPersonel) {
         var ekstraUyari = "";
@@ -1256,8 +1310,8 @@ function tumHesaplamalariCalistir() {
                 (avansTutari > 0 ? 
                 "<div class='money-satir' style='font-size:14.5px; color:#e53e3e;'>" +
                     "<div style='flex:1; padding-right:5px; line-height:1.3; white-space: pre-wrap;'>" +
-                        "<div style='font-weight:bold;'>🔻 KESİLEN AVANS :</div>" +
-                        "<div style='font-size:11px; color:#c53030; margin-top:4px;'>( Peşin Ödenen )</div>" +
+                        "<div style='font-weight:bold;'>🔻 AVANS :</div>" +
+                        "<div style='font-size:11px; color:#c53030; margin-top:4px;'>( " + (manuelAvansDegeri > 0 ? "Manuel Girildi" : "Otomatik Hesaplanan") + " )</div>" +
                     "</div>" +
                     "<div style='font-weight:bold; font-size:15px; white-space:nowrap; text-align:right;'>-<span id='anim_avans'>" + avansTutari.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "</span> TL</div>" +
                 "</div>" : "") +
@@ -1265,7 +1319,7 @@ function tumHesaplamalariCalistir() {
                 (digerKesintiler > 0 ? 
                 "<div class='money-satir' style='font-size:14.5px; color:#e53e3e;'>" +
                     "<div style='flex:1; padding-right:5px; line-height:1.3; white-space: pre-wrap;'>" +
-                        "<div style='font-weight:bold;'>🔻 DİĞER KESİNTİ :</div>" +
+                        "<div style='font-weight:bold;'>🔻 EK KESİNTİ :</div>" +
                         "<div style='font-size:11px; color:#c53030; margin-top:4px;'>( İcra / Taksit vb. )</div>" +
                     "</div>" +
                     "<div style='font-weight:bold; font-size:15px; white-space:nowrap; text-align:right;'>-<span id='anim_diger_kesinti'>" + digerKesintiler.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "</span> TL</div>" +
@@ -1309,15 +1363,23 @@ function tumHesaplamalariCalistir() {
             "</div>";
     }
 
-    // AYLIK ÇALIŞMA ÖZETİ KUTUSU
+    var secilenAyText = aySelect.options[aySelect.selectedIndex].text;
+
     var calismaOzetiHTML = 
         "<div class='money-kutucuk' style='background: #fffcf9; border: 1px solid #fddbc7; margin-top: 15px;'>" +
-            "<div class='bolum-baslik' style='font-size:14px; font-weight:900; color:var(--migros-turuncu); margin-top:0; text-align:center; border-bottom:2px solid #fddbc7; padding-bottom:8px; margin-bottom:10px;'>📋 AYLIK ÇALIŞMA ÖZETİ</div>" +
+            "<div class='bolum-baslik' style='font-size:14px; font-weight:900; color:var(--migros-turuncu); margin-top:0; text-align:center; padding-bottom:4px; margin-bottom:2px;'>📋 AYLIK ÇALIŞMA ÖZETİ</div>" +
+            "<div style='text-align:center; font-size:11.5px; font-weight:700; color:#718096; border-bottom:2px solid #fddbc7; padding-bottom:8px; margin-bottom:10px;'>🗓️ " + secilenAyText + "</div>" +
             
             "<div class='money-satir'>" +
-                "<div style='font-weight:bold; color:#4a5568; white-space: pre-wrap;'>✅ Fiili Çalışılan Süre :</div>" +
-                "<div style='font-weight:bold; color:var(--migros-lacivert);'>" + calisilanGun.toLocaleString('tr-TR', {maximumFractionDigits: 1}) + " Gün</div>" +
+                "<div style='font-weight:bold; color:#4a5568; white-space: pre-wrap;'>✅ Ücrete Esas Gün :</div>" +
+"<div style='font-weight:bold; color:var(--migros-lacivert);'>" + fiiliGun.toLocaleString('tr-TR', {maximumFractionDigits: 1}) + " Gün</div>" +
             "</div>" +
+            
+            (ucretli_izin > 0 ? 
+            "<div class='money-satir'>" +
+                "<div style='font-weight:bold; color:#4a5568; white-space: pre-wrap;'>🏖️ Ücretli İzin :</div>" +
+                "<div style='font-weight:bold; color:var(--migros-turuncu);'>" + ucretli_izin + " Gün</div>" +
+            "</div>" : "") +
             
             (fm_saat > 0 ? 
             "<div class='money-satir'>" +
@@ -1360,7 +1422,21 @@ function tumHesaplamalariCalistir() {
     indirTamBtn.style.display = 'flex';
     indirSonucBtn.style.display = 'flex';
     
+    // AD SOYAD KONTROLÜ VE EKRANA YAZDIRILMASI
+    var adSoyad = document.getElementById('adSoyad').value.trim();
+    var isimBaslikHTML = adSoyad !== "" ? "<div style='text-align:center; font-size:17px; font-weight:900; color:var(--migros-lacivert); margin-bottom:15px; border-bottom:2px dashed #cbd5e0; padding-bottom:10px; letter-spacing: 0.5px;'>" + adSoyad + "</div>" : "";
+
+    // TAKSİT BİLDİRİMİ İÇİN EK AÇIKLAMA METNİ
+        var sendikaAciklamaStr = "";
+    if (!isYeniPersonel && ayIndex >= 4 && ayIndex <= 9) {
+        sendikaAciklamaStr = "Sendika Aidatı:<br><span style='font-size:10.5px; color:#718096;'>( " + normalSendika.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " + " + taksitliBorc.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " )</span>";
+    } else {
+        sendikaAciklamaStr = "Sendika Aidatı (%70):";
+    }
+
+
     sonucDiv.innerHTML = 
+        isimBaslikHTML +
         "<div class='bolum-baslik'>BRÜT KAZANÇ DETAYLARI</div>" +
         "<div class='satir'><div>Temel Ücret :</div> <b>" + brutAnaUcret.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" +
         (b_gun > 0 ? "<div class='satir'><div>Bayram Fazla Mesai ( " + bayramEkstraMetin + " ) :</div> <b>" + brutTatilMesaisiEkran.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</b></div>" : "") +
@@ -1405,10 +1481,10 @@ function tumHesaplamalariCalistir() {
                 "<div class='satir'><div>SGK İşçi Payı ( %14 ) :</div> <div style='color:#e53e3e; font-weight:bold;'>" + sgkIsciPayi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
                 "<div class='satir' style='margin-bottom: 2px;'><div>Damga Vergisi :</div> <div style='color:#e53e3e; font-weight:bold;'>" + netDamgaVergisi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
                 "<div class='satir' style='margin-top: 0; padding-top: 0; border-bottom: 1px solid #fbd5d5; padding-bottom: 8px;'><div>↳ <i style='font-size:11.5px; color:#38a169;'>AÜ Damga Vergisi Muafiyeti</i></div> <div style='color:#38a169; font-size:12px; font-weight:bold;'>-250,70 TL</div></div>" +
-                "<div class='satir'" + (besKesintisi === 0 && avansTutari === 0 && digerKesintiler === 0 ? " style='border-bottom: none; margin-bottom: 0; padding-bottom: 0;'" : "") + "><div>Sendika Aidatı :</div> <div style='color:#e53e3e; font-weight:bold;'>" + sendikaAidati.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
+                "<div class='satir'" + (besKesintisi === 0 && avansTutari === 0 && digerKesintiler === 0 ? " style='border-bottom: none; margin-bottom: 0; padding-bottom: 0;'" : "") + "><div>" + sendikaAciklamaStr + "</div> <div style='color:#e53e3e; font-weight:bold;'>" + sendikaAidati.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" +
                 (besKesintisi > 0 ? "<div class='satir'" + (avansTutari === 0 && digerKesintiler === 0 ? " style='border-bottom: none; margin-bottom: 0; padding-bottom: 0;'" : "") + "><div>Otomatik BES ( %3 ) :</div> <div style='color:#e53e3e; font-weight:bold;'>" + besKesintisi.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" : "") +
                 (avansTutari > 0 ? "<div class='satir'" + (digerKesintiler === 0 ? " style='border-bottom: none; margin-bottom: 0; padding-bottom: 0;'" : "") + "><div>Avans Kesintisi :</div> <div style='color:#e53e3e; font-weight:bold;'>" + avansTutari.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" : "") +
-                (digerKesintiler > 0 ? "<div class='satir' style='border-bottom: none; margin-bottom: 0; padding-bottom: 0;'><div>Diğer Kesinti :</div> <div style='color:#e53e3e; font-weight:bold;'>" + digerKesintiler.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" : "") +
+                (digerKesintiler > 0 ? "<div class='satir' style='border-bottom: none; margin-bottom: 0; padding-bottom: 0;'><div>Ek Kesinti :</div> <div style='color:#e53e3e; font-weight:bold;'>" + digerKesintiler.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " TL</div></div>" : "") +
             "</div>" +
         "</div>" +
         moneyKutucukHTML +
@@ -1428,46 +1504,18 @@ function tumHesaplamalariCalistir() {
     }
 }
 
-// 15. DINLEYICILER VE OTOMATİK KAYIT MOTORU
-function bilgileriOtomatikKaydet() {
-    const profil = {
-        personelTipi: document.getElementById('personelTipi').value,
-        yil: document.getElementById('yil').value,
-        saatlik: document.getElementById('saatlik').value,
-        cocukKucuk: document.getElementById('cocukKucuk').value,
-        cocukBuyuk: document.getElementById('cocukBuyuk').value
-    };
-    localStorage.setItem('migrosProfil', JSON.stringify(profil));
-}
-
+// 18. DİNLEYİCİLER (Otomatik Hesaplama Motoru - HAFIZASIZ)
 const tumGirdiler = document.querySelectorAll('input, select');
 tumGirdiler.forEach(girdi => {
     girdi.addEventListener('input', function() {
         if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();
-        bilgileriOtomatikKaydet();
     });
     girdi.addEventListener('change', function() {
         if(typeof tumHesaplamalariCalistir === 'function') tumHesaplamalariCalistir();
-        bilgileriOtomatikKaydet();
     });
 });
 
-// 16. LOCAL STORAGE BİLGİ YÜKLEME MOTORU
-window.addEventListener('DOMContentLoaded', () => {
-    const kayitliProfil = localStorage.getItem('migrosProfil');
-    if(kayitliProfil) {
-        const p = JSON.parse(kayitliProfil);
-        if(p.personelTipi) document.getElementById('personelTipi').value = p.personelTipi;
-        if(p.yil) document.getElementById('yil').value = p.yil;
-        if(p.saatlik) document.getElementById('saatlik').value = p.saatlik;
-        if(p.cocukKucuk) document.getElementById('cocukKucuk').value = p.cocukKucuk;
-        if(p.cocukBuyuk) document.getElementById('cocukBuyuk').value = p.cocukBuyuk;
-        
-        document.getElementById('personelTipi').dispatchEvent(new Event('change'));
-    }
-});
-
-// 17. EKRAN RESMİ ÇEKİLİRKEN SELECT MENÜLERİNİ YAZIYA ÇEVİREN HİLELİ DÜZENLEYİCİ
+// 19. EKRAN RESMİ ÇEKİLİRKEN SELECT MENÜLERİNİ YAZIYA ÇEVİREN HİLELİ DÜZENLEYİCİ
 function prepareSelectsForCapture(captureTarget) {
     const selectsToReplace = [];
     captureTarget.querySelectorAll('select').forEach(sel => {
@@ -1494,12 +1542,11 @@ function restoreSelectsAfterCapture(selectsToReplace) {
     });
 }
 
-// 18. TAM EKRAN İNDİRME MOTORU
+// 20. TAM EKRAN İNDİRME MOTORU
 document.getElementById('indirTamBtn').addEventListener('click', function() {
     const btn = this;
     if (btn.disabled) return; 
     
-    // Fotoğraf hazırlanıyor bildirimi (mavi)
     showToast("Fotoğraf hazırlanıyor... 📸", 3000, "#3182ce");
     
     const oldHtml = btn.innerHTML;
@@ -1545,7 +1592,6 @@ document.getElementById('indirTamBtn').addEventListener('click', function() {
             link.download = 'Migros_Tum_Hesap.jpeg';
             link.href = canvas.toDataURL('image/jpeg', 0.95);
             link.click();
-            // Başarı bildirimi (yeşil)
             setTimeout(() => showToast("Cihaza başarıyla indirildi ✅", 2500, "#38a169"), 500);
         }).catch(err => {
             console.error("Hata:", err);
@@ -1573,7 +1619,7 @@ document.getElementById('indirTamBtn').addEventListener('click', function() {
     }, 150);
 });
 
-// 19. SADECE SONUÇ (BORDRO) İNDİRME MOTORU
+// 21. SADECE SONUÇ (BORDRO) İNDİRME MOTORU
 document.getElementById('indirSonucBtn').addEventListener('click', function() {
     const btn = this;
     if (btn.disabled) return; 
@@ -1588,7 +1634,6 @@ document.getElementById('indirSonucBtn').addEventListener('click', function() {
         return;
     }
     
-    // Fotoğraf hazırlanıyor bildirimi (mavi)
     showToast("Fotoğraf hazırlanıyor... 📸", 3000, "#3182ce");
 
     const oldHtml = btn.innerHTML;
@@ -1660,7 +1705,6 @@ document.getElementById('indirSonucBtn').addEventListener('click', function() {
             link.download = 'Migros_Sonuc_ve_Imza.jpeg';
             link.href = yeniCanvas.toDataURL('image/jpeg', 0.95);
             link.click();
-            // Başarı bildirimi (yeşil)
             setTimeout(() => showToast("Cihaza başarıyla indirildi ✅", 2500, "#38a169"), 500);
 
         }).catch(err => {
@@ -1681,7 +1725,7 @@ document.getElementById('indirSonucBtn').addEventListener('click', function() {
     }, 150);
 });
 
-// 20. OCR İLE KAMERADAN/GÖRSELDEN KUMULATİF MATRAH OKUMA MOTORU
+// 22. OCR İLE KAMERADAN/GÖRSELDEN KUMULATİF MATRAH OKUMA MOTORU
 document.getElementById('ocrBtn').addEventListener('click', function() {
     document.getElementById('ocrInput').click(); 
 });
@@ -1747,12 +1791,8 @@ document.getElementById('ocrInput').addEventListener('change', function(e) {
     });
 });
 
-// 21. TEMİZLE / SIFIRLA VE HAFIZAYI TEMİZLEME MOTORU
+// 23. TEMİZLE / SIFIRLA MOTORU (Hafızasız Tam Sıfırlama)
 document.getElementById('sifirlaBtn').addEventListener('click', function() {
-    // Tarayıcı hafızasındaki kayıtlı profili sil
-    localStorage.removeItem('migrosProfil');
-
-    // Tümü için sadece içini boşaltıyoruz, sıfır yazmıyoruz.
     document.querySelectorAll('input[type="text"]').forEach(el => {
         el.value = '';
         el.classList.remove('error', 'shake');
@@ -1774,11 +1814,15 @@ document.getElementById('sifirlaBtn').addEventListener('click', function() {
     });
 
     document.getElementById('besKesintisiVar').checked = false; 
-    document.getElementById('avansVar').checked = false; 
-    document.getElementById('digerKesintiVar').checked = false;
-    document.getElementById('avansAlani').style.display = 'none';
-    document.getElementById('digerKesintiAlani').style.display = 'none';
     
+    document.getElementById('avansVar').checked = false; 
+    document.getElementById('manuelAvansAlani').style.display = 'none';
+    document.getElementById('manuelAvans').value = '';
+
+    document.getElementById('digerKesintiVar').checked = false;
+    document.getElementById('digerKesintiAlani').style.display = 'none';
+    document.getElementById('digerKesinti').value = '';
+
     document.querySelector('input[name="vergiGirisTipi"][value="matrah"]').checked = true;
     document.getElementById('alanMatrah').style.display = 'flex';
     document.getElementById('alanDilim').style.display = 'none';
@@ -1802,8 +1846,7 @@ document.getElementById('sifirlaBtn').addEventListener('click', function() {
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
-    // Form temizlendi bildirimi (kırmızı tonlarında)
-    showToast("Hafıza ve form temizlendi 🧹", 2000, "#e53e3e");
+    showToast("Form temizlendi 🧹", 2000, "#e53e3e");
 });
 
 </script>
