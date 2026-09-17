@@ -1,0 +1,16 @@
+{
+"name": "Migros Personel Ücret Hesaplama",
+"short_name": "M-Bordro",
+"start_url": "/index.html",
+"display": "standalone",
+"background_color": "#e2e8f0",
+"theme_color": "#f37021",
+"icons": [
+{
+"src": "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' fill='%23ffffff'/%3E%3Crect x='10' y='30' width='40' height='40' rx='8' fill='%23f37021' transform='rotate(-10 30 50)'/%3E%3Ctext x='30' y='62' font-family='Arial' font-weight='900' font-size='34' fill='%23ffffff' text-anchor='middle' transform='rotate(-10 30 50)' font-style='italic'%3EM%3C/text%3E%3Ctext x='85' y='64' font-family='Arial' font-weight='900' font-size='22' fill='%23004a99' text-anchor='middle' letter-spacing='-1'%3EBORDRO%3C/text%3E%3Crect x='55' y='72' width='60' height='5' fill='%23f37021' rx='2'/%3E%3C/svg%3E",
+"sizes": "192x192 512x512",
+"type": "image/svg+xml",
+"purpose": "any maskable"
+}
+]
+}
