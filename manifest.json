@@ -1,7 +1,7 @@
 {
 "name": "Migros Personel Ücret Hesaplama",
 "short_name": "M-Bordro",
-"start_url": "./index.html",
+"start_url": "index.html",
 "display": "standalone",
 "background_color": "#e2e8f0",
 "theme_color": "#f37021",
